@@ -1,0 +1,68 @@
+import 'package:elison/Utils/Colors.dart';
+import 'package:flutter/material.dart';
+
+class postoptions extends StatefulWidget {
+  @override
+  _postoptionsState createState() => _postoptionsState();
+}
+
+class _postoptionsState extends State<postoptions> {
+  String selected = "";
+  final List options = ['Report', 'Edit', 'Delete'];
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 15),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: options.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (ctx, i) => OptionItem(
+            title: options[i],
+            selected: selected,
+            onChanged: (s) {
+              selected = s.toString();
+              setState(() {});
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class OptionItem extends StatelessWidget {
+  final String title;
+  final String selected;
+  final Function(String?) onChanged;
+
+  const OptionItem({
+    required this.title,
+    required this.selected,
+    required this.onChanged,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.shade400, width: 0.6),
+        ),
+      ),
+      child: ListTile(
+        dense: true,
+        onTap: () => onChanged(title),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
