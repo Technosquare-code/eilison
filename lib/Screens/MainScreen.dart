@@ -7,9 +7,11 @@ import 'package:elison/Screens/ProductVideosScreen.dart';
 import 'package:elison/Screens/ProfileScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/controllers/customer/mainscreen_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = "MainScreen";
@@ -25,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
     {"title": ".", "icon": "assets/images/camera.png"},
     {"title": ".", "icon": "assets/images/person.png"},
   ];
-
+  final mainscreenController = Get.put(MainScreenController());
   final List pages = [
     HomeScreen(),
     // CategoryScreen(),

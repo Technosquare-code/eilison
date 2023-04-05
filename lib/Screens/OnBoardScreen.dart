@@ -2,6 +2,7 @@ import 'package:elison/Screens/LoginScreen.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class OnBoardScreen extends StatefulWidget {
   static const routeName = "OnBoardScreen";
@@ -104,7 +105,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 progress += 0.34;
                 setState(() {});
               } else {
-                Navigator.of(context).pushNamed(LoginScreen.routeName);
+                Get.toNamed('/login-screen');
+                // Navigator.of(context).pushNamed(LoginScreen.routeName);
               }
             },
             child: Icon(

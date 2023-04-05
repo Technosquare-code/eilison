@@ -2,6 +2,7 @@ import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Screens/OnBoardScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class GettingStartScreen extends StatefulWidget {
   @override
@@ -40,7 +41,8 @@ class _GettingStartScreenState extends State<GettingStartScreen> {
               fontSize: 14,
               sizeHieght: 50,
               onTap: () {
-                Navigator.of(context).pushNamed(OnBoardScreen.routeName);
+                Get.toNamed('/onboard-screen');
+                // Navigator.of(context).pushNamed(OnBoardScreen.routeName);
               },
             ),
           ],

@@ -2,8 +2,12 @@ import 'package:elison/Components/InputFeild.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/MyDropdown.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/controllers/customer/edit_profile_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/customer/mainscreen_controller.dart';
 
 class EditProfileScreen extends StatefulWidget {
   static const routeName = "EditProfileScreen";
@@ -13,6 +17,8 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   String gender = "Male";
+  final editprofileController = Get.put(EditProfileController());
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -80,6 +86,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             InputField(
               color: Colors.grey.shade50,
               size: 50,
+              controller: editprofileController.name,
               borderColor: Colors.grey.shade300,
               hint: "Enter Your Name",
               type: TextInputType.name,
@@ -100,6 +107,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             InputField(
               color: Colors.grey.shade50,
               size: 50,
+              controller: editprofileController.phoneNo,
               borderColor: Colors.grey.shade300,
               hint: "Enter Your Phone",
               type: TextInputType.phone,
@@ -120,6 +128,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             InputField(
               color: Colors.grey.shade50,
               size: 50,
+              controller: editprofileController.email,
               borderColor: Colors.grey.shade300,
               hint: "Enter Your Email",
               type: TextInputType.emailAddress,
@@ -168,6 +177,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             InputField(
               size: 50,
               color: Colors.grey.shade50,
+              controller: editprofileController.dob,
               borderColor: Colors.grey.shade300,
               hint: "Select Date",
               type: TextInputType.number,

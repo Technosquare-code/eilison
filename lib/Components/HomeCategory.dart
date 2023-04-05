@@ -30,7 +30,7 @@ class HomeCategory extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
+                child: Image.network(
                   imageAsset,
                   height: 70,
                   width: 85,

@@ -1,12 +1,18 @@
 import 'package:elison/Routes/Routes.dart';
 import 'package:elison/Screens/GettingStartedScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
+import 'Routes/getx_routes.dart';
 import 'Utils/Colors.dart';
 
 Future<void> main() async {
+  await GetStorage.init();
+  await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -20,8 +26,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'EILISON',
+
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         fontFamily: "Poppins",
@@ -41,8 +48,10 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      routes: routes,
-      home: GettingStartScreen(),
+      // routes: routes,
+      initialRoute: '/splash',
+      // home: '',
+      getPages: appRoutes(),
       debugShowCheckedModeBanner: false,
     );
   }

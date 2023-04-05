@@ -9,8 +9,13 @@ import 'package:elison/Screens/SupportScreen.dart';
 import 'package:elison/Screens/WarrantyManagementScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../controllers/customer/mainscreen_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -19,6 +24,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool notification = true;
+  final mainscreenController = Get.find<MainScreenController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,14 +63,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.fromLTRB(0, 15, 0, 65),
         child: Column(
           children: [
-            CircleAvatar(
-              radius: 45,
-              backgroundColor: Colors.orange,
-              backgroundImage: AssetImage("assets/images/profile.jpg"),
-            ),
+            mainscreenController.userdetailList[0].data.profilePicture != null
+                ? CircleAvatar(
+                    radius: 45,
+                    backgroundColor: Colors.orange,
+                    backgroundImage: NetworkImage(mainUrl +
+                        imageUrl +
+                        mainscreenController
+                            .userdetailList[0].data.profilePicture),
+                  )
+                : CircleAvatar(
+                    radius: 45,
+                    backgroundColor: Colors.orange,
+                    backgroundImage: AssetImage("assets/images/profile.jpg"),
+                  ),
             const SizedBox(height: 20),
             Text(
-              "Manoj Saini",
+              mainscreenController.userdetailList[0].data.name ?? "Manoj Saini",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.black,
@@ -106,9 +122,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Icons.person_outline,
                     "Profile",
                     onTap: () {
-                      Navigator.of(context).pushNamed(
-                        EditProfileScreen.routeName,
-                      );
+                      Get.toNamed('/edit-profile-user');
+                      // Navigator.of(context).pushNamed(
+                      //   EditProfileScreen.routeName,
+                      // );
                     },
                   ),
                   Item(
@@ -170,7 +187,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           borderRadius: 5,
           fontSize: 14,
           onTap: () {
-            Navigator.of(context).pushNamed(LoginScreen.routeName);
+            GetStorage().erase();
+            // Navigator.of(context).pushNamed(LoginScreen.routeName);
+            Get.offAllNamed('/login-screen');
           },
         ),
       ),
