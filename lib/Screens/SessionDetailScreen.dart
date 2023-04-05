@@ -1,4 +1,5 @@
 import 'package:elison/Components/MyButtton.dart';
+import 'package:elison/Components/RateTrainer.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,14 +38,59 @@ class SessionDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            Text(
-              "Online Session Name",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w600,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Online Session Name",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        content: RateTrainer(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: secondaryColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 13,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          "Rate",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 25),
             Text(

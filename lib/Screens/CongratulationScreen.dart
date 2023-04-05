@@ -14,8 +14,8 @@ class CongratulationScreen extends StatelessWidget {
           padding: const EdgeInsets.all(25),
           child: Column(
             children: [
-              Lottie.network(
-                "https://assets2.lottiefiles.com/packages/lf20_vndgzois.json",
+              Lottie.asset(
+                "assets/lottie/congrats.json",
                 fit: BoxFit.fill,
               ),
               const SizedBox(height: 30),

@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+class Review extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.asset(
+                    "assets/images/product1.PNG",
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "Prachi yogi",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "5.0",
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 3),
+                          RatingBar.builder(
+                            initialRating: 5,
+                            minRating: 1,
+                            itemSize: 10,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            ignoreGestures: true,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 0.5),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (_) {},
+                          ),
+                          const SizedBox(width: 3),
+                          Text(
+                            "1d",
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 5),
+            Text(
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
+              style: TextStyle(
+                fontSize: 10,
+                color: Colors.black,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

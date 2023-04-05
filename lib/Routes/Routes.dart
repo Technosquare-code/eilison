@@ -21,8 +21,13 @@ import 'package:elison/Screens/ProductFilterScreen.dart';
 import 'package:elison/Screens/PromocodeScreen.dart';
 import 'package:elison/Screens/RegisterScreen.dart';
 import 'package:elison/Screens/SessionDetailScreen.dart';
+import 'package:elison/Screens/SupportHistoryScreen.dart';
 import 'package:elison/Screens/SupportScreen.dart';
+import 'package:elison/Screens/TrainerBioScreen.dart';
 import 'package:elison/Screens/TrainerHomeScreen.dart';
+import 'package:elison/Screens/TrainerProfileScreen.dart';
+import 'package:elison/Screens/TrainerReviewScreen.dart';
+import 'package:elison/Screens/UserReviewsScreen.dart';
 import 'package:elison/Screens/WarrantyManagementScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
 import 'package:flutter/material.dart';
@@ -55,4 +60,9 @@ Map<String, Widget Function(BuildContext)> routes = {
   ProductFilterScreen.routeName: (_) => ProductFilterScreen(),
   AddSessionScreen.routeName: (_) => AddSessionScreen(),
   TrainerHomeScreen.routeName: (_) => TrainerHomeScreen(),
+  SupportHistoryScreen.routeName: (_) => SupportHistoryScreen(),
+  TrainerBioScreen.routeName: (_) => TrainerBioScreen(),
+  TrainerProfileScreen.routeName: (_) => TrainerProfileScreen(),
+  TrainerReviewScreen.routeName: (_) => TrainerReviewScreen(),
+  UserReviewScreen.routeName: (_) => UserReviewScreen(),
 };

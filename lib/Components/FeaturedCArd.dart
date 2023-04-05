@@ -38,7 +38,7 @@ class _FeaturedCardState extends State<FeaturedCard> {
         );
       },
       child: Card(
-        color: Colors.colr[_random.nextInt(Colors.colr.length)],
+        color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

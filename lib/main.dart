@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:elison/Routes/Routes.dart';
 import 'package:elison/Screens/GettingStartedScreen.dart';
 import 'package:elison/Utils/Colors.dart';
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.red,
+            statusBarColor: Colors.white,
             statusBarIconBrightness: Brightness.dark,
           ),
         ),

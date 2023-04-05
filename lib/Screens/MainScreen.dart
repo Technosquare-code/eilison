@@ -1,11 +1,8 @@
-import 'package:elison/Screens/CartScreen.dart';
-import 'package:elison/Screens/CategoryScreen.dart';
 import 'package:elison/Screens/CommunityScreen.dart';
 import 'package:elison/Screens/HomeScreen.dart';
 import 'package:elison/Screens/ProductListScreen.dart';
 import 'package:elison/Screens/ProductVideosScreen.dart';
 import 'package:elison/Screens/ProfileScreen.dart';
-import 'package:elison/Screens/WhishlistScreen.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/mainscreen_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,9 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   final mainscreenController = Get.put(MainScreenController());
   final List pages = [
     HomeScreen(),
-    // CategoryScreen(),
     CommunityScreen(),
-    // CartScreen(),
     ProductListScreen(),
     ProductVideoScreen(),
     ProfileScreen(),
