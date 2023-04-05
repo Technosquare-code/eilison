@@ -11,12 +11,12 @@ import 'package:elison/Screens/CartScreen.dart';
 import 'package:elison/Screens/CategoryScreen.dart';
 import 'package:elison/Screens/NotificationScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/package%20edit/src/responsive_grid_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../Components/FeaturedCArd.dart';
-
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -51,8 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Vibration Plate',
     },
 
-
-
     // Add more cards as needed.
   ];
 
@@ -84,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<String> imgList = [
     'assets/images/banner4.jpg',
     'assets/images/banner3.jpg',
-    ];
+  ];
 
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -144,13 +142,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     badges.Badge(
-                     position: badges.BadgePosition.topEnd(top: 0,end: 0),
+                      position: badges.BadgePosition.topEnd(top: 0, end: 0),
                       badgeContent: Text(
                         '2',
-                        style: TextStyle(color: Colors.white,fontSize: 9),
+                        style: TextStyle(color: Colors.white, fontSize: 9),
                       ),
                       child: IconButton(
-                          icon: Icon(Icons.shopping_cart_outlined,size: 22,color: Colors.black,),
+                          icon: Icon(
+                            Icons.shopping_cart_outlined,
+                            size: 22,
+                            color: Colors.black,
+                          ),
                           onPressed: () {
                             Navigator.of(context).pushNamed(
                               CartScreen.routeName,
@@ -182,18 +184,20 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 25),
               CarouselSlider(
                 items: imgList
-                    .map((item) =>  ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Image.asset(
-                      item,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 120,
-                    ),
-                  ),
-                ),)
+                    .map(
+                      (item) => ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.asset(
+                            item,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 120,
+                          ),
+                        ),
+                      ),
+                    )
                     .toList(),
                 options: CarouselOptions(
                   height: size.height / 6,
@@ -282,19 +286,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 15),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Wrap(
-                  spacing: 16,
-                  children: List.generate(
-                    likecardList.length,
-                        (index) => FeaturedCard(
-                      title: likecardList[index]['title'],
-                      imagePath: likecardList[index]['imageAsset'],
-                      price: likecardList[index]['price'],
-                      color: Colors.colr[_random.nextInt(Colors.colr.length)],
-                      onTap: () {},
-                    ),
+              ResponsiveGridList(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                minItemWidth: size.width / 2.5,
+                children: List.generate(
+                  4,
+                  (index) => FeaturedCard(
+                    title: likecardList[index]['title'],
+                    imagePath: likecardList[index]['imageAsset'],
+                    price: likecardList[index]['price'],
+                    color: Colors
+                        .primaries[_random.nextInt(Colors.primaries.length)],
+                    onTap: () {},
                   ),
                 ),
               ),
@@ -341,7 +345,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: likecardList[index]['title'],
                       imagePath: likecardList[index]['imageAsset'],
                       price: likecardList[index]['price'],
-                      color: Colors.colr[_random.nextInt(Colors.colr.length)],
+                      color: Colors
+                          .primaries[_random.nextInt(Colors.primaries.length)],
                       onTap: () {},
                     ),
                   ),
@@ -390,7 +395,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: likecardList[index]['title'],
                       imagePath: likecardList[index]['imageAsset'],
                       price: likecardList[index]['price'],
-                      color: Colors.colr[_random.nextInt(Colors.colr.length)],
+                      color: Colors
+                          .primaries[_random.nextInt(Colors.primaries.length)],
                       onTap: () {},
                     ),
                   ),
@@ -492,5 +498,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

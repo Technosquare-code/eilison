@@ -5,11 +5,11 @@ import 'package:elison/Screens/LoginScreen.dart';
 import 'package:elison/Screens/MySessionScreen.dart';
 import 'package:elison/Screens/OrderScreen.dart';
 import 'package:elison/Screens/PromocodeScreen.dart';
+import 'package:elison/Screens/SupportHistoryScreen.dart';
 import 'package:elison/Screens/SupportScreen.dart';
+import 'package:elison/Screens/UserReviewsScreen.dart';
 import 'package:elison/Screens/WarrantyManagementScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
-import 'package:elison/Utils/Colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -148,11 +148,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                   Item(
-                    Icons.class_,
+                    Icons.class_outlined,
                     "My Sessions",
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         MySessionScreen.routeName,
+                      );
+                    },
+                  ),
+                  Item(
+                    Icons.chrome_reader_mode_outlined,
+                    "Previous Support History",
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        SupportHistoryScreen.routeName,
+                      );
+                    },
+                  ),
+                  Item(
+                    Icons.star_outline,
+                    "My Reviews",
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        UserReviewScreen.routeName,
                       );
                     },
                   ),

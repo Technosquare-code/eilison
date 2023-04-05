@@ -1,7 +1,7 @@
 import 'package:elison/Components/InputFeild.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Screens/MainScreen.dart';
-import 'package:elison/Screens/TrainerHomeScreen.dart';
+import 'package:elison/Screens/TrainerBioScreen.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +93,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hint: "Full Name",
                     borderRadius: 15,
                     icon: Icons.person_outline,
+                    color: Colors.grey.shade100,
+                  ),
+                  const SizedBox(height: 15),
+                  InputField(
+                    size: 50,
+                    borderRadius: 15,
+                    hint: "Phone Number",
+                    icon: Icons.phone_android,
                     color: Colors.grey.shade100,
                   ),
                   const SizedBox(height: 15),
@@ -202,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           (route) => route.isFirst,
                         );
                         Navigator.of(context).pushReplacementNamed(
-                          TrainerHomeScreen.routeName,
+                          TrainerBioScreen.routeName,
                         );
                       } else {
                         Navigator.of(context).popUntil(

@@ -3,6 +3,7 @@ import 'package:elison/Components/TrainerPastSessionList.dart';
 import 'package:elison/Components/TrainerScheduleSessionList.dart';
 import 'package:elison/Screens/AddSessionScreen.dart';
 import 'package:elison/Screens/NotificationScreen.dart';
+import 'package:elison/Screens/TrainerProfileScreen.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,7 +71,11 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                         maxHeight: 35,
                         minHeight: 35,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          TrainerProfileScreen.routeName,
+                        );
+                      },
                       icon: Icon(
                         Icons.person_outline,
                         color: Colors.black,

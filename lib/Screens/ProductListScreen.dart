@@ -27,12 +27,12 @@ class ProductListScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 60,left: 5.0,right: 5.0),
+        padding: const EdgeInsets.only(bottom: 60, left: 5.0, right: 5.0),
         child: ResponsiveGridList(
           shrinkWrap: true,
           horizontalGridMargin: 5,
           verticalGridMargin: 5,
-           minItemWidth: size.width / 2.5,
+          minItemWidth: size.width / 2.5,
           physics: const NeverScrollableScrollPhysics(),
           children: List.generate(
             8,
@@ -41,7 +41,7 @@ class ProductListScreen extends StatelessWidget {
               imagePath: "assets/images/laptop.png",
               price: 20999.00,
               color: Colors
-                  .colr[math.Random().nextInt(Colors.colr.length)]
+                  .primaries[math.Random().nextInt(Colors.primaries.length)]
                   .shade200,
               onTap: () {},
             ),

@@ -29,15 +29,12 @@ class ProductVideoScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(25, 5, 25, 25),
-        child: ResponsiveGridList(
+        padding: const EdgeInsets.fromLTRB(15, 5, 15, 25),
+        child: ListView.builder(
           shrinkWrap: true,
+          itemCount: videos.length,
           physics: const NeverScrollableScrollPhysics(),
-          minItemWidth: size.width / 2.5,
-          children: List.generate(
-            videos.length,
-            (index) => ProductVideos(videos[index]),
-          ),
+          itemBuilder: (ctx, i) => ProductVideos(videos[i]),
         ),
       ),
     );
