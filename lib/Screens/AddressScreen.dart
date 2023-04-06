@@ -2,6 +2,7 @@ import 'package:elison/Components/MyAddress.dart';
 import 'package:elison/Screens/AddNewAddressScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddressScreen extends StatelessWidget {
   static const routeName = "AddressScreen";
@@ -43,9 +44,10 @@ class AddressScreen extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(
-                        AddNewAddressScreen.routeName,
-                      );
+                      Get.toNamed('/add-address', arguments: true);
+                      // Navigator.of(context).pushNamed(
+                      //   AddNewAddressScreen.routeName,
+                      // );
                     },
                     child: Row(
                       children: [

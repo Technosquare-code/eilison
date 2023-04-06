@@ -2,6 +2,7 @@ import 'package:elison/apiServices/home_screen_service.dart';
 import 'package:elison/apiServices/mainscreenService.dart';
 import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
+import 'package:elison/models/notification_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -13,11 +14,18 @@ class HomeScreenController extends GetxController {
   var isLoading = false.obs;
   final mainscreenController = Get.find<MainScreenController>();
   var bannerList = List<BannerListModel>.empty(growable: true).obs;
+  var notificationList = List<NotificationModel>.empty(growable: true).obs;
   var categoryList = List<CategoryListModel>.empty(growable: true).obs;
 
   getbanner() async {
     isLoading(true);
     bannerList.assignAll(await HomeScreenService().bannerList());
+    isLoading(false);
+  }
+
+  getNotification() async {
+    isLoading(true);
+    notificationList.assignAll(await HomeScreenService().notificationList());
     isLoading(false);
   }
 
@@ -32,6 +40,7 @@ class HomeScreenController extends GetxController {
     // TODO: implement onInit
     getbanner();
     getcategory();
+    getNotification();
     super.onInit();
   }
 }

@@ -123,8 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         subtitle: Text(
-                          mainscreenController.userdetailList[0].data.name ??
-                              "Manoj Saini",
+                          mainscreenController.userdetailList.isNotEmpty
+                              ? mainscreenController.userdetailList[0].data.name
+                              : "",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
@@ -181,9 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 minHeight: 35,
                               ),
                               onPressed: () {
-                                Navigator.of(context).pushNamed(
-                                  NotificationScreen.routeName,
-                                );
+                                print('noti-------------');
+                                Get.toNamed('/notification');
+                                // Navigator.of(context).pushNamed(
+                                //   NotificationScreen.routeName,
+                                // );
                               },
                               icon: Image.asset(
                                 "assets/images/notification.png",
@@ -235,10 +238,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.of(context).pushNamed(
-                                CategoryScreen.routeName,
-                                arguments: 1,
-                              );
+                              Get.toNamed('/category-screen');
+
+                              // Navigator.of(context).pushNamed(
+                              //   CategoryScreen.routeName,
+                              //   arguments: 1,
+                              // );
                             },
                             child: Text(
                               'See All',

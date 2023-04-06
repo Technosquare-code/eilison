@@ -38,9 +38,11 @@ class Data {
     required this.email,
     required this.phone,
     required this.userWallet,
-    this.profilePicture,
+    required this.profilePicture,
     required this.isProfileDescriptionSkip,
     required this.role,
+    required this.gender,
+    required this.dob,
   });
 
   String id;
@@ -48,9 +50,11 @@ class Data {
   String email;
   String phone;
   String userWallet;
-  dynamic profilePicture;
+  String profilePicture;
   String isProfileDescriptionSkip;
   String role;
+  String gender;
+  String dob;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
@@ -61,6 +65,8 @@ class Data {
         profilePicture: json["profile_picture"],
         isProfileDescriptionSkip: json["is_profile_description_skip"],
         role: json["role"],
+        gender: json["gender"],
+        dob: json["dob"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,5 +78,7 @@ class Data {
         "profile_picture": profilePicture,
         "is_profile_description_skip": isProfileDescriptionSkip,
         "role": role,
+        "gender": gender,
+        "dob": dob,
       };
 }

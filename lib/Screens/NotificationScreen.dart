@@ -1,9 +1,12 @@
 import 'package:elison/Components/MyNotification.dart';
+import 'package:elison/controllers/customer/home_screen_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NotificationScreen extends StatelessWidget {
   static const routeName = "NotificationScreen";
+  final notificationController = Get.find<HomeScreenController>();
   final List<Map<String, dynamic>> notifications = [
     {
       'image': 'assets/images/not1.png',
@@ -47,16 +50,25 @@ class NotificationScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(25, 10, 25, 25),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: notifications.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (ctx, i) => MyNotification(
-            image: notifications[i]['image'],
-            title: notifications[i]['title'],
-            time: notifications[i]['time'],
-          ),
-        ),
+        child: Obx(() {
+          return notificationController.isLoading.value
+              ? CircularProgressIndicator()
+              : notificationController.notificationList.isEmpty
+                  ? Text('No data found')
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: notifications.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (ctx, i) => MyNotification(
+                        image: 'assets/images/not1.png',
+                        title: notificationController
+                            .notificationList[i].notiTitle,
+                        time: notificationController
+                            .notificationList[i].createdDate
+                            .toString(),
+                      ),
+                    );
+        }),
       ),
     );
   }

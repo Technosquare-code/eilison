@@ -63,141 +63,155 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(0, 15, 0, 65),
-        child: Column(
-          children: [
-            mainscreenController.userdetailList[0].data.profilePicture != null
-                ? CircleAvatar(
-                    radius: 45,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: NetworkImage(mainUrl +
-                        imageUrl +
-                        mainscreenController
-                            .userdetailList[0].data.profilePicture),
-                  )
-                : CircleAvatar(
-                    radius: 45,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: AssetImage("assets/images/profile.jpg"),
-                  ),
-            const SizedBox(height: 20),
-            Text(
-              mainscreenController.userdetailList[0].data.name ?? "Manoj Saini",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 30),
-            Container(
-              padding: const EdgeInsets.fromLTRB(25, 15, 25, 25),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+        child: Obx(() {
+          return Column(
+            children: [
+              mainscreenController.userdetailList.isNotEmpty
+                  ? mainscreenController
+                              .userdetailList[0].data.profilePicture !=
+                          null
+                      ? CircleAvatar(
+                          radius: 45,
+                          backgroundColor: Colors.orange,
+                          backgroundImage: NetworkImage(mainUrl +
+                              imageUrl +
+                              mainscreenController
+                                  .userdetailList[0].data.profilePicture),
+                        )
+                      : CircleAvatar(
+                          radius: 45,
+                          backgroundColor: Colors.orange,
+                          backgroundImage:
+                              AssetImage("assets/images/profile.jpg"),
+                        )
+                  : CircleAvatar(
+                      radius: 45,
+                      backgroundColor: Colors.orange,
+                      backgroundImage: AssetImage("assets/images/profile.jpg"),
+                    ),
+              const SizedBox(height: 20),
+              Text(
+                mainscreenController.userdetailList.isNotEmpty
+                    ? mainscreenController.userdetailList[0].data.name
+                    : "Manoj Saini",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Item(
-                    Icons.insert_chart_outlined,
-                    "Orders",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        OrderScreen.routeName,
-                      );
-                    },
+              const SizedBox(height: 30),
+              Container(
+                padding: const EdgeInsets.fromLTRB(25, 15, 25, 25),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
-                  Item(
-                    Icons.map_outlined,
-                    "Address",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        AddressScreen.routeName,
-                      );
-                    },
-                  ),
-                  Item(
-                    Icons.person_outline,
-                    "Profile",
-                    onTap: () {
-                      Get.toNamed('/edit-profile-user');
-                      // Navigator.of(context).pushNamed(
-                      //   EditProfileScreen.routeName,
-                      // );
-                    },
-                  ),
-                  Item(
-                    Icons.favorite_outline,
-                    "Wishlist",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        WishlistScreen.routeName,
-                      );
-                    },
-                  ),
-                  Item(
-                    Icons.local_activity_outlined,
-                    "Promocode",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        PromocodeScreen.routeName,
-                      );
-                    },
-                  ),
-                  Item(
-                    Icons.headset_mic_outlined,
-                    "Support",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        SupportScreen.routeName,
-                      );
-                    },
-                  ),
-                  Item(
-                    Icons.event_note,
-                    "Extended Warranty Management",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        WarrantyManagementScreen.routeName,
-                      );
-                    },
-                  ),
-                  Item(
-                    Icons.class_outlined,
-                    "My Sessions",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        MySessionScreen.routeName,
-                      );
-                    },
-                  ),
-                  Item(
-                    Icons.chrome_reader_mode_outlined,
-                    "Previous Support History",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        SupportHistoryScreen.routeName,
-                      );
-                    },
-                  ),
-                  Item(
-                    Icons.star_outline,
-                    "My Reviews",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        UserReviewScreen.routeName,
-                      );
-                    },
-                  ),
-                ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Item(
+                      Icons.insert_chart_outlined,
+                      "Orders",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          OrderScreen.routeName,
+                        );
+                      },
+                    ),
+                    Item(
+                      Icons.map_outlined,
+                      "Address",
+                      onTap: () {
+                        Get.toNamed('/address-page');
+                        // Navigator.of(context).pushNamed(
+                        //   AddressScreen.routeName,
+                        // );
+                      },
+                    ),
+                    Item(
+                      Icons.person_outline,
+                      "Profile",
+                      onTap: () {
+                        Get.toNamed('/edit-profile-user');
+                        // Navigator.of(context).pushNamed(
+                        //   EditProfileScreen.routeName,
+                        // );
+                      },
+                    ),
+                    Item(
+                      Icons.favorite_outline,
+                      "Wishlist",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          WishlistScreen.routeName,
+                        );
+                      },
+                    ),
+                    Item(
+                      Icons.local_activity_outlined,
+                      "Promocode",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          PromocodeScreen.routeName,
+                        );
+                      },
+                    ),
+                    Item(
+                      Icons.headset_mic_outlined,
+                      "Support",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          SupportScreen.routeName,
+                        );
+                      },
+                    ),
+                    Item(
+                      Icons.event_note,
+                      "Extended Warranty Management",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          WarrantyManagementScreen.routeName,
+                        );
+                      },
+                    ),
+                    Item(
+                      Icons.class_outlined,
+                      "My Sessions",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          MySessionScreen.routeName,
+                        );
+                      },
+                    ),
+                    Item(
+                      Icons.chrome_reader_mode_outlined,
+                      "Previous Support History",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          SupportHistoryScreen.routeName,
+                        );
+                      },
+                    ),
+                    Item(
+                      Icons.star_outline,
+                      "My Reviews",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          UserReviewScreen.routeName,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
       bottomSheet: Container(
         color: Colors.white,

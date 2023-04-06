@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:elison/models/notification_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:elison/urls.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -27,7 +28,7 @@ class MainScreenService {
       'Authorization': pref.read('token'),
     };
     form = formData.FormData.fromMap({
-      'uid': '1',
+      'uid': pref.read('user_id'),
     });
 
     var response = await dio.post(

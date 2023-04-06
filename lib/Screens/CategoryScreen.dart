@@ -1,6 +1,8 @@
 import 'package:elison/Components/Category.dart';
+import 'package:elison/controllers/customer/home_screen_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CategoryScreen extends StatefulWidget {
   static const routeName = "CategoryScreen";
@@ -10,6 +12,7 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   late bool showBackButton;
+  final homescreenController = Get.find<HomeScreenController>();
 
   @override
   void didChangeDependencies() {
@@ -50,12 +53,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 25),
-        child: ListView.builder(
-          itemCount: 4,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (ctx, i) => Category(),
-        ),
+        child: Obx(() {
+          return homescreenController.categoryList.isEmpty
+              ? Text('Data not found')
+              : ListView.builder(
+                  itemCount: homescreenController.categoryList.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (ctx, i) => Category(),
+                );
+        }),
       ),
     );
   }

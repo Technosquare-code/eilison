@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyAddress extends StatelessWidget {
   @override
@@ -56,13 +57,18 @@ class MyAddress extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Edit",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.w600,
+              InkWell(
+                onTap: () {
+                  Get.toNamed('/add-address', arguments: false);
+                },
+                child: Text(
+                  "Edit",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               Text(

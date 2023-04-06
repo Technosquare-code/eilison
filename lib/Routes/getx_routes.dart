@@ -3,9 +3,13 @@ import 'package:elison/Screens/TrainerHomeScreen.dart';
 import 'package:elison/splashscreen.dart';
 import 'package:get/get.dart';
 
+import '../Screens/AddNewAddressScreen.dart';
+import '../Screens/AddressScreen.dart';
+import '../Screens/CategoryScreen.dart';
 import '../Screens/EditProfileScreen.dart';
 import '../Screens/GettingStartedScreen.dart';
 import '../Screens/LoginScreen.dart';
+import '../Screens/NotificationScreen.dart';
 import '../Screens/OnBoardScreen.dart';
 import '../Screens/RegisterScreen.dart';
 
@@ -41,5 +45,21 @@ appRoutes() => [
       GetPage(
         name: '/edit-profile-user',
         page: () => EditProfileScreen(),
+      ),
+      GetPage(
+        name: '/notification',
+        page: () => NotificationScreen(),
+      ),
+      GetPage(
+        name: '/address-page',
+        page: () => AddressScreen(),
+      ),
+      GetPage(
+        name: '/add-address',
+        page: () => AddNewAddressScreen(),
+      ),
+      GetPage(
+        name: '/category-screen',
+        page: () => CategoryScreen(),
       ),
     ];

@@ -14,6 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as formData;
 
+import '../models/notification_model.dart';
+
 class HomeScreenService {
   static var client = http.Client();
   String? deviceType;
@@ -43,6 +45,37 @@ class HomeScreenService {
 
         // }
         blist.add(BannerListModel.fromJson(response.data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<NotificationModel>> notificationList() async {
+    List<NotificationModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id') ?? '1',
+      'user_type': pref.read('role') == '1' ? 'customer' : 'trainer'
+    });
+
+    var response = await dio.post('$baseUrl/my-notifications.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+
+    var data = response.data;
+    debugPrint('notification-------------${response.data}');
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(NotificationModel.fromJson(i));
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
       }
     }
     return blist;
