@@ -15,10 +15,11 @@ class RegisterController extends GetxController {
   var phone = TextEditingController();
   var confirmpassword = TextEditingController();
 
-  register() async {
+  register(BuildContext context) async {
     try {
       isLoading(true);
       bool check = await AuthService().registerApi(
+        context,
         email: email.text,
         name: fullname.text,
         password: password.text,
@@ -26,7 +27,7 @@ class RegisterController extends GetxController {
         usertype: selectedUser.value == 'I\'m User' ? 'customer' : 'trainer',
       );
       isLoading(false);
-      Get.back();
+      check ? Get.back() : null;
     } catch (e) {
       debugPrint(e.toString());
 

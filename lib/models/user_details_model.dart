@@ -38,7 +38,7 @@ class Data {
     required this.email,
     required this.phone,
     required this.userWallet,
-    required this.profilePicture,
+    this.profilePicture,
     required this.isProfileDescriptionSkip,
     required this.role,
     required this.gender,
@@ -50,7 +50,7 @@ class Data {
   String email;
   String phone;
   String userWallet;
-  String profilePicture;
+  String? profilePicture;
   String isProfileDescriptionSkip;
   String role;
   String gender;

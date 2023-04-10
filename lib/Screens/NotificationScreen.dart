@@ -54,7 +54,12 @@ class NotificationScreen extends StatelessWidget {
           return notificationController.isLoading.value
               ? CircularProgressIndicator()
               : notificationController.notificationList.isEmpty
-                  ? Text('No data found')
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(child: Text('No data found')),
+                      ],
+                    )
                   : ListView.builder(
                       shrinkWrap: true,
                       itemCount: notifications.length,

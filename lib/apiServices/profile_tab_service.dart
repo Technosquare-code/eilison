@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:elison/models/address_model.dart';
 import 'package:elison/models/notification_model.dart';
+import 'package:elison/models/support_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:elison/urls.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -13,12 +15,15 @@ import 'package:dio/src/multipart_file.dart' as multipart_file;
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as formData;
 
+import '../Components/snackbar.dart';
+
 class ProfileTabService {
   static var client = http.Client();
   String? deviceType;
   var pref = GetStorage();
 
-  Future<bool> profileUpdate({String? name, phone, gender, date}) async {
+  Future<bool> profileUpdate(BuildContext context,
+      {String? name, phone, gender, date}) async {
     Dio dio = Dio();
     formData.FormData form;
     var headers = {
@@ -45,17 +50,56 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        Fluttertoast.showToast(msg: data['data']);
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
         return true;
       } else {
-        Fluttertoast.showToast(msg: data['data']);
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
         return false;
       }
     }
     return false;
   }
 
-  Future<bool> manageAddress(
+  Future<bool> changePass(BuildContext context,
+      {String? current, newpas}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'current_password': current,
+      'new_password': newpas,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/change-password.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> manageAddress(BuildContext context,
       {String? name,
       phone,
       email,
@@ -65,6 +109,7 @@ class ProfileTabService {
       city,
       town,
       landmark,
+      state,
       addressId}) async {
     Dio dio = Dio();
     formData.FormData form;
@@ -83,6 +128,7 @@ class ProfileTabService {
       'landmark': landmark,
       'town': town,
       'address_id': addressId,
+      "state": state,
     });
 
     var response = await dio.post(
@@ -91,24 +137,80 @@ class ProfileTabService {
       options: Options(headers: headers),
     );
     print(headers);
-    print('form================== $form');
+    print('form================== ${form}');
+    print(''' 'uid':${pref.read('user_id')},
+      'full_name': $name,
+      'email': $email,
+      'phone': $phone,
+      'alternate_number': $alternateNo,
+      'address': $address,
+      'zip_code':$zipcode,
+      'city': $city,
+      'landmark': $landmark,
+      'town': $town,
+      'address_id': $addressId,
+      "state": $state,''');
     print("ddddddddddddddddddd${pref.read('user_id')}");
     print(form.fields);
     var data = response.data;
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        Fluttertoast.showToast(msg: data['data']);
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
         return true;
       } else {
-        Fluttertoast.showToast(msg: data['data']);
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
         return false;
       }
     }
     return false;
   }
 
-  Future<bool> profilePictureApi({String? image}) async {
+  Future<bool> sendSupportmsg(BuildContext context,
+      {String? name, phone, email, msg}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'order_no': '',
+      'email': email,
+      'phone': phone,
+      'name': name,
+      'message': msg,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/send-support-message.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+    print('form================== ${form}');
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> profilePictureApi(BuildContext context, {String? image}) async {
     Dio dio = Dio();
     formData.FormData form;
     var headers = {
@@ -134,13 +236,111 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        Fluttertoast.showToast(msg: data['data']);
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
         return true;
       } else {
-        Fluttertoast.showToast(msg: data['data']);
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
         return false;
       }
     }
     return false;
+  }
+
+  Future<bool> deleteAddress(BuildContext context, {String? addressId}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'address_id': addressId,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/address-delete.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<List<AddressModel>> addressList() async {
+    List<AddressModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+    });
+
+    var response = await dio.post('$baseUrl/address-list.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+    print(form);
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(AddressModel.fromJson(i));
+          print('object');
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<SupportModel>> supportHistryList() async {
+    List<SupportModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+    });
+
+    var response = await dio.post('$baseUrl/my-support-history.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+    print(form);
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(SupportModel.fromJson(i));
+          print('object');
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
   }
 }

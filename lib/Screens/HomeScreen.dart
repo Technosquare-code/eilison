@@ -199,30 +199,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 25),
-                      CarouselSlider(
-                        items: homescreenController.bannerList.value[0].data
-                            .map(
-                              (item) => ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Image.network(
-                                    mainUrl + bannerUrl + item.bannerUrl,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 120,
-                                  ),
-                                ),
+                      homescreenController.bannerList.isNotEmpty
+                          ? CarouselSlider(
+                              items: homescreenController
+                                  .bannerList.value[0].data
+                                  .map(
+                                    (item) => ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Image.network(
+                                          mainUrl + bannerUrl + item.bannerUrl,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: 120,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              options: CarouselOptions(
+                                height: size.height / 6,
+                                viewportFraction: 1,
+                                autoPlay: true,
+                                scrollDirection: Axis.horizontal,
                               ),
                             )
-                            .toList(),
-                        options: CarouselOptions(
-                          height: size.height / 6,
-                          viewportFraction: 1,
-                          autoPlay: true,
-                          scrollDirection: Axis.horizontal,
-                        ),
-                      ),
+                          : SizedBox(height: 25),
                       const SizedBox(height: 25),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

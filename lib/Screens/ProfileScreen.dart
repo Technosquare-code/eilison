@@ -76,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           backgroundImage: NetworkImage(mainUrl +
                               imageUrl +
                               mainscreenController
-                                  .userdetailList[0].data.profilePicture),
+                                  .userdetailList[0].data.profilePicture!),
                         )
                       : CircleAvatar(
                           radius: 45,
@@ -165,9 +165,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.headset_mic_outlined,
                       "Support",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          SupportScreen.routeName,
-                        );
+                        // Navigator.of(context).pushNamed(
+                        //   SupportScreen.routeName,
+                        // );
+                        Get.toNamed('/support-screen');
                       },
                     ),
                     Item(
@@ -192,9 +193,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.chrome_reader_mode_outlined,
                       "Previous Support History",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          SupportHistoryScreen.routeName,
-                        );
+                        Get.toNamed('/previous-support-screen');
+                        // Navigator.of(context).pushNamed(
+                        //   SupportHistoryScreen.routeName,
+                        // );
                       },
                     ),
                     Item(
@@ -204,6 +206,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Navigator.of(context).pushNamed(
                           UserReviewScreen.routeName,
                         );
+                      },
+                    ),
+                    Item(
+                      Icons.lock_outline,
+                      "Change Password",
+                      onTap: () {
+                        Get.toNamed('/change-pass');
+                        // Navigator.of(context).pushNamed(
+                        //   UserReviewScreen.routeName,
+                        // );
                       },
                     ),
                   ],

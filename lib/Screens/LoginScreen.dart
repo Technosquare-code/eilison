@@ -93,8 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         hint: "Password",
                         borderRadius: 15,
                         controller: logincontroller.password,
-                        validator: MultiValidator(
-                            [RequiredValidator(errorText: 'Email required')]),
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Password required')
+                        ]),
                         icon: Icons.lock_outline,
                         color: Colors.grey.shade100,
                       ),
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
                             FocusScope.of(context).unfocus();
-                            logincontroller.login();
+                            logincontroller.login(context);
                           }
                           // Navigator.push(
                           //     context,

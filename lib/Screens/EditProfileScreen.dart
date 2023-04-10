@@ -74,8 +74,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onPressed: () async {
                           await getCamImage();
                           if (image != null) {
-                            editprofileController
-                                .uploadProfileImage(image!.path);
+                            editprofileController.uploadProfileImage(
+                                image!.path, context);
                             Navigator.pop(context);
                           }
                         },
@@ -95,8 +95,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           if (image != null) {
                             print('gallery image');
                             if (image != null) {
-                              editprofileController
-                                  .uploadProfileImage(image!.path);
+                              editprofileController.uploadProfileImage(
+                                  image!.path, context);
                               Navigator.pop(context);
                             }
                           }
@@ -172,7 +172,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             mainscreenController
                                                 .userdetailList[0]
                                                 .data
-                                                .profilePicture),
+                                                .profilePicture!),
                                       )
                                     : CircleAvatar(
                                         radius: 60,
@@ -340,7 +340,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       FocusScope.of(context).unfocus();
-                      editprofileController.editprofile();
+                      editprofileController.editprofile(context);
                     } else {
                       return;
                     }

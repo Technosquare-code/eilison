@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:elison/Components/snackbar.dart';
 import 'package:elison/urls.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +18,7 @@ class AuthService {
   String? deviceType;
   var pref = GetStorage();
 
-  Future<bool> registerApi(
+  Future<bool> registerApi(BuildContext context,
       {String? name, email, password, usertype, phoneno}) async {
     final FirebaseMessaging fcm = FirebaseMessaging.instance;
     final fcmToken = await fcm.getToken();
@@ -45,21 +47,26 @@ class AuthService {
       var data = response.data;
       debugPrint(data['status']);
       if (data['status'] == 'true') {
-        Fluttertoast.showToast(msg: data['data']);
+        Get.snackbar('Success', data['data'],
+            duration: Duration(seconds: 3),
+            backgroundColor: Colors.black,
+            snackStyle: SnackStyle.FLOATING,
+            colorText: Colors.white,
+            maxWidth: MediaQuery.of(context).size.width * 0.7);
+
         return true;
       }
-
-      Fluttertoast.showToast(msg: data['data']);
+      snackbar(context: context, msg: data['data'], title: 'Failed');
 
       return false;
     } else {
-      Fluttertoast.showToast(msg: 'Register Failed');
+      snackbar(context: context, msg: 'Register Failed', title: 'Failed');
 
       return false;
     }
   }
 
-  Future<bool> loginApi({String? email, password}) async {
+  Future<bool> loginApi(BuildContext context, {String? email, password}) async {
     final FirebaseMessaging fcm = FirebaseMessaging.instance;
     final fcmToken = await fcm.getToken();
     debugPrint(fcmToken);
@@ -89,21 +96,20 @@ class AuthService {
         pref.write('user_id', data['data']['id']);
         pref.write('role', data['data']['role']);
         pref.write('token', data['data']['token']);
-        // Fluttertoast.showToast(msg: data['data']);
+
         return true;
       }
-
-      Fluttertoast.showToast(msg: data['data']);
+      snackbar(context: context, msg: data['data'], title: 'Failed');
 
       return false;
     } else {
-      Fluttertoast.showToast(msg: 'Something Went SWrong');
+      snackbar(context: context, msg: 'Something Went SWrong', title: 'Failed');
 
       return false;
     }
   }
 
-  Future<bool> forgotpassApi({String? email}) async {
+  Future<bool> forgotpassApi(BuildContext context, {String? email}) async {
     Dio dio = Dio();
     formData.FormData form;
 
@@ -122,15 +128,15 @@ class AuthService {
       var data = response.data;
       debugPrint(data['status']);
       if (data['status'] == 'true') {
-        Fluttertoast.showToast(msg: data['data']);
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
         return true;
       }
-
-      Fluttertoast.showToast(msg: data['data']);
+      snackbar(context: context, msg: data['data'], title: 'Failed');
 
       return false;
     } else {
-      Fluttertoast.showToast(msg: 'Something Went SWrong');
+      snackbar(context: context, msg: 'Something Went SWrong', title: 'Failed');
 
       return false;
     }

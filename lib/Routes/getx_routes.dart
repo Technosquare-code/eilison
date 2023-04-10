@@ -1,5 +1,6 @@
 import 'package:elison/Screens/MainScreen.dart';
 import 'package:elison/Screens/TrainerHomeScreen.dart';
+import 'package:elison/Screens/change_password.dart';
 import 'package:elison/splashscreen.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,8 @@ import '../Screens/LoginScreen.dart';
 import '../Screens/NotificationScreen.dart';
 import '../Screens/OnBoardScreen.dart';
 import '../Screens/RegisterScreen.dart';
+import '../Screens/SupportHistoryScreen.dart';
+import '../Screens/SupportScreen.dart';
 
 appRoutes() => [
       GetPage(
@@ -51,6 +54,10 @@ appRoutes() => [
         page: () => NotificationScreen(),
       ),
       GetPage(
+        name: '/change-pass',
+        page: () => ChangePassword(),
+      ),
+      GetPage(
         name: '/address-page',
         page: () => AddressScreen(),
       ),
@@ -61,5 +68,13 @@ appRoutes() => [
       GetPage(
         name: '/category-screen',
         page: () => CategoryScreen(),
+      ),
+      GetPage(
+        name: '/support-screen',
+        page: () => SupportScreen(),
+      ),
+      GetPage(
+        name: '/previous-support-screen',
+        page: () => SupportHistoryScreen(),
       ),
     ];

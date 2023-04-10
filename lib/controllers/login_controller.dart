@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   var forgotemail = TextEditingController();
   var password = TextEditingController();
 
-  login() async {
+  login(BuildContext context) async {
 // final isValid = loginFormKey.currentState!.validate();
 
     // if (!isValid) {
@@ -23,6 +23,7 @@ class LoginController extends GetxController {
     try {
       isLoading(true);
       bool check = await AuthService().loginApi(
+        context,
         email: email.text,
         password: password.text,
       );
@@ -42,7 +43,7 @@ class LoginController extends GetxController {
     }
   }
 
-  forgotpassword() async {
+  forgotpassword(BuildContext context) async {
 // final isValid = loginFormKey.currentState!.validate();
 
     // if (!isValid) {
@@ -51,11 +52,12 @@ class LoginController extends GetxController {
     try {
       isLoading(true);
       bool check = await AuthService().forgotpassApi(
+        context,
         email: forgotemail.text,
       );
       isLoading(false);
 
-      Get.back();
+      check ? Get.back() : null;
     } catch (e) {
       debugPrint(e.toString());
 

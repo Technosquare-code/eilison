@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
+import 'package:elison/models/subcategory_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:elison/urls.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -103,6 +104,39 @@ class HomeScreenService {
       if (data['status'] == 'true') {
         for (var i in data['data']) {
           blist.add(CategoryListModel.fromJson(i));
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<SubcategoryModel>> subcategoryList(String cate_id) async {
+    List<SubcategoryModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'category_id': cate_id,
+    });
+
+    var response = await dio.post('$baseUrl/subcategory-list.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+    print(form);
+
+    print("ddddddddddddddddddd$cate_id");
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(SubcategoryModel.fromJson(i));
+          print('object');
         }
         // blist.assignAll(categoryListModelFromJson(data));
       }

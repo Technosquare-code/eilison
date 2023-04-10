@@ -90,7 +90,7 @@ class ForgotPasswordDialog extends StatelessWidget {
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 FocusScope.of(context).unfocus();
-                                logincontroller.forgotpassword();
+                                logincontroller.forgotpassword(context);
                               }
                             },
                           ),

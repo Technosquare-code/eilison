@@ -48,9 +48,10 @@ class EditProfileController extends GetxController {
     super.onInit();
   }
 
-  uploadProfileImage(String? imgpath) async {
+  uploadProfileImage(String? imgpath, BuildContext context) async {
     ispictureLoading(true);
-    bool check = await ProfileTabService().profilePictureApi(image: imgpath);
+    bool check =
+        await ProfileTabService().profilePictureApi(context, image: imgpath);
     if (check) {
       mainscreenController.getuserdetails();
       ispictureLoading(false);
@@ -58,9 +59,9 @@ class EditProfileController extends GetxController {
     // isLoading(false);
   }
 
-  editprofile() async {
+  editprofile(BuildContext context) async {
     isLoading(true);
-    bool check = await ProfileTabService().profileUpdate(
+    bool check = await ProfileTabService().profileUpdate(context,
         date: dob.text,
         gender: gender.value,
         name: name.text,

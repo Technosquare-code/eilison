@@ -1,6 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChatHistory extends StatelessWidget {
+  String? id;
+
+  String? orderNo;
+  String? name;
+  String? email;
+  String? phone;
+  String? message;
+  String? token;
+  String? status;
+  DateTime? createdDate;
+  String? closeDate;
+  ChatHistory(
+      {this.closeDate,
+      this.createdDate,
+      this.email,
+      this.id,
+      this.message,
+      this.name,
+      this.orderNo,
+      this.token,
+      this.phone,
+      this.status});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -15,7 +38,7 @@ class ChatHistory extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "How can I exchange / return my products ?",
+                message ?? "How can I exchange / return my products ?",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black,
@@ -33,7 +56,7 @@ class ChatHistory extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Order #13213",
+                        "Order $orderNo",
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.black,
@@ -51,7 +74,7 @@ class ChatHistory extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Token Id #132134",
+                        "Token Id $token",
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.black,
@@ -69,7 +92,8 @@ class ChatHistory extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "19 Mar 2023, 06:57 pm",
+                        DateFormat('dd MMM y, hh:mm a').format(createdDate!) ??
+                            "19 Mar 2023, 06:57 pm",
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.black,
@@ -82,28 +106,48 @@ class ChatHistory extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 2),
-              Row(
-                children: [
-                  Icon(
-                    Icons.sms_outlined,
-                    color: Colors.black,
-                    size: 10,
-                  ),
-                  const SizedBox(width: 10),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      "Closed on 18 Mar 2023, 07:26 am",
+              status == '0'
+                  ? Text(
+                      "Pending",
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
                       ),
-                    ),
-                  ),
-                ],
-              ),
+                    )
+                  : status == '1'
+                      ? Text(
+                          "Processing",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      : Row(
+                          children: [
+                            Icon(
+                              Icons.sms_outlined,
+                              color: Colors.black,
+                              size: 10,
+                            ),
+                            const SizedBox(width: 10),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                "Closed on $closeDate",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
             ],
           ),
         ),

@@ -1,8 +1,11 @@
 import 'package:elison/Components/Category.dart';
 import 'package:elison/controllers/customer/home_screen_controller.dart';
+import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../models/subcategory_model.dart';
 
 class CategoryScreen extends StatefulWidget {
   static const routeName = "CategoryScreen";
@@ -25,6 +28,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
     super.didChangeDependencies();
   }
 
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   print('init state---------');
+  //   homescreenController.parentSubCategoryList.value = [];
+  //   for (var element in homescreenController.categoryList) {
+  //     homescreenController.getSubcategory(element.id);
+  //     homescreenController.parentSubCategoryList
+  //         .add(homescreenController.subCategoryList);
+  //   }
+  //   super.initState();
+  // }
+
+  getsubcat() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +77,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   itemCount: homescreenController.categoryList.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (ctx, i) => Category(),
+                  itemBuilder: (context, index) => Category(
+                    img: mainUrl +
+                        categoryUrl +
+                        homescreenController.categoryList[index].categoryIcon,
+                    title:
+                        homescreenController.categoryList[index].categoryName,
+                    count: homescreenController.categoryList[index].id,
+                    // subcat: homescreenController.parentSubCategoryList[index],
+                  ),
                 );
         }),
       ),

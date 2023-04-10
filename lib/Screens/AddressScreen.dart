@@ -1,11 +1,13 @@
 import 'package:elison/Components/MyAddress.dart';
 import 'package:elison/Screens/AddNewAddressScreen.dart';
+import 'package:elison/controllers/customer/profile/address/view_address_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddressScreen extends StatelessWidget {
   static const routeName = "AddressScreen";
+  final viewController = Get.put(ViewAddressController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +46,7 @@ class AddressScreen extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Get.toNamed('/add-address', arguments: true);
+                      Get.toNamed('/add-address', arguments: [true, null]);
                       // Navigator.of(context).pushNamed(
                       //   AddNewAddressScreen.routeName,
                       // );
@@ -70,12 +72,33 @@ class AddressScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  ListView.builder(
-                    itemCount: 3,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (ctx, i) => MyAddress(),
-                  ),
+                  Obx(() {
+                    return viewController.isLoading.value
+                        ? CircularProgressIndicator()
+                        : viewController.addressList.isEmpty
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(child: Text('No data found')),
+                                ],
+                              )
+                            : ListView.builder(
+                                itemCount: viewController.addressList.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (ctx, i) => MyAddress(
+                                  address:
+                                      viewController.addressList[i].address,
+                                  city: viewController.addressList[i].city,
+                                  name: viewController.addressList[i].fullName,
+                                  phone: viewController.addressList[i].phone,
+                                  state: viewController.addressList[i].town,
+                                  zipcode:
+                                      viewController.addressList[i].zipCode,
+                                  id: i,
+                                ),
+                              );
+                  }),
                 ],
               ),
             )

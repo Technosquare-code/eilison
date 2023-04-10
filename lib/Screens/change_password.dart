@@ -1,16 +1,20 @@
-import 'package:elison/Components/InputFeild.dart';
-import 'package:elison/Components/MyButtton.dart';
-import 'package:elison/controllers/customer/profile/support/add_support_controller.dart';
-import 'package:elison/controllers/customer/profile/support/support_controller.dart';
+import 'package:elison/controllers/customer/profile/change%20Password/change_password_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 
-class SupportScreen extends StatelessWidget {
-  static const routeName = "SupportScreen";
+import '../Components/InputFeild.dart';
+import '../Components/MyButtton.dart';
+import '../Components/snackbar.dart';
+
+class ChangePassword extends StatelessWidget {
+  ChangePassword({super.key});
   final _formKey = GlobalKey<FormState>();
-  final spcontroller = Get.put(AddSupportController());
+  final changepasscontroller = Get.put(ChangepasController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +31,7 @@ class SupportScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Support",
+          "Change Password",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -41,12 +45,14 @@ class SupportScreen extends StatelessWidget {
         child: Obx(() {
           return Form(
             key: _formKey,
+            // autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
                   child: Text(
-                    "Send us message",
+                    "Setup your New Password",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
@@ -58,7 +64,7 @@ class SupportScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 25),
                 Text(
-                  "Full Name",
+                  "Current Password",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -72,20 +78,20 @@ class SupportScreen extends StatelessWidget {
                   color: Colors.grey.shade50,
                   size: 50,
                   borderColor: Colors.grey.shade300,
-                  hint: "Enter Your Name",
-                  controller: spcontroller.name,
+                  hint: "Enter Your Current Password",
+                  controller: changepasscontroller.current,
                   validator: MultiValidator([
                     // EmailValidator(
                     //   errorText: 'Please enter valid email',
                     // ),
-                    RequiredValidator(errorText: 'Full Name required')
+                    RequiredValidator(errorText: 'Current Password required')
                   ]),
-                  type: TextInputType.name,
-                  icon: Icons.person,
+                  // type: TextInputType.text,
+                  icon: Icons.lock_outline,
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  "Phone",
+                  "New Password",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -98,21 +104,21 @@ class SupportScreen extends StatelessWidget {
                 InputField(
                   color: Colors.grey.shade50,
                   size: 50,
-                  controller: spcontroller.phoneNo,
+                  controller: changepasscontroller.newpass,
                   borderColor: Colors.grey.shade300,
-                  hint: "Enter Your Phone",
+                  hint: "Enter New Password",
                   validator: MultiValidator([
                     // EmailValidator(
                     //   errorText: 'Please enter valid email',
                     // ),
-                    RequiredValidator(errorText: 'Phone Number required')
+                    RequiredValidator(errorText: 'New Password required')
                   ]),
-                  type: TextInputType.phone,
-                  icon: Icons.phone_android,
+                  // type: TextInputType.text,
+                  icon: Icons.lock_outline,
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  "Email Address",
+                  "Confirm Password",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -126,58 +132,35 @@ class SupportScreen extends StatelessWidget {
                   color: Colors.grey.shade50,
                   size: 50,
                   borderColor: Colors.grey.shade300,
-                  hint: "Enter Your Email",
-                  controller: spcontroller.email,
-                  type: TextInputType.emailAddress,
+                  hint: "Enter Confirm Password",
+                  controller: changepasscontroller.confirmpas,
+                  // type: TextInputType.text,
                   validator: MultiValidator([
-                    EmailValidator(
-                      errorText: 'Please enter valid email',
-                    ),
-                    RequiredValidator(errorText: 'Email required')
+                    RequiredValidator(errorText: 'Confirm Password required')
                   ]),
-                  icon: Icons.mail,
-                ),
-                const SizedBox(height: 15),
-                Text(
-                  "Message",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                InputField(
-                  minLine: 8,
-                  maxLine: 8,
-                  borderRadius: 18,
-                  color: Colors.grey.shade50,
-                  borderColor: Colors.grey.shade300,
-                  hint: "Enter Your Message",
-                  controller: spcontroller.msg,
-                  type: TextInputType.name,
-                  validator: MultiValidator([
-                    // EmailValidator(
-                    //   errorText: 'Please enter valid email',
-                    // ),
-                    RequiredValidator(errorText: 'Message required')
-                  ]),
+                  icon: Icons.lock_outline,
                 ),
                 const SizedBox(height: 25),
                 MyButton(
                   fontSize: 16,
-                  title: spcontroller.isLoading.value
+                  title: changepasscontroller.isLoading.value
                       ? 'Please Wait...'
                       : "Submit",
                   fontWeight: FontWeight.w700,
                   textColor: Colors.white,
                   sizeHieght: 50,
                   onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      FocusScope.of(context).unfocus();
-                      spcontroller.addsupposrtmsg(context);
+                    if (changepasscontroller.newpass.text ==
+                        changepasscontroller.confirmpas.text) {
+                      if (_formKey.currentState!.validate()) {
+                        FocusScope.of(context).unfocus();
+                        changepasscontroller.changepass(context);
+                      }
+                    } else {
+                      snackbar(
+                          context: context,
+                          msg: 'Passwords does not matched',
+                          title: 'Failed');
                     }
                   },
                 ),

@@ -7,9 +7,11 @@ import 'package:elison/controllers/register_controller.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+
+import '../Components/snackbar.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "RegisterScreen";
@@ -132,12 +134,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           RequiredValidator(
                             errorText: 'Phone Number required',
                           ),
+                          LengthRangeValidator(
+                              min: 10, max: 15, errorText: 'Length range 10-15')
                         ]),
                         size: 50,
                         hint: "Phone Number",
                         controller: registercontroller.phone,
                         borderRadius: 15,
-                        icon: Icons.mail_outline,
+                        icon: Icons.call,
+                        type: TextInputType.phone,
                         color: Colors.grey.shade100,
                       ),
                       const SizedBox(height: 15),
@@ -253,16 +258,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (registercontroller.isCheck.value) {
                               if (_formKey.currentState!.validate()) {
                                 FocusScope.of(context).unfocus();
-                                registercontroller.register();
+                                registercontroller.register(context);
                               }
                             } else {
-                              Fluttertoast.showToast(
-                                  msg: 'Please Accept terms and policies');
+                              snackbar(
+                                  context: context,
+                                  msg: 'Please Accept terms and policies',
+                                  title: 'Failed');
                             }
                           } else {
-                            Fluttertoast.showToast(
+                            snackbar(
+                                context: context,
                                 msg:
-                                    'Password and Confirm Password should match');
+                                    'Password and Confirm Password should match',
+                                title: 'Failed');
                           }
                           // if (registercontroller.selectedUser.value ==
                           //     "I\'m Trainer") {

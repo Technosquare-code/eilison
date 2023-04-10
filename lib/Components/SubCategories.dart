@@ -19,7 +19,7 @@ class SubCategories extends StatelessWidget {
           CircleAvatar(
             radius: 20,
             backgroundColor: Colors.white,
-            child: Image.asset(
+            child: Image.network(
               image,
               width: 25,
               height: 25,

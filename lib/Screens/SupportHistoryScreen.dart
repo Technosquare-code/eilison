@@ -1,9 +1,12 @@
 import 'package:elison/Components/ChatHistory.dart';
+import 'package:elison/controllers/customer/profile/support/support_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SupportHistoryScreen extends StatelessWidget {
   static const routeName = "SupportHistoryScreen";
+  final suportController = Get.put(SupportController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -48,12 +51,39 @@ class SupportHistoryScreen extends StatelessWidget {
                 ),
               ),
             ),
-            ListView.builder(
-              itemCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (ctx, i) => ChatHistory(),
-            ),
+            Obx(() {
+              return suportController.isLoading.value
+                  ? CircularProgressIndicator()
+                  : suportController.supportList.isEmpty
+                      ? Container(
+                          height: size.height * 0.6,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(child: Text('No data found')),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: suportController.supportList.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (ctx, i) => ChatHistory(
+                            closeDate:
+                                suportController.supportList[i].closeDate,
+                            id: suportController.supportList[i].id,
+                            createdDate:
+                                suportController.supportList[i].createdDate,
+                            email: suportController.supportList[i].email,
+                            message: suportController.supportList[i].message,
+                            name: suportController.supportList[i].name,
+                            orderNo: suportController.supportList[i].orderNo,
+                            phone: suportController.supportList[i].phone,
+                            status: suportController.supportList[i].status,
+                            token: suportController.supportList[i].token,
+                          ),
+                        );
+            }),
           ],
         ),
       ),

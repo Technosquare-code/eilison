@@ -1,20 +1,41 @@
 import 'package:elison/Components/SubCategories.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/apiServices/home_screen_service.dart';
+import 'package:elison/models/subcategory_model.dart';
+import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/customer/home_screen_controller.dart';
 
 class Category extends StatefulWidget {
+  final String? img;
+  final String? title;
+  final String? count;
+  final List<SubcategoryModel>? subcat;
+  Category({this.img, this.title, this.count, this.subcat});
   @override
   _CategoryState createState() => _CategoryState();
 }
 
 class _CategoryState extends State<Category> {
   bool showSub = false;
-  final List<Map<String, dynamic>> subCategories = [
-    {'image': 'assets/images/salad.png', 'title': 'Salad'},
-    {'image': 'assets/images/cake.png', 'title': 'Cake'},
-    {'image': 'assets/images/pie.png', 'title': 'Pie'},
-    {'image': 'assets/images/smoothie.png', 'title': 'Smoothie'},
-  ];
+  final homescreenController = Get.find<HomeScreenController>();
+  List<SubcategoryModel> subcatlist = [];
+  bool isload = false;
+  // final List<Map<String, dynamic>> subCategories = [
+  //   {'image': 'assets/images/salad.png', 'title': 'Salad'},
+  //   {'image': 'assets/images/cake.png', 'title': 'Cake'},
+  //   {'image': 'assets/images/pie.png', 'title': 'Pie'},
+  //   {'image': 'assets/images/smoothie.png', 'title': 'Smoothie'},
+  // ];
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -41,14 +62,16 @@ class _CategoryState extends State<Category> {
             ],
           ),
           child: ListTile(
-            leading: Image.asset(
-              "assets/images/category.png",
+            leading: Image.network(
+              // "assets/images/category.png",
+              widget.img!,
               width: 50,
               height: 40,
               fit: BoxFit.fill,
             ),
             title: Text(
-              "Resistance Band",
+              // "Resistance Band",
+              widget.title ?? "",
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.black,
@@ -66,9 +89,22 @@ class _CategoryState extends State<Category> {
               ),
             ),
             trailing: InkWell(
-              onTap: () {
+              onTap: () async {
                 showSub = !showSub;
+                isload = true;
                 setState(() {});
+                if (showSub) {
+                  print('id--------${widget.count}');
+                  // homescreenController.subcatId.value = widget.count ?? '0';
+                  final List<SubcategoryModel> ss =
+                      await HomeScreenService().subcategoryList(widget.count!);
+                  isload = false;
+                  setState(() {
+                    subcatlist = ss;
+                  });
+                  // await homescreenController.getSubcategory(widget.count!);
+                  // print(homescreenController.subCategoryList.length);
+                }
               },
               child: Container(
                 width: size.width / 3.5,
@@ -111,21 +147,48 @@ class _CategoryState extends State<Category> {
         ),
         if (showSub) const SizedBox(height: 15),
         if (showSub)
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              spacing: 10,
-              children: List.generate(
-                subCategories.length,
-                (index) => SubCategories(
-                  image: subCategories[index]['image'],
-                  title: subCategories[index]['title'],
-                ),
-              ),
-            ),
+          Subcategory(
+            mylist: subcatlist,
+            isload: isload,
           ),
         if (showSub) const SizedBox(height: 15),
       ],
     );
+  }
+}
+
+class Subcategory extends StatefulWidget {
+  Subcategory({Key? key, required this.mylist, this.isload = false})
+      : super(key: key);
+  bool isload;
+  List<SubcategoryModel> mylist = [];
+
+  @override
+  State<Subcategory> createState() => _SubcategoryState();
+}
+
+class _SubcategoryState extends State<Subcategory> {
+  final homescreenController = Get.find<HomeScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: widget.isload
+            ? CircularProgressIndicator()
+            : widget.mylist.isEmpty
+                ? Text('data not found')
+                : Wrap(
+                    spacing: 10,
+                    children: List.generate(
+                      widget.mylist.length,
+                      (index) => SubCategories(
+                        image: mainUrl +
+                            categoryUrl +
+                            widget.mylist[index].categoryIcon,
+                        title: widget.mylist[index].categoryName,
+                      ),
+                    ),
+                  ));
   }
 }
