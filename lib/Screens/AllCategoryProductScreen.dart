@@ -54,6 +54,7 @@ class _AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
         children: List.generate(
           8,
           (index) => ProductCard(
+            productId: '',
             title: "Huawei Matebook X 13",
             imagePath: "assets/images/laptop.png",
             price: 20999.00,

@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:elison/Screens/ProductDetailScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Utils/text_theme.dart';
 
 class FeaturedCard extends StatefulWidget {
   final String title;
+  final String id;
   final String imagePath;
   final double price;
   final Color color;
@@ -15,6 +17,7 @@ class FeaturedCard extends StatefulWidget {
 
   const FeaturedCard({
     required this.title,
+    required this.id,
     required this.imagePath,
     required this.price,
     required this.color,
@@ -33,9 +36,10 @@ class _FeaturedCardState extends State<FeaturedCard> {
     var size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          ProductDetailScreen.routeName,
-        );
+        Get.toNamed('/product-detail-screen', arguments: [widget.id]);
+        // Navigator.of(context).pushNamed(
+        //   ProductDetailScreen.routeName,
+        // );
       },
       child: Card(
         color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
@@ -48,10 +52,10 @@ class _FeaturedCardState extends State<FeaturedCard> {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Column(
                 children: [
-                  Image.asset(
+                  Image.network(
                     widget.imagePath,
                     height: 90,
-                    width: 90,
+                    width: 122,
                     fit: BoxFit.contain,
                   ),
                   const SizedBox(height: 5),
@@ -82,11 +86,17 @@ class _FeaturedCardState extends State<FeaturedCard> {
             Positioned(
               top: -1.7,
               right: -2,
-              child: IconButton(
-                icon: const Icon(Icons.favorite_border,
-                    color: Colors.red, size: 20),
-                onPressed: widget.onTap,
-              ),
+              child: widget.isFavourite!
+                  ? IconButton(
+                      icon: const Icon(Icons.favorite_rounded,
+                          color: Colors.red, size: 20),
+                      onPressed: widget.onTap,
+                    )
+                  : IconButton(
+                      icon: const Icon(Icons.favorite_border,
+                          color: Colors.red, size: 20),
+                      onPressed: widget.onTap,
+                    ),
             ),
           ],
         ),

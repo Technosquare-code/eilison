@@ -2,8 +2,12 @@ import 'dart:convert';
 
 import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
+import 'package:elison/models/product_detail_model.dart';
+import 'package:elison/models/products_model.dart';
+import 'package:elison/models/special_item_model.dart';
 import 'package:elison/models/subcategory_model.dart';
 import 'package:elison/models/user_details_model.dart';
+import 'package:elison/models/wishList_model.dart';
 import 'package:elison/urls.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +19,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as formData;
 
+import '../Components/snackbar.dart';
 import '../models/notification_model.dart';
 
 class HomeScreenService {
@@ -111,6 +116,181 @@ class HomeScreenService {
     return blist;
   }
 
+  Future<bool> manageWishlist(BuildContext context,
+      {String? recordId, productId, action}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'record_id': recordId,
+      'product_id': productId,
+      'action': action
+    });
+
+    var response = await dio.post(
+      '$baseUrl/manager-wishlist.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> addToCart(
+    BuildContext context, {
+    String? productId,
+  }) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'pid': productId,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/add-to-cart.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<List<ProductDetailModel>> productdetails(String pro_id) async {
+    List<ProductDetailModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'product_id': pro_id,
+      'uid': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post(
+      '$baseUrl/product-details.php',
+      options: Options(headers: headers),
+      data: form,
+    );
+    print(headers);
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(ProductDetailModel.fromJson(i));
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<ProductsModel>> productList(String type, String catid) async {
+    List<ProductsModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'type': type,
+      'cat_id': catid,
+      'uid': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post(
+      '$baseUrl/product-listing-according-categories.php',
+      options: Options(headers: headers),
+      data: form,
+    );
+    print(headers);
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(ProductsModel.fromJson(i));
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<ProductsModel>> mainScreenproductList() async {
+    List<ProductsModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post(
+      '$baseUrl/product-listing.php',
+      options: Options(headers: headers),
+      data: form,
+    );
+    print(headers);
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(ProductsModel.fromJson(i));
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
   Future<List<SubcategoryModel>> subcategoryList(String cate_id) async {
     List<SubcategoryModel> blist = [];
     Dio dio = Dio();
@@ -136,6 +316,69 @@ class HomeScreenService {
       if (data['status'] == 'true') {
         for (var i in data['data']) {
           blist.add(SubcategoryModel.fromJson(i));
+          print('object');
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<SpecialItemModel>> specialItemList() async {
+    List<SpecialItemModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      "type": 'view_all',
+      'uid': pref.read('user_id') ?? '1',
+    });
+
+    var response = await dio.post('$baseUrl/special-deal-item-listing.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+    print(form);
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(SpecialItemModel.fromJson(i));
+          print('object');
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<WishlistModel>> getWishlist() async {
+    List<WishlistModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id') ?? '1',
+    });
+
+    var response = await dio.post('$baseUrl/my-wishlist.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+    print(form);
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(WishlistModel.fromJson(i));
           print('object');
         }
         // blist.assignAll(categoryListModelFromJson(data));

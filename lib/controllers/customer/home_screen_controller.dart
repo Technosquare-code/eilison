@@ -3,6 +3,7 @@ import 'package:elison/apiServices/mainscreenService.dart';
 import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
 import 'package:elison/models/notification_model.dart';
+import 'package:elison/models/special_item_model.dart';
 import 'package:elison/models/subcategory_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ class HomeScreenController extends GetxController {
   var bannerList = List<BannerListModel>.empty(growable: true).obs;
   var notificationList = List<NotificationModel>.empty(growable: true).obs;
   var categoryList = List<CategoryListModel>.empty(growable: true).obs;
+  var specialItemList = List<SpecialItemModel>.empty(growable: true).obs;
   // var subCategoryList = List<SubcategoryModel>.empty(growable: true).obs;
   var subcatId = '0'.obs;
   // var parentSubCategoryList =
@@ -25,6 +27,12 @@ class HomeScreenController extends GetxController {
   getbanner() async {
     isLoading(true);
     bannerList.assignAll(await HomeScreenService().bannerList());
+    isLoading(false);
+  }
+
+  getSpecialItem() async {
+    isLoading(true);
+    specialItemList.assignAll(await HomeScreenService().specialItemList());
     isLoading(false);
   }
 
@@ -40,6 +48,20 @@ class HomeScreenController extends GetxController {
     isLoading(false);
   }
 
+  wishlistmanaget(
+      {bool? isAdd, SpecialItemModel? prod, BuildContext? context}) async {
+    if (isAdd!) {
+      prod!.isWhishlist = true;
+      bool check = await HomeScreenService().manageWishlist(context!,
+          action: 'add', productId: prod.id, recordId: '');
+      check ? getSpecialItem() : null;
+    } else {
+      prod!.isWhishlist = false;
+      bool check = await HomeScreenService().manageWishlist(context!,
+          action: 'remove', productId: prod.id, recordId: '');
+      check ? getSpecialItem() : null;
+    }
+  }
   // getSubcategory(String categoryId) async {
   //   isLoading(true);
   //   subCategoryList
@@ -54,6 +76,7 @@ class HomeScreenController extends GetxController {
     getbanner();
     getcategory();
     getNotification();
+    getSpecialItem();
     super.onInit();
   }
 }

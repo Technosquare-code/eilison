@@ -23,7 +23,7 @@ class productmoreimage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
+              child: Image.network(
                 imageAsset,
                 width: size.width / 4,
                 height: size.width / 4,

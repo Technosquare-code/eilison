@@ -72,7 +72,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 25),
         child: Obx(() {
           return homescreenController.categoryList.isEmpty
-              ? Text('Data not found')
+              ? Center(child: Text('Data not found'))
               : ListView.builder(
                   itemCount: homescreenController.categoryList.length,
                   shrinkWrap: true,

@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Obx(() {
           return mainscreenController.isLoading.value &&
                   homescreenController.isLoading.value
-              ? CircularProgressIndicator()
+              ? HomeShimmer(size: size)
               : SingleChildScrollView(
                   padding: const EdgeInsets.all(22),
                   child: Column(
@@ -144,9 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 minHeight: 35,
                               ),
                               onPressed: () {
-                                Navigator.of(context).pushNamed(
-                                  NotificationScreen.routeName,
-                                );
+                                // Navigator.of(context).pushNamed(
+                                //   NotificationScreen.routeName,
+                                // );
                               },
                               icon: Icon(
                                 CupertinoIcons.search,
@@ -169,9 +169,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.black,
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context).pushNamed(
-                                      CartScreen.routeName,
-                                    );
+                                    Get.toNamed('/cart');
+                                    // Navigator.of(context).pushNamed(
+                                    //   CartScreen.routeName,
+                                    // );
                                   }),
                             ),
                             IconButton(
@@ -208,11 +209,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       borderRadius: BorderRadius.circular(25),
                                       child: Padding(
                                         padding: const EdgeInsets.all(4.0),
-                                        child: Image.network(
-                                          mainUrl + bannerUrl + item.bannerUrl,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: 120,
+                                        child: InkWell(
+                                          onTap: () {},
+                                          child: Image.network(
+                                            mainUrl +
+                                                bannerUrl +
+                                                item.bannerImage,
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                            height: 120,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -275,62 +281,95 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .categoryList[index].categoryIcon,
                                     title: homescreenController
                                         .categoryList[index].categoryName,
-                                    onTap: () {},
+                                    onTap: () {
+                                      print('object');
+                                      Get.toNamed('/show-products-screen',
+                                          arguments: [
+                                            'category',
+                                            homescreenController
+                                                .categoryList[index].id
+                                          ]);
+                                    },
                                   ),
                                 ),
                               ),
                             )
                           : Container(),
                       const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Special Deals For You',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600,
+                      homescreenController.specialItemList.isEmpty
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Special Deals For You',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      AllCategoryProductScreen.routeName,
+                                      arguments: "Foot Spa",
+                                    );
+                                  },
+                                  child: Text(
+                                    'See All',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                AllCategoryProductScreen.routeName,
-                                arguments: "Foot Spa",
-                              );
-                            },
-                            child: Text(
-                              'See All',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w400,
+                      const SizedBox(height: 15),
+                      homescreenController.specialItemList.isEmpty
+                          ? Container()
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Wrap(
+                                spacing: 16,
+                                children: List.generate(
+                                  homescreenController.specialItemList.length >=
+                                          2
+                                      ? 2
+                                      : homescreenController
+                                          .specialItemList.length,
+                                  (index) => FeaturedCard(
+                                    isFavourite: homescreenController
+                                        .specialItemList[index].isWhishlist,
+                                    id: homescreenController
+                                        .specialItemList[index].id,
+                                    title: homescreenController
+                                        .specialItemList[index].itemName,
+                                    imagePath: mainUrl +
+                                        specialItemUrl +
+                                        homescreenController
+                                            .specialItemList[index].thumbnail,
+                                    price: double.parse(homescreenController
+                                        .specialItemList[index].mrp),
+                                    color: Colors.colr[
+                                        _random.nextInt(Colors.colr.length)],
+                                    onTap: () {
+                                      homescreenController.wishlistmanaget(
+                                          isAdd: !(homescreenController
+                                              .specialItemList[index]
+                                              .isWhishlist),
+                                          context: context,
+                                          prod: homescreenController
+                                              .specialItemList[index]);
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Wrap(
-                          spacing: 16,
-                          children: List.generate(
-                            likecardList.length,
-                            (index) => FeaturedCard(
-                              title: likecardList[index]['title'],
-                              imagePath: likecardList[index]['imageAsset'],
-                              price: likecardList[index]['price'],
-                              color: Colors
-                                  .colr[_random.nextInt(Colors.colr.length)],
-                              onTap: () {},
-                            ),
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -372,11 +411,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             likecardList.length,
                             (index) => ProductCard(
                               title: likecardList[index]['title'],
+                              productId: '',
                               imagePath: likecardList[index]['imageAsset'],
                               price: likecardList[index]['price'],
                               color: Colors
                                   .colr[_random.nextInt(Colors.colr.length)],
                               onTap: () {},
+                              isFavourite: true,
                             ),
                           ),
                         ),
@@ -421,6 +462,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: List.generate(
                             likecardList.length,
                             (index) => ProductCard(
+                              isFavourite: true,
+                              productId: '',
                               title: likecardList[index]['title'],
                               imagePath: likecardList[index]['imageAsset'],
                               price: likecardList[index]['price'],
@@ -525,6 +568,91 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
         }),
+      ),
+    );
+  }
+}
+
+class HomeShimmer extends StatelessWidget {
+  const HomeShimmer({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer(
+      gradient: LinearGradient(
+        colors: [
+          Colors.grey[200]!,
+          Colors.grey[300]!,
+          Colors.grey[200]!,
+        ],
+        begin: Alignment(-1.0, -0.5),
+        end: Alignment(1.0, 0.5),
+        stops: [0.0, 0.5, 1.0],
+        tileMode: TileMode.clamp,
+      ),
+      // period: Duration(seconds: 2),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: size.height * 0.1,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
+            Container(
+              height: size.height * 0.3,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: size.height * 0.15,
+                    color: Colors.grey[300],
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: Container(
+                    height: size.height * 0.15,
+                    color: Colors.grey[300],
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: Container(
+                    height: size.height * 0.15,
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: size.height * 0.2,
+                    color: Colors.grey[300],
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: Container(
+                    height: size.height * 0.2,
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

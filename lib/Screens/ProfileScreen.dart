@@ -147,9 +147,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.favorite_outline,
                       "Wishlist",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          WishlistScreen.routeName,
-                        );
+                        Get.toNamed('/wishlist-screen');
+                        // Navigator.of(context).pushNamed(
+                        //   WishlistScreen.routeName,
+                        // );
                       },
                     ),
                     Item(

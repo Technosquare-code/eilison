@@ -62,7 +62,7 @@ class NotificationScreen extends StatelessWidget {
                     )
                   : ListView.builder(
                       shrinkWrap: true,
-                      itemCount: notifications.length,
+                      itemCount: notificationController.notificationList.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx, i) => MyNotification(
                         image: 'assets/images/not1.png',

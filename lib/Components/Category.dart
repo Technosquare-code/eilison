@@ -5,6 +5,7 @@ import 'package:elison/models/subcategory_model.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../controllers/customer/home_screen_controller.dart';
 
@@ -175,20 +176,83 @@ class _SubcategoryState extends State<Subcategory> {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: widget.isload
-            ? CircularProgressIndicator()
+            ? SubcatShimmer(
+                size: MediaQuery.of(context).size,
+              )
             : widget.mylist.isEmpty
                 ? Text('data not found')
                 : Wrap(
                     spacing: 10,
                     children: List.generate(
                       widget.mylist.length,
-                      (index) => SubCategories(
-                        image: mainUrl +
-                            categoryUrl +
-                            widget.mylist[index].categoryIcon,
-                        title: widget.mylist[index].categoryName,
+                      (index) => InkWell(
+                        onTap: () {
+                          Get.toNamed('/show-products-screen', arguments: [
+                            'subcategory',
+                            widget.mylist[index].id
+                          ]);
+                        },
+                        child: SubCategories(
+                          image: mainUrl +
+                              categoryUrl +
+                              widget.mylist[index].categoryIcon,
+                          title: widget.mylist[index].categoryName,
+                        ),
                       ),
                     ),
                   ));
+  }
+}
+
+class SubcatShimmer extends StatelessWidget {
+  const SubcatShimmer({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer(
+      gradient: LinearGradient(
+        colors: [
+          Colors.grey[200]!,
+          Colors.grey[300]!,
+          Colors.grey[200]!,
+        ],
+        begin: Alignment(-1.0, -0.5),
+        end: Alignment(1.0, 0.5),
+        stops: [0.0, 0.5, 1.0],
+        tileMode: TileMode.clamp,
+      ),
+      // period: Duration(seconds: 2),
+      child: SingleChildScrollView(
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.grey[300],
+              radius: 40,
+            ),
+            SizedBox(width: 10),
+            CircleAvatar(
+              backgroundColor: Colors.grey[300],
+              radius: 40,
+            ),
+            SizedBox(width: 10),
+            CircleAvatar(
+              backgroundColor: Colors.grey[300],
+              radius: 40,
+            ),
+            SizedBox(width: 10),
+            CircleAvatar(
+              backgroundColor: Colors.grey[300],
+              radius: 40,
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
   }
 }

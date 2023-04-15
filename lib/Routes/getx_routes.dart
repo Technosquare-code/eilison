@@ -6,15 +6,21 @@ import 'package:get/get.dart';
 
 import '../Screens/AddNewAddressScreen.dart';
 import '../Screens/AddressScreen.dart';
+import '../Screens/CartScreen.dart';
 import '../Screens/CategoryScreen.dart';
 import '../Screens/EditProfileScreen.dart';
 import '../Screens/GettingStartedScreen.dart';
 import '../Screens/LoginScreen.dart';
 import '../Screens/NotificationScreen.dart';
 import '../Screens/OnBoardScreen.dart';
+import '../Screens/ProductDetailScreen.dart';
+import '../Screens/ProductFilterScreen.dart';
+import '../Screens/PromocodeScreen.dart';
+import '../Screens/ShowProductScreen.dart';
 import '../Screens/RegisterScreen.dart';
 import '../Screens/SupportHistoryScreen.dart';
 import '../Screens/SupportScreen.dart';
+import '../Screens/WhishlistScreen.dart';
 
 appRoutes() => [
       GetPage(
@@ -54,6 +60,10 @@ appRoutes() => [
         page: () => NotificationScreen(),
       ),
       GetPage(
+        name: '/cart',
+        page: () => CartScreen(),
+      ),
+      GetPage(
         name: '/change-pass',
         page: () => ChangePassword(),
       ),
@@ -74,7 +84,27 @@ appRoutes() => [
         page: () => SupportScreen(),
       ),
       GetPage(
+        name: '/wishlist-screen',
+        page: () => WishlistScreen(),
+      ),
+      GetPage(
+        name: '/promocode-screen',
+        page: () => PromocodeScreen(),
+      ),
+      GetPage(
         name: '/previous-support-screen',
         page: () => SupportHistoryScreen(),
+      ),
+      GetPage(
+        name: '/show-products-screen',
+        page: () => ShowProductScreen(),
+      ),
+      GetPage(
+        name: '/product-detail-screen',
+        page: () => ProductDetailScreen(),
+      ),
+      GetPage(
+        name: '/product-filter-screen',
+        page: () => ProductFilterScreen(),
       ),
     ];

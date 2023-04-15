@@ -3,6 +3,7 @@ import 'package:elison/controllers/customer/profile/support/support_controller.d
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SupportHistoryScreen extends StatelessWidget {
   static const routeName = "SupportHistoryScreen";
@@ -53,7 +54,9 @@ class SupportHistoryScreen extends StatelessWidget {
             ),
             Obx(() {
               return suportController.isLoading.value
-                  ? CircularProgressIndicator()
+                  ? SupportHistryShimmer(
+                      size: size,
+                    )
                   : suportController.supportList.isEmpty
                       ? Container(
                           height: size.height * 0.6,
@@ -84,6 +87,72 @@ class SupportHistoryScreen extends StatelessWidget {
                           ),
                         );
             }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SupportHistryShimmer extends StatelessWidget {
+  const SupportHistryShimmer({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer(
+      gradient: LinearGradient(
+        colors: [
+          Colors.grey[200]!,
+          Colors.grey[300]!,
+          Colors.grey[200]!,
+        ],
+        begin: Alignment(-1.0, -0.5),
+        end: Alignment(1.0, 0.5),
+        stops: [0.0, 0.5, 1.0],
+        tileMode: TileMode.clamp,
+      ),
+      // period: Duration(seconds: 2),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: size.height * 0.12,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
+            Container(
+              height: size.height * 0.12,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
+            Container(
+              height: size.height * 0.12,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
+            Container(
+              height: size.height * 0.12,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
+            Container(
+              height: size.height * 0.12,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
+            Container(
+              height: size.height * 0.12,
+              color: Colors.grey[300],
+            ),
+            SizedBox(height: 20),
           ],
         ),
       ),
