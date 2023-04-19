@@ -1,5 +1,6 @@
 import 'package:elison/apiServices/home_screen_service.dart';
 import 'package:elison/apiServices/mainscreenService.dart';
+import 'package:elison/controllers/customer/products/main_screen_product_controller.dart';
 import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
 import 'package:elison/models/notification_model.dart';
@@ -34,6 +35,7 @@ class HomeScreenController extends GetxController {
     isLoading(true);
     specialItemList.assignAll(await HomeScreenService().specialItemList());
     isLoading(false);
+    print('specail item============');
   }
 
   getNotification() async {
@@ -54,7 +56,9 @@ class HomeScreenController extends GetxController {
       prod!.isWhishlist = true;
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'add', productId: prod.id, recordId: '');
-      check ? getSpecialItem() : null;
+      final mainssproductController = Get.find<MainProductController>();
+
+      check ? {getSpecialItem(), mainssproductController.getcategory()} : null;
     } else {
       prod!.isWhishlist = false;
       bool check = await HomeScreenService().manageWishlist(context!,

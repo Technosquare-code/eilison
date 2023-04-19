@@ -153,15 +153,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         // );
                       },
                     ),
-                    Item(
-                      Icons.local_activity_outlined,
-                      "Promocode",
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          PromocodeScreen.routeName,
-                        );
-                      },
-                    ),
+                    // Item(
+                    //   Icons.local_activity_outlined,
+                    //   "Promocode",
+                    //   onTap: () {
+                    //     Navigator.of(context).pushNamed(
+                    //       PromocodeScreen.routeName,
+                    //     );
+                    //   },
+                    // ),
                     Item(
                       Icons.headset_mic_outlined,
                       "Support",

@@ -178,6 +178,7 @@ class HomeScreenService {
     print(form.fields);
     var data = response.data;
     debugPrint(data['status']);
+    print(data);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
         snackbar(context: context, msg: data['data'], title: 'Success');
@@ -216,7 +217,7 @@ class HomeScreenService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        for (var i in data['data']) {
+        for (var i in [data['data']]) {
           blist.add(ProductDetailModel.fromJson(i));
         }
         // blist.assignAll(categoryListModelFromJson(data));

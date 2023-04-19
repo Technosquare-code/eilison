@@ -10,41 +10,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../Components/HomeCategory.dart';
+class ProductDetailScreen extends StatefulWidget {
+  static const routeName = "ProductDetailScreen";
 
-class ProductDetailScreen extends StatelessWidget {
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final prodDetailController =
       Get.put(ProductDetailController(pro_id: Get.arguments[0]));
-  static const routeName = "ProductDetailScreen";
-  final List<Map<String, dynamic>> cardList = [
-    {
-      'imageAsset': 'assets/images/product1.PNG',
-      'title': 'Resistance Band',
-    },
-    {
-      'imageAsset': 'assets/images/product2.PNG',
-      'title': 'Resistance Band',
-    },
-    {
-      'imageAsset': 'assets/images/product3.PNG',
-      'title': 'Resistance Band',
-    },
-    {
-      'imageAsset': 'assets/images/product1.PNG',
-      'title': 'Resistance Band',
-    },
-    {
-      'imageAsset': 'assets/images/product2.PNG',
-      'title': 'Resistance Band',
-    },
-    {
-      'imageAsset': 'assets/images/product3.PNG',
-      'title': 'Resistance Band',
-    },
-
-    // Add more cards as needed.
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -228,20 +206,33 @@ class ProductDetailScreen extends StatelessWidget {
                                                   .itemManual !=
                                               ''
                                           ? InkWell(
-                                              onTap: () {
-                                                // Navigator.push(
-                                                //     context,
-                                                //     MaterialPageRoute(
-                                                //       builder: (context) =>
-                                                //           PdfScreen(
-                                                //         mainUrl +
-                                                //             manualUrl +
-                                                //             prodDetailController
-                                                //                 .productdetails[
-                                                //                     0]
-                                                //                 .itemManual,
-                                                //       ),
-                                                //     ));
+                                              onTap: () async {
+                                                String url =
+                                                    // 'https://www.example.com';
+                                                    mainUrl +
+                                                        manualUrl +
+                                                        prodDetailController
+                                                            .productdetails[0]
+                                                            .itemManual;
+                                                if (await canLaunch(url)) {
+                                                  await launch(url);
+                                                } else {
+                                                  throw 'Could not launch $url';
+                                                }
+                                                //   Navigator.push(
+                                                //       context,
+                                                //       MaterialPageRoute(
+                                                //         builder: (context) => PdfViewer(
+                                                //             url:
+                                                //                 'https://example.com/myPdf.pdf'
+                                                //             //  mainUrl +
+                                                //             //     manualUrl +
+                                                //             //     prodDetailController
+                                                //             //         .productdetails[
+                                                //             //             0]
+                                                //             //         .itemManual,
+                                                //             ),
+                                                //       ));
                                               },
                                               child: Container(
                                                 padding:
@@ -310,15 +301,61 @@ class ProductDetailScreen extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(height: 15),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(25),
-                                        child: Image.asset(
-                                          "assets/images/session.PNG",
-                                          width: size.width,
-                                          height: size.height / 5,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
+                                      // InkWell(
+                                      //   onTap: () {
+                                      //     print(
+                                      //       prodDetailController
+                                      //           .productdetails[0].videoUrl,
+                                      //     );
+                                      //   },
+                                      //   child: ClipRRect(
+                                      //     borderRadius:
+                                      //         BorderRadius.circular(25),
+                                      //     child: Image.asset(
+                                      //       "assets/images/session.PNG",
+                                      //       width: size.width,
+                                      //       height: size.height / 5,
+                                      //       fit: BoxFit.fill,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      prodDetailController
+                                                  .productdetails[0].videoUrl !=
+                                              ''
+                                          ? ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              child: YoutubePlayer(
+                                                controller: prodDetailController
+                                                    .controller,
+                                                liveUIColor: Colors.amber,
+                                              ),
+                                            )
+                                          : InkWell(
+                                              onTap: () {
+                                                print(
+                                                  prodDetailController
+                                                      .productdetails[0]
+                                                      .videoUrl,
+                                                );
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                child: Image.asset(
+                                                  "assets/images/session.PNG",
+                                                  width: size.width,
+                                                  height: size.height / 5,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+
+                                      // VideoPlayerItem(
+                                      //   videoUrl: prodDetailController
+                                      //       .productdetails[0].videoUrl,
+                                      // ),
+
                                       const SizedBox(height: 55),
                                     ],
                                   ),

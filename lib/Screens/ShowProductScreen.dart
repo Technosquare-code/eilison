@@ -68,7 +68,13 @@ class ShowProductScreen extends StatelessWidget {
                               .primaries[math.Random()
                                   .nextInt(Colors.primaries.length)]
                               .shade200,
-                          onTap: () {},
+                          onTap: () {
+                            productController.wishlistmanaget(
+                                isAdd: !(productController
+                                    .productList[index].isWhishlist),
+                                context: context,
+                                prod: productController.productList[index]);
+                          },
                           isFavourite:
                               productController.productList[index].isWhishlist,
                         ),

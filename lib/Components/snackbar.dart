@@ -6,7 +6,7 @@ void snackbar({
   String? title,
   BuildContext? context,
 }) {
-  Get.snackbar(title!, msg!,
+  Get.snackbar(title ?? '', msg ?? '',
       duration: Duration(seconds: 3),
       backgroundColor: Colors.black,
       snackStyle: SnackStyle.FLOATING,

@@ -4,8 +4,10 @@ import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/PaymentPart.dart';
 import 'package:elison/Screens/CongratulationScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/controllers/customer/cart_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CartScreen extends StatefulWidget {
   static const routeName = "CartScreen";
@@ -14,6 +16,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final cartController = Get.put(CartController());
   int currentPage = 0;
   List pages = [
     CartPart(),

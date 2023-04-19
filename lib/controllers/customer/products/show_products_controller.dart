@@ -27,6 +27,20 @@ class ShowProductController extends GetxController {
     isLoading(false);
   }
 
+  wishlistmanaget(
+      {bool? isAdd, ProductsModel? prod, BuildContext? context}) async {
+    if (isAdd!) {
+      prod!.isWhishlist = true;
+      bool check = await HomeScreenService().manageWishlist(context!,
+          action: 'add', productId: prod.id, recordId: '');
+      check ? getcategory() : null;
+    } else {
+      prod!.isWhishlist = false;
+      bool check = await HomeScreenService().manageWishlist(context!,
+          action: 'remove', productId: prod.id, recordId: '');
+      check ? getcategory() : null;
+    }
+  }
   // getSubcategory(String categoryId) async {
   //   isLoading(true);
   //   subCategoryList

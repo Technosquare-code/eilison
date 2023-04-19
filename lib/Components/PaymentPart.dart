@@ -11,7 +11,7 @@ class _PaymentPartState extends State<PaymentPart> {
   List<Map<String, dynamic>> methods = [
     {'image': 'assets/images/card.png', 'name': 'Debit/Credit Card'},
     // {'image': 'assets/images/upi.png', 'name': 'UPI'},
-    {'image': 'assets/images/wallet.png', 'name': 'Eilison Wallets'},
+    // {'image': 'assets/images/wallet.png', 'name': 'Eilison Wallets'},
     {'image': 'assets/images/cash.jpg', 'name': 'Cash on Delivey'},
   ];
   @override

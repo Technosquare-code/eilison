@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CartItem extends StatelessWidget {
+import '../controllers/customer/cart_controller.dart';
+
+class CartItem extends StatefulWidget {
+  String? img;
+  String? cutprice;
+  String? sellingPrice;
+  String? title;
+  String? id;
+  CartItem({this.cutprice, this.title, this.id, this.img, this.sellingPrice});
+
+  @override
+  State<CartItem> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
+  final cartController = Get.find<CartController>();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -12,8 +29,9 @@ class CartItem extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Image.asset(
-                "assets/images/laptop.png",
+              Image.network(
+                // "assets/images/laptop.png",
+                widget.img!,
                 width: size.width / 5,
                 height: 80,
                 fit: BoxFit.fill,
@@ -26,7 +44,8 @@ class CartItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Huawei Matebook X 13",
+                        // "Huawei Matebook X 13",
+                        widget.title!,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -39,7 +58,7 @@ class CartItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "\$1299",
+                            "\$${widget.sellingPrice}",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -49,7 +68,7 @@ class CartItem extends StatelessWidget {
                           ),
                           const SizedBox(width: 15),
                           Text(
-                            "\$1400",
+                            "\$${widget.cutprice}",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.black,
@@ -90,17 +109,24 @@ class CartItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: size.width / 2.5,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    "Remove",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400,
+              InkWell(
+                onTap: cartController.isLoading.value
+                    ? null
+                    : () {
+                        cartController.removeProduct(widget.id!, context);
+                      },
+                child: SizedBox(
+                  width: size.width / 2.5,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      !cartController.isLoading.value ? "Remove" : 'Loading...',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ),
@@ -112,17 +138,24 @@ class CartItem extends StatelessWidget {
                   border: Border(left: BorderSide(color: Colors.grey)),
                 ),
               ),
-              SizedBox(
-                width: size.width / 2.5,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    "Move to Wishlist",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400,
+              InkWell(
+                onTap: cartController.isLoading.value
+                    ? null
+                    : () {
+                        cartController.moveToWishlist(widget.id!, context);
+                      },
+                child: SizedBox(
+                  width: size.width / 2.5,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      "Move to Wishlist",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ),

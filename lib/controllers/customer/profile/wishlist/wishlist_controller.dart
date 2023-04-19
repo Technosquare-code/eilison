@@ -1,5 +1,6 @@
 import 'package:elison/apiServices/home_screen_service.dart';
 import 'package:elison/apiServices/mainscreenService.dart';
+import 'package:elison/controllers/customer/home_screen_controller.dart';
 import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
 import 'package:elison/models/notification_model.dart';
@@ -27,7 +28,12 @@ class WishlistController extends GetxController {
     if (isAdd!) {
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'add', productId: prod!.productId, recordId: '');
-      check ? getWishlist() : null;
+      check
+          ? {
+              getWishlist(),
+              Get.find<HomeScreenController>().getSpecialItem(),
+            }
+          : null;
     } else {
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'remove',
