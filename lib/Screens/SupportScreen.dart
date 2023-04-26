@@ -41,6 +41,7 @@ class SupportScreen extends StatelessWidget {
         child: Obx(() {
           return Form(
             key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -102,9 +103,8 @@ class SupportScreen extends StatelessWidget {
                   borderColor: Colors.grey.shade300,
                   hint: "Enter Your Phone",
                   validator: MultiValidator([
-                    // EmailValidator(
-                    //   errorText: 'Please enter valid email',
-                    // ),
+                    LengthRangeValidator(
+                        min: 10, max: 15, errorText: 'Length range 10-15'),
                     RequiredValidator(errorText: 'Phone Number required')
                   ]),
                   type: TextInputType.phone,

@@ -5,6 +5,7 @@ import 'package:elison/splashscreen.dart';
 import 'package:get/get.dart';
 
 import '../Screens/AddNewAddressScreen.dart';
+import '../Screens/AddSessionScreen.dart';
 import '../Screens/AddressScreen.dart';
 import '../Screens/CartScreen.dart';
 import '../Screens/CategoryScreen.dart';
@@ -20,6 +21,8 @@ import '../Screens/ShowProductScreen.dart';
 import '../Screens/RegisterScreen.dart';
 import '../Screens/SupportHistoryScreen.dart';
 import '../Screens/SupportScreen.dart';
+import '../Screens/TrainerProfileScreen.dart';
+import '../Screens/WarrantyManagementScreen.dart';
 import '../Screens/WhishlistScreen.dart';
 
 appRoutes() => [
@@ -48,12 +51,20 @@ appRoutes() => [
         page: () => TrainerHomeScreen(),
       ),
       GetPage(
+        name: '/trainer-profile-screen',
+        page: () => TrainerProfileScreen(),
+      ),
+      GetPage(
         name: '/user-home',
         page: () => MainScreen(),
       ),
       GetPage(
         name: '/edit-profile-user',
         page: () => EditProfileScreen(),
+      ),
+      GetPage(
+        name: '/add-session',
+        page: () => AddSessionScreen(),
       ),
       GetPage(
         name: '/notification',
@@ -66,6 +77,10 @@ appRoutes() => [
       GetPage(
         name: '/change-pass',
         page: () => ChangePassword(),
+      ),
+      GetPage(
+        name: '/warrenty-screen',
+        page: () => WarrantyManagementScreen(),
       ),
       GetPage(
         name: '/address-page',

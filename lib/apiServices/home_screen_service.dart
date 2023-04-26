@@ -4,6 +4,7 @@ import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
 import 'package:elison/models/product_detail_model.dart';
 import 'package:elison/models/products_model.dart';
+import 'package:elison/models/session_type_model.dart';
 import 'package:elison/models/special_item_model.dart';
 import 'package:elison/models/subcategory_model.dart';
 import 'package:elison/models/user_details_model.dart';
@@ -51,6 +52,34 @@ class HomeScreenService {
 
         // }
         blist.add(BannerListModel.fromJson(response.data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<SessionTypeModel>> sessionTypeList() async {
+    List<SessionTypeModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+
+    var response = await dio.post(
+      '$trainerbaseUrl/session-category.php',
+      options: Options(headers: headers),
+    );
+    print(headers);
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(SessionTypeModel.fromJson(i));
+        }
       }
     }
     return blist;
@@ -129,7 +158,7 @@ class HomeScreenService {
       'product_id': productId,
       'action': action
     });
-
+    print('wishlist api----------${form.fields}');
     var response = await dio.post(
       '$baseUrl/manager-wishlist.php',
       data: form,

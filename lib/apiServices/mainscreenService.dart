@@ -120,6 +120,57 @@ class MainScreenService {
     return false;
   }
 
+  Future<bool> checkoutApi(
+    BuildContext context, {
+    String? address_id,
+    String? payamount,
+    String? transactionNo,
+    String? status,
+    String? reason,
+  }) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'address_id': address_id,
+      'payable_amount': payamount,
+      'transaction_no': transactionNo,
+      'status': status,
+      'reason': reason
+    });
+
+    var response = await dio.post(
+      '$baseUrl/checkout.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    print(data);
+    print('checkout api hit hori h----------');
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        Fluttertoast.showToast(msg: data['data']);
+        // snackbar(
+        //     context: context,
+        //     msg: 'Product removed successfully from card',
+        //     title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
   Future<bool> moveToWishlist(
     BuildContext context, {
     String? cartId,

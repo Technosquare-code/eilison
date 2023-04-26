@@ -13,36 +13,93 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../home_screen_controller.dart';
+import '../mainscreen_controller.dart';
+import 'main_screen_product_controller.dart';
+
 class ProductDetailController extends GetxController {
   final String? pro_id;
 
   ProductDetailController({this.pro_id});
 
   var isLoading = false.obs;
-
+  var isAdded = false.obs;
+  var isWish = false.obs;
   var productdetails = List<ProductDetailModel>.empty(growable: true).obs;
   var galleryList = List.empty(growable: true).obs;
   late YoutubePlayerController controller;
+  final homescreenController = Get.find<HomeScreenController>();
+
   getcategory() async {
     isLoading(true);
     productdetails.assignAll(await HomeScreenService().productdetails(pro_id!));
     galleryList.assignAll(productdetails[0].gallery.split(','));
+    isWish.value = productdetails[0].isWhishlist;
+    isAdded.value = productdetails[0].isCartAdded;
     isLoading(false);
+  }
+
+  wishlistmanaget(
+      {bool? isAdd, ProductDetailModel? prod, BuildContext? context}) async {
+    final mainssproductController = Get.find<MainProductController>();
+    print('-------------------0000000000000000---------$isAdd');
+    homescreenController.isLoading(true);
+    homescreenController.dynamicItemList.clear();
+    if (isAdd!) {
+      // isWish.value = true;
+      prod!.isWhishlist = true;
+
+      bool check = await HomeScreenService().manageWishlist(context!,
+          action: 'add', productId: prod.id, recordId: '');
+
+      check
+          ? {
+              homescreenController.getSpecialItem(),
+              homescreenController.getdynamiccategory(),
+              // getSpecialItem(),
+              mainssproductController.getcategory()
+            }
+          : null;
+    } else {
+      // isWish.value = false;
+
+      prod!.isWhishlist = false;
+      bool check = await HomeScreenService().manageWishlist(context!,
+          action: 'remove', productId: prod.id, recordId: '');
+      // check ? getSpecialItem() : null;
+
+      check
+          ? {
+              homescreenController.getSpecialItem(),
+              // getSpecialItem(),
+              homescreenController.getdynamiccategory(),
+
+              mainssproductController.getcategory()
+            }
+          : null;
+    }
+    homescreenController.isLoading(false);
   }
 
   addTocart(BuildContext context) async {
     bool check = await HomeScreenService()
         .addToCart(context, productId: productdetails[0].id);
+    final ss = Get.find<MainScreenController>();
+
     // check ? Get.back() : null;
+    if (check) {
+      isAdded(true);
+      ss.getuserdetails();
+    }
   }
 
   initvideo(String url) {
     print('object------------------------------ ${productdetails[0].id}');
-    Uri uri = Uri.parse(url);
-    String videoId = uri.queryParameters['v']!;
-    print(videoId);
+    // Uri uri = Uri.parse(url);
+    // String videoId = uri.queryParameters['v']!;
+    // print(videoId);
     controller = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: YoutubePlayer.convertUrlToId(url)!,
 
       // initialVideoId: YoutubePlayer.convertUrlToId(
       //     "https://www.youtube.com/watch?v=3zqzYB97WC0")!,

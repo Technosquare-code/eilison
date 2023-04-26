@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:elison/Components/ProductCard.dart';
 import 'package:elison/Components/SortProduct.dart';
 import 'package:elison/Screens/ProductFilterScreen.dart';
+import 'package:elison/Screens/WhishlistScreen.dart';
 import 'package:elison/Utils/Utils.dart';
 import 'package:elison/controllers/customer/products/main_screen_product_controller.dart';
 import 'package:elison/package%20edit/responsive_grid_list.dart';
@@ -10,8 +11,14 @@ import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductListScreen extends StatelessWidget {
+class ProductListScreen extends StatefulWidget {
+  @override
+  State<ProductListScreen> createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
   final mainssproductController = Get.put(MainProductController());
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -32,7 +39,7 @@ class ProductListScreen extends StatelessWidget {
           ),
         ),
         body: mainssproductController.isLoading.value
-            ? CircularProgressIndicator()
+            ? WishlistShimmer()
             : mainssproductController.productList.isEmpty
                 ? Center(
                     child: Text('Data Not Found'),
@@ -72,6 +79,7 @@ class ProductListScreen extends StatelessWidget {
                                 context: context,
                                 prod:
                                     mainssproductController.productList[index]);
+                            setState(() {});
                           },
                         ),
                       ),

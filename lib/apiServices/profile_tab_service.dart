@@ -210,6 +210,56 @@ class ProfileTabService {
     return false;
   }
 
+  Future<bool> sendWarentyDetails(BuildContext context,
+      {String? name,
+      phone,
+      email,
+      productName,
+      orderId,
+      deliverydate,
+      platformName}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'order_no': orderId,
+      'email': email,
+      'phone': phone,
+      'name': name,
+      'product_name': productName,
+      'delivery_date': deliverydate,
+      'platform_name': platformName
+    });
+
+    var response = await dio.post(
+      '$baseUrl/send-warranty-details.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+    print('form================== ${form}');
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
   Future<bool> profilePictureApi(BuildContext context, {String? image}) async {
     Dio dio = Dio();
     formData.FormData form;
@@ -225,6 +275,64 @@ class ProfileTabService {
 
     var response = await dio.post(
       '$baseUrl/profile-picture-update.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+    print('form================== $form');
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> addSessionApi(BuildContext context,
+      {String? image,
+      String? session_name,
+      String? agenda,
+      String? start_time,
+      String? start_date,
+      String? duration,
+      String? current_session_photo,
+      String? session_type,
+      String? description,
+      String? zoom_link,
+      String? session_id}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'coach_id': pref.read('user_id'),
+      'session_name': session_name,
+      'agenda': agenda,
+      'start_date': start_date,
+      'start_time': start_time,
+      'duration': duration,
+      'session_type': session_type,
+      'description': description,
+      'zoom_link': zoom_link,
+      'session_id': session_id,
+      'current_session_photo': current_session_photo,
+      "image":
+          await multipart_file.MultipartFile.fromFile(image!, filename: image),
+    });
+
+    var response = await dio.post(
+      '$baseUrl/create-new-session.php',
       data: form,
       options: Options(headers: headers),
     );

@@ -32,14 +32,20 @@ class MainProductController extends GetxController {
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'add', productId: prod.id, recordId: '');
       check
-          ? {getcategory(), Get.find<HomeScreenController>().getSpecialItem()}
+          ? {
+              // getcategory(),
+              Get.find<HomeScreenController>().getSpecialItem()
+            }
           : null;
     } else {
       prod!.isWhishlist = false;
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'remove', productId: prod.id, recordId: '');
       check
-          ? {getcategory(), Get.find<HomeScreenController>().getSpecialItem()}
+          ? {
+              // getcategory(),
+              Get.find<HomeScreenController>().getSpecialItem()
+            }
           : null;
     }
   }

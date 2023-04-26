@@ -43,6 +43,8 @@ class Data {
     required this.role,
     required this.gender,
     required this.dob,
+    required this.homeCategory,
+    required this.totalCartItems,
   });
 
   String id;
@@ -55,6 +57,8 @@ class Data {
   String role;
   String gender;
   String dob;
+  String totalCartItems;
+  List<HomeCategory> homeCategory;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
@@ -67,6 +71,9 @@ class Data {
         role: json["role"],
         gender: json["gender"],
         dob: json["dob"],
+        totalCartItems: json["total_cart_items"],
+        homeCategory: List<HomeCategory>.from(
+            json["home_category"].map((x) => HomeCategory.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,5 +87,25 @@ class Data {
         "role": role,
         "gender": gender,
         "dob": dob,
+      };
+}
+
+class HomeCategory {
+  HomeCategory({
+    required this.id,
+    required this.categoryName,
+  });
+
+  String id;
+  String categoryName;
+
+  factory HomeCategory.fromJson(Map<String, dynamic> json) => HomeCategory(
+        id: json["id"],
+        categoryName: json["category_name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "category_name": categoryName,
       };
 }

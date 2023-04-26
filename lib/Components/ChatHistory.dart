@@ -111,7 +111,7 @@ class ChatHistory extends StatelessWidget {
                       "Pending",
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.black,
+                        color: Colors.red,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
                       ),
@@ -121,7 +121,7 @@ class ChatHistory extends StatelessWidget {
                           "Processing",
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: Colors.green,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w400,
                           ),
@@ -140,7 +140,7 @@ class ChatHistory extends StatelessWidget {
                                 "Closed on $closeDate",
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.black,
+                                  color: Colors.green,
                                   fontFamily: "Poppins",
                                   fontWeight: FontWeight.w400,
                                 ),

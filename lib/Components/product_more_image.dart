@@ -1,3 +1,4 @@
+import 'package:elison/Components/viewImage.dart';
 import 'package:flutter/material.dart';
 
 class productmoreimage extends StatelessWidget {
@@ -21,13 +22,22 @@ class productmoreimage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.network(
-                imageAsset,
-                width: size.width / 4,
-                height: size.width / 4,
-                fit: BoxFit.fill,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ImagePage(imageUrl: imageAsset),
+                    ));
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  imageAsset,
+                  width: size.width / 4,
+                  height: size.width / 4,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
           ],

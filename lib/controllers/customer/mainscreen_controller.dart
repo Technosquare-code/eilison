@@ -7,11 +7,15 @@ import 'package:get_storage/get_storage.dart';
 class MainScreenController extends GetxController {
   var isLoading = false.obs;
   var userdetailList = List<UserDetailsModel>.empty(growable: true).obs;
+  var homeCategoryList = List<HomeCategory>.empty(growable: true).obs;
 
   getuserdetails() async {
     isLoading(true);
     userdetailList.clear();
     userdetailList.add(await MainScreenService().userdetail());
+    if (userdetailList[0].data.homeCategory.isNotEmpty) {
+      homeCategoryList.assignAll(userdetailList[0].data.homeCategory);
+    }
     isLoading(false);
   }
 

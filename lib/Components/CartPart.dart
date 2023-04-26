@@ -1,6 +1,7 @@
 import 'package:elison/Components/CartItem.dart';
 import 'package:elison/Components/InputFeild.dart';
 import 'package:elison/Components/MyButtton.dart';
+import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/Screens/PromocodeScreen.dart';
 import 'package:elison/controllers/customer/cart_controller.dart';
 import 'package:elison/urls.dart';
@@ -13,8 +14,12 @@ class CartPart extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Obx(() {
+      double discount = 0;
+      discount = cartController.totalMrp() - cartController.totalSelling();
       return cartController.isLoading.value
-          ? CircularProgressIndicator()
+          ? AddressShimmer(
+              size: MediaQuery.of(context).size,
+            )
           : cartController.cartList.isEmpty
               ? Center(child: Text('Your Cart Is Empty'))
               : Column(
@@ -72,7 +77,7 @@ class CartPart extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 5),
                       child: Text(
-                        "Price Details ( 1 items )",
+                        "Price Details ( ${cartController.cartList.length} items )",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -86,9 +91,11 @@ class CartPart extends StatelessWidget {
                       child: Divider(color: Colors.grey),
                     ),
                     PaymentDetails(
-                        title: "Total MRP (Inc. of Taxes)", value: "\$2999"),
-                    PaymentDetails(title: "Eilison Discount", value: "-\$1000"),
-                    PaymentDetails(title: "Shipping", value: "Free"),
+                        title: "Total MRP",
+                        value: "\$${cartController.totalMrp()}"),
+                    PaymentDetails(
+                        title: "Eilison Discount", value: "-\$$discount"),
+                    // PaymentDetails(title: "Shipping", value: "Free"),
                   ],
                 );
     });

@@ -5,6 +5,7 @@ import 'package:elison/Screens/ProductVideosScreen.dart';
 import 'package:elison/Screens/ProfileScreen.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/mainscreen_controller.dart';
+import 'package:elison/controllers/customer/products/main_screen_product_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +33,7 @@ class _MainScreenState extends State<MainScreen> {
     ProductVideoScreen(),
     ProfileScreen(),
   ];
+  final ss = Get.put(MainProductController());
 
   @override
   Widget build(BuildContext context) {

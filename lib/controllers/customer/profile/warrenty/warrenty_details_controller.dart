@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class AddSupportController extends GetxController {
+class WarrentyController extends GetxController {
   // final bool isAdd;
   // AddAddressController(this.isAdd);
   var isLoading = false.obs;
@@ -17,9 +17,12 @@ class AddSupportController extends GetxController {
   final name = TextEditingController();
 
   final email = TextEditingController();
-  final msg = TextEditingController();
+  final productName = TextEditingController();
 
   final phoneNo = TextEditingController();
+  final orderId = TextEditingController();
+  final deliverydate = TextEditingController();
+  final platformName = TextEditingController();
 
   @override
   void onInit() {
@@ -30,20 +33,19 @@ class AddSupportController extends GetxController {
     super.onInit();
   }
 
-  addsupposrtmsg(BuildContext context) async {
+  addsWarrentyDetails(BuildContext context) async {
     isLoading(true);
-    bool check = await ProfileTabService().sendSupportmsg(context,
-        email: email.text, name: name.text, phone: phoneNo.text, msg: msg.text);
+    bool check = await ProfileTabService().sendWarentyDetails(context,
+        email: email.text,
+        name: name.text,
+        phone: phoneNo.text,
+        productName: productName.text,
+        deliverydate: deliverydate.text,
+        orderId: orderId.text,
+        platformName: platformName.text);
     if (check) {
       isLoading(false);
-      Future.delayed(
-        Duration(seconds: 3),
-        () {
-          print('object00000000000');
-          // Get.back();
-          // Get.back();
-        },
-      );
+      Get.back();
     }
   }
 }

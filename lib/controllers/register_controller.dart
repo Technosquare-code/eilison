@@ -23,11 +23,18 @@ class RegisterController extends GetxController {
         email: email.text,
         name: fullname.text,
         password: password.text,
-        phoneno: phone,
+        phoneno: phone.text,
         usertype: selectedUser.value == 'I\'m User' ? 'customer' : 'trainer',
       );
       isLoading(false);
-      check ? Get.back() : null;
+      // check ? Get.back() : null;
+      if (check) {
+        email.clear();
+        phone.clear();
+        password.clear();
+        confirmpassword.clear();
+        fullname.clear();
+      }
     } catch (e) {
       debugPrint(e.toString());
 

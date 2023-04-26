@@ -96,8 +96,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Obx(() {
+          homescreenController.i.value = -1;
           return mainscreenController.isLoading.value &&
-                  homescreenController.isLoading.value
+                  homescreenController.isLoading.value &&
+                  homescreenController.dynamicItemList.isEmpty
               ? HomeShimmer(size: size)
               : SingleChildScrollView(
                   padding: const EdgeInsets.all(22),
@@ -158,7 +160,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               position:
                                   badges.BadgePosition.topEnd(top: 0, end: 0),
                               badgeContent: Text(
-                                '2',
+                                mainscreenController.userdetailList.isNotEmpty
+                                    ? mainscreenController
+                                        .userdetailList[0].data.totalCartItems
+                                    : '0',
                                 style:
                                     TextStyle(color: Colors.white, fontSize: 9),
                               ),
@@ -365,116 +370,188 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context: context,
                                           prod: homescreenController
                                               .specialItemList[index]);
+                                      setState(() {});
                                     },
                                   ),
                                 ),
                               ),
                             ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Foot Spa',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                AllCategoryProductScreen.routeName,
-                                arguments: "Foot Spa",
-                              );
-                            },
-                            child: Text(
-                              'See All',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Column(
+                        children: mainscreenController.homeCategoryList.map(
+                          (element) {
+                            homescreenController.i.value++;
+                            print(
+                                '------------------${homescreenController.i.value}---iiiii');
+                            return Column(
+                              children: [
+                                const SizedBox(height: 15),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${element.categoryName}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                          AllCategoryProductScreen.routeName,
+                                          arguments: "Foot Spa",
+                                        );
+                                      },
+                                      child: Text(
+                                        'See All',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 15),
+                                homescreenController.dynamicItemList.length !=
+                                            0 &&
+                                        homescreenController.lalal.value
+                                    ? SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: homescreenController
+                                                .dynamicItemList[
+                                                    homescreenController
+                                                        .i.value]
+                                                .isNotEmpty
+                                            ? Wrap(
+                                                spacing: 16,
+                                                children: List.generate(
+                                                  homescreenController
+                                                      .dynamicItemList[
+                                                          homescreenController
+                                                              .i.value]
+                                                      .length,
+                                                  (index) => ProductCard(
+                                                    title: homescreenController
+                                                        .dynamicItemList[
+                                                            homescreenController
+                                                                .i.value][index]
+                                                        .itemName,
+                                                    productId: homescreenController
+                                                        .dynamicItemList[
+                                                            homescreenController
+                                                                .i.value][index]
+                                                        .id,
+                                                    imagePath: mainUrl +
+                                                        specialItemUrl +
+                                                        homescreenController
+                                                            .dynamicItemList[
+                                                                homescreenController
+                                                                    .i.value]
+                                                                [index]
+                                                            .thumbnail,
+                                                    price: double.parse(
+                                                        homescreenController
+                                                            .dynamicItemList[
+                                                                homescreenController
+                                                                    .i.value]
+                                                                [index]
+                                                            .mrp),
+                                                    color: Colors.colr[
+                                                        _random.nextInt(Colors
+                                                            .colr.length)],
+                                                    onTap: () {
+                                                      homescreenController.wishlistmanagerfordynamic(
+                                                          isAdd: !(homescreenController
+                                                              .dynamicItemList[
+                                                                  homescreenController
+                                                                      .i.value]
+                                                                  [index]
+                                                              .isWhishlist),
+                                                          context: context,
+                                                          prod: homescreenController
+                                                                  .dynamicItemList[
+                                                              homescreenController
+                                                                  .i
+                                                                  .value][index]);
+                                                      setState(() {});
+                                                    },
+                                                    isFavourite:
+                                                        homescreenController
+                                                            .dynamicItemList[
+                                                                homescreenController
+                                                                    .i.value]
+                                                                [index]
+                                                            .isWhishlist,
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(),
+                                      )
+                                    : Container(),
+                                const SizedBox(height: 15),
+                              ],
+                            );
+                          },
+                        ).toList(),
                       ),
-                      const SizedBox(height: 15),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Wrap(
-                          spacing: 16,
-                          children: List.generate(
-                            likecardList.length,
-                            (index) => ProductCard(
-                              title: likecardList[index]['title'],
-                              productId: '',
-                              imagePath: likecardList[index]['imageAsset'],
-                              price: likecardList[index]['price'],
-                              color: Colors
-                                  .colr[_random.nextInt(Colors.colr.length)],
-                              onTap: () {},
-                              isFavourite: true,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Resistance Band',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                AllCategoryProductScreen.routeName,
-                                arguments: "Resistance Band",
-                              );
-                            },
-                            child: Text(
-                              'See All',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Wrap(
-                          spacing: 16,
-                          children: List.generate(
-                            likecardList.length,
-                            (index) => ProductCard(
-                              isFavourite: true,
-                              productId: '',
-                              title: likecardList[index]['title'],
-                              imagePath: likecardList[index]['imageAsset'],
-                              price: likecardList[index]['price'],
-                              color: Colors
-                                  .colr[_random.nextInt(Colors.colr.length)],
-                              onTap: () {},
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 15),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text(
+                      //       'Resistance Band',
+                      //       style: TextStyle(
+                      //         fontSize: 16,
+                      //         color: Colors.black,
+                      //         fontFamily: "Poppins",
+                      //         fontWeight: FontWeight.w600,
+                      //       ),
+                      //     ),
+                      //     InkWell(
+                      //       onTap: () {
+                      //         Navigator.of(context).pushNamed(
+                      //           AllCategoryProductScreen.routeName,
+                      //           arguments: "Resistance Band",
+                      //         );
+                      //       },
+                      //       child: Text(
+                      //         'See All',
+                      //         style: TextStyle(
+                      //           fontSize: 12,
+                      //           color: Colors.black,
+                      //           fontFamily: "Poppins",
+                      //           fontWeight: FontWeight.w400,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 15),
+                      // SingleChildScrollView(
+                      //   scrollDirection: Axis.horizontal,
+                      //   child: Wrap(
+                      //     spacing: 16,
+                      //     children: List.generate(
+                      //       likecardList.length,
+                      //       (index) => ProductCard(
+                      //         isFavourite: true,
+                      //         productId: '',
+                      //         title: likecardList[index]['title'],
+                      //         imagePath: likecardList[index]['imageAsset'],
+                      //         price: likecardList[index]['price'],
+                      //         color: Colors
+                      //             .colr[_random.nextInt(Colors.colr.length)],
+                      //         onTap: () {},
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

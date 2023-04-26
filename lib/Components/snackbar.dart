@@ -8,7 +8,7 @@ void snackbar({
 }) {
   Get.snackbar(title ?? '', msg ?? '',
       duration: Duration(seconds: 3),
-      backgroundColor: Colors.black,
+      backgroundColor: title == 'Success' ? Colors.green : Colors.red,
       snackStyle: SnackStyle.FLOATING,
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,

@@ -33,12 +33,12 @@ class ShowProductController extends GetxController {
       prod!.isWhishlist = true;
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'add', productId: prod.id, recordId: '');
-      check ? getcategory() : null;
+      // check ? getcategory() : null;
     } else {
       prod!.isWhishlist = false;
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'remove', productId: prod.id, recordId: '');
-      check ? getcategory() : null;
+      // check ? getcategory() : null;
     }
   }
   // getSubcategory(String categoryId) async {

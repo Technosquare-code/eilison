@@ -51,6 +51,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
         child: Obx(() {
           return Form(
             key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -174,8 +175,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                   controller: addressController.pincode,
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Pincode required'),
-                    RangeValidator(
-                        min: 6, max: 6, errorText: '6 digits required')
+                    LengthRangeValidator(
+                        min: 6, max: 8, errorText: '6-10 digits required')
                   ]),
                   hint: "Enter Pincode",
                   type: TextInputType.number,

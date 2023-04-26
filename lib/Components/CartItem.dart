@@ -45,7 +45,7 @@ class _CartItemState extends State<CartItem> {
                     children: [
                       Text(
                         // "Huawei Matebook X 13",
-                        widget.title!,
+                        widget.title!, maxLines: 2,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,

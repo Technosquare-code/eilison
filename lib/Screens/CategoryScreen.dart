@@ -83,7 +83,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         homescreenController.categoryList[index].categoryIcon,
                     title:
                         homescreenController.categoryList[index].categoryName,
-                    count: homescreenController.categoryList[index].id,
+                    id: homescreenController.categoryList[index].id,
+                    count: homescreenController
+                        .categoryList[index].subcategoryCount,
+
                     // subcat: homescreenController.parentSubCategoryList[index],
                   ),
                 );

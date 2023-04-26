@@ -12,9 +12,10 @@ import '../controllers/customer/home_screen_controller.dart';
 class Category extends StatefulWidget {
   final String? img;
   final String? title;
+  final String? id;
   final String? count;
   final List<SubcategoryModel>? subcat;
-  Category({this.img, this.title, this.count, this.subcat});
+  Category({this.img, this.title, this.id, this.subcat, this.count});
   @override
   _CategoryState createState() => _CategoryState();
 }
@@ -81,7 +82,7 @@ class _CategoryState extends State<Category> {
               ),
             ),
             subtitle: Text(
-              "8 Categories",
+              "${widget.count} Categories",
               style: TextStyle(
                 fontSize: 10,
                 color: Colors.black,
@@ -95,15 +96,15 @@ class _CategoryState extends State<Category> {
                 isload = true;
                 setState(() {});
                 if (showSub) {
-                  print('id--------${widget.count}');
-                  // homescreenController.subcatId.value = widget.count ?? '0';
+                  print('id--------${widget.id}');
+                  // homescreenController.subcatId.value = widget.id ?? '0';
                   final List<SubcategoryModel> ss =
-                      await HomeScreenService().subcategoryList(widget.count!);
+                      await HomeScreenService().subcategoryList(widget.id!);
                   isload = false;
                   setState(() {
                     subcatlist = ss;
                   });
-                  // await homescreenController.getSubcategory(widget.count!);
+                  // await homescreenController.getSubcategory(widget.id!);
                   // print(homescreenController.subCategoryList.length);
                 }
               },

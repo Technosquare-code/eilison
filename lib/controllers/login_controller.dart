@@ -30,8 +30,8 @@ class LoginController extends GetxController {
       isLoading(false);
       if (check) {
         String role = pref.read('role');
-        (role == '2' && role == 2)
-            ? {print('object-------------------'), Get.toNamed('/trainer-home')}
+        (role == '2')
+            ? Get.toNamed('/trainer-home')
             : Get.offAllNamed('/user-home');
       }
       // Get.back();

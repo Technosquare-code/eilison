@@ -7,11 +7,14 @@ import 'package:elison/controllers/customer/products/product_detail_controller.d
 import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   static const routeName = "ProductDetailScreen";
@@ -32,7 +35,48 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       body: SafeArea(
         child: Obx(() {
           return prodDetailController.isLoading.value
-              ? CircularProgressIndicator()
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 40.0),
+                        // Spacer(),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.6,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               : Stack(
                   children: [
                     SingleChildScrollView(
@@ -110,31 +154,57 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        trailing: Container(
-                                          padding: const EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                offset: Offset(0, 1),
-                                                color: Colors.grey.shade100,
-                                                spreadRadius: 1,
-                                                blurRadius: 1,
-                                              ),
-                                              BoxShadow(
-                                                offset: Offset(1, 0),
-                                                color: Colors.grey.shade100,
-                                                spreadRadius: 1,
-                                                blurRadius: 1,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Icon(
-                                            Icons.favorite,
-                                            color: primaryColor,
-                                            size: 15,
+                                        trailing: InkWell(
+                                          onTap: () {
+                                            prodDetailController
+                                                .wishlistmanaget(
+                                                    context: context,
+                                                    isAdd: !prodDetailController
+                                                        .productdetails[0]
+                                                        .isWhishlist,
+                                                    prod: prodDetailController
+                                                        .productdetails[0]);
+                                            prodDetailController.isWish.value =
+                                                !prodDetailController
+                                                    .isWish.value;
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset(0, 1),
+                                                  color: Colors.grey.shade100,
+                                                  spreadRadius: 1,
+                                                  blurRadius: 1,
+                                                ),
+                                                BoxShadow(
+                                                  offset: Offset(1, 0),
+                                                  color: Colors.grey.shade100,
+                                                  spreadRadius: 1,
+                                                  blurRadius: 1,
+                                                ),
+                                              ],
+                                            ),
+                                            child: prodDetailController
+                                                    .isWish.value
+                                                // prodDetailController
+                                                //         .productdetails[0]
+                                                //         .isWhishlist
+                                                ? Icon(
+                                                    Icons.favorite,
+                                                    color: primaryColor,
+                                                    size: 20,
+                                                  )
+                                                : Icon(
+                                                    Icons.favorite_outline,
+                                                    color: primaryColor,
+                                                    size: 20,
+                                                  ),
                                           ),
                                         ),
                                       ),
@@ -177,30 +247,50 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 15),
-                                      ReadMoreText(
-                                        prodDetailController
+                                      // Container(
+                                      //   height: 100,
+                                      //   child: WebView(
+                                      //     initialUrl: prodDetailController
+                                      //         .productdetails[0].description,
+                                      //     // 'data:text/html,<html><body><h1>Hello, world!</h1></body></html>',
+                                      //   ),
+                                      // ),
+                                      Html(
+                                        data: prodDetailController
                                             .productdetails[0].description,
-                                        // 'Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being. Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being.',
-                                        trimLines: 4,
-                                        delimiter: '  ',
-                                        textAlign: TextAlign.justify,
-                                        trimMode: TrimMode.Line,
-                                        trimCollapsedText: 'Read More...',
-                                        trimExpandedText: '',
-                                        colorClickableText: primaryColor,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        moreStyle: TextStyle(
-                                          fontSize: 12,
-                                          color: primaryColor,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                        onLinkTap: (url, context, attributes,
+                                            element) async {
+                                          if (!await launchUrl(
+                                              Uri.parse(url!))) {
+                                            throw 'Could not launch url';
+                                          }
+                                        },
+                                        shrinkWrap: true,
                                       ),
+                                      // ReadMoreText(
+                                      //   prodDetailController
+                                      //       .productdetails[0].description,
+                                      //   // 'Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being. Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being.',
+                                      //   trimLines: 4,
+                                      //   delimiter: '  ',
+                                      //   textAlign: TextAlign.justify,
+                                      //   trimMode: TrimMode.Line,
+                                      //   trimCollapsedText: 'Read More...',
+                                      //   trimExpandedText: '',
+                                      //   colorClickableText: primaryColor,
+                                      //   style: TextStyle(
+                                      //     fontSize: 12,
+                                      //     color: Colors.black,
+                                      //     fontFamily: "Poppins",
+                                      //     fontWeight: FontWeight.w400,
+                                      //   ),
+                                      //   moreStyle: TextStyle(
+                                      //     fontSize: 12,
+                                      //     color: primaryColor,
+                                      //     fontFamily: "Poppins",
+                                      //     fontWeight: FontWeight.w500,
+                                      //   ),
+                                      // ),
                                       const SizedBox(height: 25),
                                       prodDetailController.productdetails[0]
                                                   .itemManual !=
@@ -446,10 +536,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: MyButton(
                           fontSize: 16,
                           sizeHieght: 55,
-                          title: "Add to cart",
+                          title: prodDetailController.isAdded.value
+                              ? 'Go To Cart'
+                              : "Add to cart",
                           textColor: Colors.white,
                           onTap: () {
-                            prodDetailController.addTocart(context);
+                            prodDetailController.isAdded.value
+                                ? Get.toNamed('/cart')
+                                : prodDetailController.addTocart(context);
                             // Get.toNamed('/promocode-screen');
                             // Navigator.of(context).pushNamed(
                             //   PromocodeScreen.routeName,

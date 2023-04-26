@@ -32,6 +32,7 @@ class ProductDetailModel {
     required this.status,
     required this.createdDate,
     required this.isWhishlist,
+    required this.isCartAdded,
   });
 
   String id;
@@ -52,7 +53,8 @@ class ProductDetailModel {
   String isFeatured;
   String status;
   DateTime createdDate;
-  String isWhishlist;
+  bool isWhishlist;
+  bool isCartAdded;
 
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) =>
       ProductDetailModel(
@@ -74,7 +76,8 @@ class ProductDetailModel {
         isFeatured: json["is_featured"],
         status: json["status"],
         createdDate: DateTime.parse(json["created_date"]),
-        isWhishlist: json["is_whishlist"],
+        isWhishlist: json["is_whishlist"] == '1' ? true : false,
+        isCartAdded: json['is_added_cart'] == '1' ? true : false,
       );
 
   Map<String, dynamic> toJson() => {

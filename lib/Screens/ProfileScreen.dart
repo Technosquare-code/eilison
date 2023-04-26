@@ -176,9 +176,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.event_note,
                       "Extended Warranty Management",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          WarrantyManagementScreen.routeName,
-                        );
+                        Get.toNamed('/warrenty-screen');
+                        // Navigator.of(context).pushNamed(
+                        //   WarrantyManagementScreen.routeName,
+                        // );
                       },
                     ),
                     Item(

@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Components/shimmer/addressShimmer.dart';
+
 class NotificationScreen extends StatelessWidget {
   static const routeName = "NotificationScreen";
   final notificationController = Get.find<HomeScreenController>();
@@ -52,7 +54,9 @@ class NotificationScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(25, 10, 25, 25),
         child: Obx(() {
           return notificationController.isLoading.value
-              ? CircularProgressIndicator()
+              ? AddressShimmer(
+                  size: MediaQuery.of(context).size,
+                )
               : notificationController.notificationList.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +69,7 @@ class NotificationScreen extends StatelessWidget {
                       itemCount: notificationController.notificationList.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx, i) => MyNotification(
-                        image: 'assets/images/not1.png',
+                        image: 'assets/images/xlogo.png',
                         title: notificationController
                             .notificationList[i].notiTitle,
                         time: notificationController

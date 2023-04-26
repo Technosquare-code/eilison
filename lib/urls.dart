@@ -1,4 +1,5 @@
 String baseUrl = 'https://ourdevelopment.host/eilison/api';
+String trainerbaseUrl = 'https://ourdevelopment.host/eilison/api/coach';
 String mainUrl = 'https://ourdevelopment.host/eilison';
 String imageUrl = '/image/profile/';
 String categoryUrl = '/image/category/';

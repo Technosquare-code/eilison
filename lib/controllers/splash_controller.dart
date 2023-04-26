@@ -12,6 +12,7 @@ class SplashController extends GetxController {
     Future.delayed(const Duration(seconds: 3), () {
       bool isLogin = pref.read('isLogin') ?? false;
       if (isLogin) {
+        print('------------------------${pref.read('role')}');
         pref.read('role') == '1'
             ? Get.offNamed('/user-home')
             : Get.offNamed('/trainer-home');

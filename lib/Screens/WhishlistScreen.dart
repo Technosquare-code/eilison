@@ -7,6 +7,7 @@ import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 class WishlistScreen extends StatelessWidget {
   static const routeName = "WishlistScreen";
@@ -37,7 +38,7 @@ class WishlistScreen extends StatelessWidget {
       ),
       body: Obx(() {
         return wishController.isLoading.value
-            ? CircularProgressIndicator()
+            ? WishlistShimmer()
             : wishController.wishList.isEmpty
                 ? Center(
                     child: Text('No Data Found'),
@@ -74,6 +75,60 @@ class WishlistScreen extends StatelessWidget {
                     ),
                   );
       }),
+    );
+  }
+}
+
+class WishlistShimmer extends StatelessWidget {
+  const WishlistShimmer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Row(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+              // SizedBox(width: 16.0),
+              Spacer(),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      itemCount: 5,
     );
   }
 }
