@@ -1,9 +1,12 @@
 import 'package:elison/apiServices/home_screen_service.dart';
 import 'package:elison/apiServices/profile_tab_service.dart';
+import 'package:elison/controllers/trainer/train_home_ctrl.dart';
 import 'package:elison/models/session_type_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+
+import '../customer/mainscreen_controller.dart';
 
 class AddSessionController extends GetxController {
   final name = TextEditingController();
@@ -37,6 +40,10 @@ class AddSessionController extends GetxController {
         start_date: startDate.text,
         start_time: startTime.text,
         zoom_link: zoomlink.text);
+    if (check) {
+      final mainscreenController = Get.find<TrainerHomeController>();
+      mainscreenController.getSessionList();
+    }
     isSaving(false);
   }
 

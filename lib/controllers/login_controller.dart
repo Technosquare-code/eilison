@@ -56,8 +56,6 @@ class LoginController extends GetxController {
         email: forgotemail.text,
       );
       isLoading(false);
-
-      check ? Get.back() : null;
     } catch (e) {
       debugPrint(e.toString());
 

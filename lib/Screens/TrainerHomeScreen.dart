@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../controllers/trainer/train_home_ctrl.dart';
+
 class TrainerHomeScreen extends StatefulWidget {
   static const routeName = "TrainerHomeScreen";
   @override
@@ -18,6 +20,7 @@ class TrainerHomeScreen extends StatefulWidget {
 
 class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
   final mainscreenController = Get.put(MainScreenController());
+  final homepageController = Get.put(TrainerHomeController());
 
   int selectedIndex = 0;
   List pages = [

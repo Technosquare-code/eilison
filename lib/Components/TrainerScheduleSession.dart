@@ -1,12 +1,16 @@
 import 'package:elison/Components/SessionOption.dart';
 import 'package:elison/Utils/Utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TrainerScheduleSession extends StatelessWidget {
+  final String? title, img;
+  const TrainerScheduleSession({super.key, this.img, this.title});
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        Get.toNamed('/session-detail-screen');
         // Navigator.of(context).pushNamed(
         //   SessionDetailScreen.routeName,
         // );
@@ -28,7 +32,7 @@ class TrainerScheduleSession extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Fullbody Workout",
+                        title ?? '',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

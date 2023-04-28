@@ -68,7 +68,6 @@ class EditProfileController extends GetxController {
         phone: phoneNo.text);
     if (check) {
       mainscreenController.getuserdetails();
-      Get.back();
     }
   }
 }

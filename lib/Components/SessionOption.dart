@@ -14,19 +14,26 @@ class _SessionOptionState extends State<SessionOption> {
     return Column(
       children: [
         const SizedBox(height: 15),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: item.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (ctx, i) => OptionItem(
-            title: item[i],
-            selected: selected,
-            onChanged: (s) {
-              selected = s.toString();
-              setState(() {});
-            },
-          ),
-        ),
+        Column(
+          children: [
+            OptionItem(
+              title: 'Edit Session',
+              selected: selected,
+              onTapFunc: () {},
+            ),
+            OptionItem(
+              title: 'Delete Session',
+              selected: selected,
+              onTapFunc: () {},
+            ),
+          ],
+        )
+        // ListView.builder(
+        //   shrinkWrap: true,
+        //   itemCount: item.length,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   itemBuilder: (ctx, i) => ,
+        // ),
       ],
     );
   }
@@ -35,12 +42,12 @@ class _SessionOptionState extends State<SessionOption> {
 class OptionItem extends StatelessWidget {
   final String title;
   final String selected;
-  final Function(String?) onChanged;
+  final VoidCallback onTapFunc;
 
   const OptionItem({
     required this.title,
     required this.selected,
-    required this.onChanged,
+    required this.onTapFunc,
   });
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,7 @@ class OptionItem extends StatelessWidget {
       ),
       child: ListTile(
         dense: true,
-        onTap: () => onChanged(title),
+        onTap: () => onTapFunc,
         title: Text(
           title,
           style: TextStyle(
@@ -62,14 +69,14 @@ class OptionItem extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        trailing: Radio(
-          value: title,
-          splashRadius: 5,
-          groupValue: selected,
-          onChanged: onChanged,
-          activeColor: primaryColor,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
+        // trailing: Radio(
+        //   value: title,
+        //   splashRadius: 5,
+        //   groupValue: selected,
+        //   onChanged: onChanged,
+        //   activeColor: primaryColor,
+        //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        // ),
       ),
     );
   }

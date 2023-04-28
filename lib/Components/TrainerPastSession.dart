@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TrainerPastSession extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        Get.toNamed('/session-detail-screen');
         // Navigator.of(context).pushNamed(
         //   SessionDetailScreen.routeName,
         // );

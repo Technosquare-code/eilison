@@ -4,6 +4,7 @@ import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
 import 'package:elison/models/product_detail_model.dart';
 import 'package:elison/models/products_model.dart';
+import 'package:elison/models/session_list_model.dart';
 import 'package:elison/models/session_type_model.dart';
 import 'package:elison/models/special_item_model.dart';
 import 'package:elison/models/subcategory_model.dart';
@@ -79,6 +80,62 @@ class HomeScreenService {
       if (data['status'] == 'true') {
         for (var i in data['data']) {
           blist.add(SessionTypeModel.fromJson(i));
+        }
+      }
+    }
+    return blist;
+  }
+
+  Future<List<SessionListModel>> homeSessionList() async {
+    List<SessionListModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'coach_id': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post('$trainerbaseUrl/scheduled-session-list.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(SessionListModel.fromJson(i));
+        }
+      }
+    }
+    return blist;
+  }
+
+  Future<List<SessionListModel>> homePastSessionList() async {
+    List<SessionListModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'coach_id': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post('$trainerbaseUrl/past-session-list.php',
+        options: Options(headers: headers), data: form);
+    print(headers);
+
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(SessionListModel.fromJson(i));
         }
       }
     }

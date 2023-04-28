@@ -47,12 +47,14 @@ class AuthService {
       var data = response.data;
       debugPrint(data['status']);
       if (data['status'] == 'true') {
+        Get.back();
         Get.snackbar('Success', data['data'],
             duration: Duration(seconds: 3),
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.green,
             snackStyle: SnackStyle.FLOATING,
+            snackPosition: SnackPosition.BOTTOM,
             colorText: Colors.white,
-            maxWidth: MediaQuery.of(context).size.width * 0.7);
+            maxWidth: MediaQuery.of(context).size.width * 0.8);
 
         return true;
       }
@@ -128,6 +130,7 @@ class AuthService {
       var data = response.data;
       debugPrint(data['status']);
       if (data['status'] == 'true') {
+        Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;

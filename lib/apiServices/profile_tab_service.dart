@@ -50,6 +50,7 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
+        Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -87,6 +88,7 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
+        Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -156,6 +158,7 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
+        Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -198,6 +201,7 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
+        Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -248,6 +252,7 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
+        Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -286,6 +291,8 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
+        // Get.back();
+
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -326,13 +333,14 @@ class ProfileTabService {
       'description': description,
       'zoom_link': zoom_link,
       'session_id': session_id,
+      'session_datetime': start_date! + ' ' + start_time!,
       'current_session_photo': current_session_photo,
       "image":
           await multipart_file.MultipartFile.fromFile(image!, filename: image),
     });
 
     var response = await dio.post(
-      '$baseUrl/create-new-session.php',
+      '$trainerbaseUrl/create-new-session.php',
       data: form,
       options: Options(headers: headers),
     );
@@ -344,6 +352,7 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
+        Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;

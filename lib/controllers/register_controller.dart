@@ -28,13 +28,13 @@ class RegisterController extends GetxController {
       );
       isLoading(false);
       // check ? Get.back() : null;
-      if (check) {
-        email.clear();
-        phone.clear();
-        password.clear();
-        confirmpassword.clear();
-        fullname.clear();
-      }
+      // if (check) {
+      //   email.clear();
+      //   phone.clear();
+      //   password.clear();
+      //   confirmpassword.clear();
+      //   fullname.clear();
+      // }
     } catch (e) {
       debugPrint(e.toString());
 

@@ -17,6 +17,7 @@ import '../Screens/OnBoardScreen.dart';
 import '../Screens/ProductDetailScreen.dart';
 import '../Screens/ProductFilterScreen.dart';
 import '../Screens/PromocodeScreen.dart';
+import '../Screens/SessionDetailScreen.dart';
 import '../Screens/ShowProductScreen.dart';
 import '../Screens/RegisterScreen.dart';
 import '../Screens/SupportHistoryScreen.dart';
@@ -121,5 +122,9 @@ appRoutes() => [
       GetPage(
         name: '/product-filter-screen',
         page: () => ProductFilterScreen(),
+      ),
+      GetPage(
+        name: '/session-detail-screen',
+        page: () => SessionDetailScreen(),
       ),
     ];
