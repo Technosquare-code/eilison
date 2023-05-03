@@ -5,6 +5,7 @@ import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/MyDropdown.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/profile/address/add_address_controller.dart';
+import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -21,12 +22,11 @@ class AddSessionScreen extends StatefulWidget {
 }
 
 class _AddSessionScreenState extends State<AddSessionScreen> {
-  String? type;
   File? image;
-
+  String? type;
   // final pref = GetStorage();
-  final addsessionController = Get.put(AddSessionController());
-
+  final addsessionController = Get.put(
+      AddSessionController(isEdit: Get.arguments[0], index: Get.arguments[1]));
   getGalaryImage() async {
     dynamic imageData = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -115,12 +115,6 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  List<String> sessionTypes = [
-    'Low Workout',
-    'Hard Workout',
-    'Lowerbody Workout',
-    'Fullbody Workout',
-  ];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -138,7 +132,7 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
           ),
         ),
         title: Text(
-          "Add New Session",
+          Get.arguments[0] ? 'Edit Session' : "Add New Session",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -166,10 +160,17 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                               // backgroundColor: secondaryColor,
                               backgroundImage: FileImage(image!),
                             )
-                          : CircleAvatar(
-                              radius: 50,
-                              backgroundColor: secondaryColor,
-                            ),
+                          : addsessionController.isEdit!
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: NetworkImage(mainUrl +
+                                      sessionUrl +
+                                      addsessionController.imageUploded.value),
+                                )
+                              : CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: secondaryColor,
+                                ),
                       Container(
                         child: IconButton(
                           onPressed: () {
@@ -242,7 +243,7 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  "Session  Start Date",
+                  "Session Start Date",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -258,8 +259,8 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                     DateTime? selectedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(Duration(days: 365)),
                     );
                     if (selectedDate != null) {
                       String formattedDate =
@@ -332,9 +333,8 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                 InputField(
                   size: 30,
                   validator: MultiValidator([
-                    // EmailValidator(
-                    //   errorText: 'Please enter valid email',
-                    // ),
+                    LengthRangeValidator(
+                        errorText: '1-3 digits', max: 3, min: 1),
                     RequiredValidator(errorText: 'Duration required')
                   ]),
                   hint: "Enter Duration",
@@ -365,7 +365,7 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                     RequiredValidator(errorText: 'Zoom Link required')
                   ]),
                   controller: addsessionController.zoomlink,
-                  type: TextInputType.number,
+                  // type: TextInputType.number,
                   color: Colors.grey.shade50,
                   borderColor: Colors.grey.shade300,
                 ),
@@ -385,11 +385,13 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                     ? CircularProgressIndicator()
                     : MyDropdown(
                         size: 21,
-                        value: type,
+                        value: Get.arguments[0]
+                            ? addsessionController.sessiontype.value
+                            : type,
                         padding: 12,
                         hint: "Select Type",
                         isclass: true,
-                        title: sessionTypes,
+                        title: [],
                         items: addsessionController.sessionTypeList,
                         width: size.width / 1.18,
                         color: Colors.grey.shade50,
@@ -440,11 +442,12 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                   sizeHieght: 50,
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      addsessionController.createSession(
-                        context,
-                        sessionId: type!,
-                        imgpath: image != null ? image!.path : '',
-                      );
+                      addsessionController.createSession(context,
+                          sessiontypeId: Get.arguments[0]
+                              ? addsessionController.sessiontype.value
+                              : type,
+                          imgpath: image != null ? image!.path : '',
+                          sessionId: addsessionController.sessionIId.value);
                     }
                   },
                 ),

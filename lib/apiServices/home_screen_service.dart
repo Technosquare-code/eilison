@@ -228,11 +228,11 @@ class HomeScreenService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        snackbar(context: context, msg: data['data'], title: 'Success');
+        // snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
       } else {
-        snackbar(context: context, msg: data['data'], title: 'Failed');
+        // snackbar(context: context, msg: data['data'], title: 'Failed');
 
         return false;
       }
@@ -411,8 +411,8 @@ class HomeScreenService {
     return blist;
   }
 
-  Future<List<SpecialItemModel>> specialItemList() async {
-    List<SpecialItemModel> blist = [];
+  Future<List<ProductsModel>> specialItemList() async {
+    List<ProductsModel> blist = [];
     Dio dio = Dio();
     formData.FormData form;
     var headers = {
@@ -434,7 +434,7 @@ class HomeScreenService {
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
         for (var i in data['data']) {
-          blist.add(SpecialItemModel.fromJson(i));
+          blist.add(ProductsModel.fromJson(i));
           print('object');
         }
         // blist.assignAll(categoryListModelFromJson(data));

@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../controllers/customer/profile/address/view_address_controller.dart';
+import 'NoDataFoundScreen.dart';
 
 class CartScreen extends StatefulWidget {
   static const routeName = "CartScreen";
@@ -20,7 +21,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final cartController = Get.put(CartController());
+  final cartController = Get.put(CartController(isadd: Get.arguments[0]));
   final viewController = Get.put(ViewAddressController());
 
   int currentPage = 0;
@@ -34,33 +35,43 @@ class _CartScreenState extends State<CartScreen> {
     var size = MediaQuery.of(context).size;
     return Obx(() {
       return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(
-              CupertinoIcons.back,
-              color: Colors.black,
-            ),
-          ),
-          title: Text(
-            "Cart",
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.black,
-              fontFamily: "Poppins",
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            cartController.cartList.isEmpty
-                ? Container()
-                : Padding(
+        appBar: cartController.cartList.isNotEmpty
+            ? AppBar(
+                elevation: 0,
+                centerTitle: true,
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: Icon(
+                    CupertinoIcons.back,
+                    color: Colors.black,
+                  ),
+                ),
+                title: Text(
+                  "Cart",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              )
+            : AppBar(
+                elevation: 0,
+                centerTitle: true,
+                automaticallyImplyLeading: false,
+              ),
+        body: cartController.cartList.isEmpty
+            ? NoDataFound(
+                buttnText: 'Continue Shopping',
+                img: 'https://cdn-icons-png.flaticon.com/512/2038/2038854.png',
+                title: 'Your Cart Is Empty',
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
@@ -135,17 +146,13 @@ class _CartScreenState extends State<CartScreen> {
                       ],
                     ),
                   ),
-            cartController.cartList.isEmpty
-                ? Container()
-                : Padding(
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Divider(color: Colors.black),
                   ),
-            const SizedBox(height: 10),
-            Expanded(child: pages[currentPage]),
-            cartController.cartList.isEmpty
-                ? Container()
-                : Padding(
+                  const SizedBox(height: 10),
+                  Expanded(child: pages[currentPage]),
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,9 +230,9 @@ class _CartScreenState extends State<CartScreen> {
                       ],
                     ),
                   ),
-            const SizedBox(height: 15),
-          ],
-        ),
+                  const SizedBox(height: 15),
+                ],
+              ),
       );
     });
   }

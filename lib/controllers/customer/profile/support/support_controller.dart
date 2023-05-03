@@ -16,10 +16,10 @@ class SupportController extends GetxController {
   getAllSupportHistry() async {
     isLoading(true);
     List<SupportModel> dlist = [];
-    dlist.assignAll(await ProfileTabService().supportHistryList());
+    supportList.assignAll(await ProfileTabService().supportHistryList());
     // supportList.assignAll();
-    supportList.value =
-        dlist.where((element) => element.orderNo != '').toList();
+    // supportList.value =
+    //     dlist.where((element) => element.orderNo != '').toList();
     isLoading(false);
   }
 

@@ -18,6 +18,7 @@ import 'package:elison/package%20edit/src/responsive_grid_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../Components/FeaturedCArd.dart';
@@ -174,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.black,
                                   ),
                                   onPressed: () {
-                                    Get.toNamed('/cart');
+                                    Get.toNamed('/cart', arguments: [false]);
                                     // Navigator.of(context).pushNamed(
                                     //   CartScreen.routeName,
                                     // );
@@ -292,7 +293,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           arguments: [
                                             'category',
                                             homescreenController
-                                                .categoryList[index].id
+                                                .categoryList[index].id,
+                                            homescreenController
+                                                .categoryList[index]
+                                                .categoryName
                                           ]);
                                     },
                                   ),
@@ -317,10 +321,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      AllCategoryProductScreen.routeName,
-                                      arguments: "Foot Spa",
-                                    );
+                                    Get.toNamed('/see-All-products-screen',
+                                        arguments: [
+                                          homescreenController.specialItemList,
+                                          'Special Deals For You'
+                                        ]);
+                                    // Navigator.of(context).pushNamed(
+                                    //   AllCategoryProductScreen.routeName,
+                                    //   arguments: "Foot Spa",
+                                    // );
                                   },
                                   child: Text(
                                     'See All',
@@ -377,11 +386,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                       Column(
-                        children: mainscreenController.homeCategoryList.map(
+                        children: homescreenController.dynamicItemList.map(
                           (element) {
-                            homescreenController.i.value++;
-                            print(
-                                '------------------${homescreenController.i.value}---iiiii');
                             return Column(
                               children: [
                                 const SizedBox(height: 15),
@@ -390,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${element.categoryName}',
+                                      '${element.category!.categoryName}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -400,10 +406,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        Navigator.of(context).pushNamed(
-                                          AllCategoryProductScreen.routeName,
-                                          arguments: "Foot Spa",
-                                        );
+                                        int ii = homescreenController.i.value;
+
+                                        Get.toNamed('/see-All-products-screen',
+                                            arguments: [
+                                              element.productList,
+                                              element.category!.categoryName
+                                            ]);
                                       },
                                       child: Text(
                                         'See All',
@@ -418,76 +427,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 15),
-                                homescreenController.dynamicItemList.length !=
-                                            0 &&
+                                element.productList!.length != 0 &&
                                         homescreenController.lalal.value
                                     ? SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
-                                        child: homescreenController
-                                                .dynamicItemList[
-                                                    homescreenController
-                                                        .i.value]
-                                                .isNotEmpty
+                                        child: element.productList!.isNotEmpty
                                             ? Wrap(
                                                 spacing: 16,
                                                 children: List.generate(
-                                                  homescreenController
-                                                      .dynamicItemList[
-                                                          homescreenController
-                                                              .i.value]
-                                                      .length,
+                                                  element.productList!.length,
                                                   (index) => ProductCard(
-                                                    title: homescreenController
-                                                        .dynamicItemList[
-                                                            homescreenController
-                                                                .i.value][index]
+                                                    title: element
+                                                        .productList![index]
                                                         .itemName,
-                                                    productId: homescreenController
-                                                        .dynamicItemList[
-                                                            homescreenController
-                                                                .i.value][index]
-                                                        .id,
+                                                    productId: element
+                                                        .productList![index].id,
                                                     imagePath: mainUrl +
                                                         specialItemUrl +
-                                                        homescreenController
-                                                            .dynamicItemList[
-                                                                homescreenController
-                                                                    .i.value]
-                                                                [index]
+                                                        element
+                                                            .productList![index]
                                                             .thumbnail,
-                                                    price: double.parse(
-                                                        homescreenController
-                                                            .dynamicItemList[
-                                                                homescreenController
-                                                                    .i.value]
-                                                                [index]
-                                                            .mrp),
+                                                    price: double.parse(element
+                                                        .productList![index]
+                                                        .mrp),
                                                     color: Colors.colr[
                                                         _random.nextInt(Colors
                                                             .colr.length)],
                                                     onTap: () {
-                                                      homescreenController.wishlistmanagerfordynamic(
-                                                          isAdd: !(homescreenController
-                                                              .dynamicItemList[
-                                                                  homescreenController
-                                                                      .i.value]
-                                                                  [index]
-                                                              .isWhishlist),
-                                                          context: context,
-                                                          prod: homescreenController
-                                                                  .dynamicItemList[
-                                                              homescreenController
-                                                                  .i
-                                                                  .value][index]);
+                                                      homescreenController
+                                                          .wishlistmanagerfordynamic(
+                                                              isAdd: !(element
+                                                                  .productList![
+                                                                      index]
+                                                                  .isWhishlist),
+                                                              context: context,
+                                                              prod: element
+                                                                      .productList![
+                                                                  index]);
                                                       setState(() {});
                                                     },
-                                                    isFavourite:
-                                                        homescreenController
-                                                            .dynamicItemList[
-                                                                homescreenController
-                                                                    .i.value]
-                                                                [index]
-                                                            .isWhishlist,
+                                                    isFavourite: element
+                                                        .productList![index]
+                                                        .isWhishlist,
                                                   ),
                                                 ),
                                               )

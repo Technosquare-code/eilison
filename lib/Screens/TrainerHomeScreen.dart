@@ -4,11 +4,14 @@ import 'package:elison/Components/TrainerScheduleSessionList.dart';
 import 'package:elison/Screens/AddSessionScreen.dart';
 import 'package:elison/Screens/NotificationScreen.dart';
 import 'package:elison/Screens/TrainerProfileScreen.dart';
+import 'package:elison/Screens/TrainerProfileTab.dart';
+import 'package:elison/Screens/TrainerShimmer.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/mainscreen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../controllers/trainer/train_home_ctrl.dart';
 
@@ -41,7 +44,9 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
             padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
             child: mainscreenController.isLoading.value &&
                     mainscreenController.userdetailList.isEmpty
-                ? CircularProgressIndicator()
+                ? TrainerHomeShimmer(
+                    size: size,
+                  )
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -65,7 +70,10 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                         ),
                         subtitle: Text(
                           // "Manoj Saini",
-                          mainscreenController.userdetailList[0].data.name,
+                          mainscreenController.userdetailList.isEmpty
+                              ? ''
+                              : mainscreenController
+                                  .userdetailList[0].data.name,
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
@@ -84,10 +92,12 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                                 minHeight: 35,
                               ),
                               onPressed: () {
-                                Get.toNamed('/trainer-profile-screen');
-                                // Navigator.of(context).pushNamed(
-                                //   TrainerProfileScreen.routeName,
-                                // );
+                                // Get.toNamed('/trainer-profile-screen');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TrainerProfileTab(),
+                                    ));
                               },
                               icon: Icon(
                                 Icons.person_outline,
@@ -131,6 +141,8 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                             fontSize: 14,
                             onTap: () {
                               selectedIndex = 0;
+
+                              homepageController.getSessionList();
                               setState(() {});
                             },
                           ),
@@ -173,7 +185,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
             elevation: 0,
             backgroundColor: secondaryColor,
             onPressed: () {
-              Get.toNamed('add-session');
+              Get.toNamed('/add-session', arguments: [false, 0]);
               // Navigator.of(context).pushNamed(AddSessionScreen.routeName);
             },
             child: Icon(

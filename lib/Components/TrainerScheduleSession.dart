@@ -1,19 +1,30 @@
 import 'package:elison/Components/SessionOption.dart';
+import 'package:elison/Screens/SessionDetailScreen.dart';
 import 'package:elison/Utils/Utils.dart';
+import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TrainerScheduleSession extends StatelessWidget {
-  final String? title, img;
-  const TrainerScheduleSession({super.key, this.img, this.title});
+  final String? title, img, description;
+  final int? index;
+  const TrainerScheduleSession(
+      {super.key, this.img, this.title, this.description, this.index});
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/session-detail-screen');
-        // Navigator.of(context).pushNamed(
-        //   SessionDetailScreen.routeName,
-        // );
+        // Get.toNamed('/session-detail-screen');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SessionDetailScreen(
+                description: description,
+                img: img,
+                title: title,
+                isCoach: true,
+              ),
+            ));
       },
       child: Stack(
         children: [
@@ -52,12 +63,10 @@ class TrainerScheduleSession extends StatelessWidget {
                     CircleAvatar(
                       radius: 35,
                       backgroundColor: Colors.pink.shade50,
-                    ),
-                    Image.asset(
-                      'assets/images/session2.png',
-                      width: 65,
-                      height: 120,
-                      fit: BoxFit.fill,
+                      backgroundImage: NetworkImage(
+                        mainUrl + sessionUrl + img!,
+                        // 'assets/images/session2.png',
+                      ),
                     ),
                   ],
                 ),
@@ -69,7 +78,7 @@ class TrainerScheduleSession extends StatelessWidget {
             right: 0,
             child: IconButton(
               onPressed: () {
-                Utils.showMyBottomSheet(context, SessionOption());
+                Utils.showMyBottomSheet(context, SessionOption(index: index));
               },
               icon: Icon(
                 Icons.more_vert,

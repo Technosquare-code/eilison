@@ -19,9 +19,9 @@ class SessionListModel {
   String sessionType;
   String image;
   String description;
-  DateTime sessionDate;
+  String sessionDate;
   String sessionTime;
-  DateTime sessionDatetime;
+  String sessionDatetime;
   String duration;
   String zoomLink;
   String isDeleted;
@@ -57,9 +57,9 @@ class SessionListModel {
         sessionType: json["session_type"],
         image: json["image"],
         description: json["description"],
-        sessionDate: DateTime.parse(json["session_date"]),
+        sessionDate: json["session_date"],
         sessionTime: json["session_time"],
-        sessionDatetime: DateTime.parse(json["session_datetime"]),
+        sessionDatetime: json["session_datetime"],
         duration: json["duration"],
         zoomLink: json["zoom_link"],
         isDeleted: json["is_deleted"],
@@ -76,10 +76,9 @@ class SessionListModel {
         "session_type": sessionType,
         "image": image,
         "description": description,
-        "session_date":
-            "${sessionDate.year.toString().padLeft(4, '0')}-${sessionDate.month.toString().padLeft(2, '0')}-${sessionDate.day.toString().padLeft(2, '0')}",
+        "session_date": sessionDate,
         "session_time": sessionTime,
-        "session_datetime": sessionDatetime.toIso8601String(),
+        "session_datetime": sessionDatetime,
         "duration": duration,
         "zoom_link": zoomLink,
         "is_deleted": isDeleted,

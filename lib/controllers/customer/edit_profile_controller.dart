@@ -15,6 +15,7 @@ class EditProfileController extends GetxController {
 
   final name = TextEditingController();
   final email = TextEditingController();
+  final bio = TextEditingController();
   final dob = TextEditingController();
   var gender = "Male".obs;
   final phoneNo = TextEditingController();
@@ -28,6 +29,7 @@ class EditProfileController extends GetxController {
     dob.text = mainscreenController.userdetailList[0].data.dob != ''
         ? mainscreenController.userdetailList[0].data.dob
         : '';
+    bio.text = mainscreenController.userdetailList[0].data.bio;
   }
 
   Future<void> selectDate(BuildContext context) async {
@@ -65,9 +67,11 @@ class EditProfileController extends GetxController {
         date: dob.text,
         gender: gender.value,
         name: name.text,
-        phone: phoneNo.text);
+        phone: phoneNo.text,
+        bio: bio.text);
     if (check) {
       mainscreenController.getuserdetails();
     }
+    isLoading(false);
   }
 }

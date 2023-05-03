@@ -7,6 +7,7 @@ import 'package:elison/controllers/customer/products/product_detail_controller.d
 import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -391,24 +392,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 15),
-                                      // InkWell(
-                                      //   onTap: () {
-                                      //     print(
-                                      //       prodDetailController
-                                      //           .productdetails[0].videoUrl,
-                                      //     );
-                                      //   },
-                                      //   child: ClipRRect(
-                                      //     borderRadius:
-                                      //         BorderRadius.circular(25),
-                                      //     child: Image.asset(
-                                      //       "assets/images/session.PNG",
-                                      //       width: size.width,
-                                      //       height: size.height / 5,
-                                      //       fit: BoxFit.fill,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       prodDetailController
                                                   .productdetails[0].videoUrl !=
                                               ''
@@ -418,6 +401,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                               child: YoutubePlayer(
                                                 controller: prodDetailController
                                                     .controller,
+                                                onReady: () {
+                                                  prodDetailController
+                                                      .controller
+                                                      .addListener(() {
+                                                    if (prodDetailController
+                                                            .controller
+                                                            .value
+                                                            .isPlaying &&
+                                                        !prodDetailController
+                                                            .controller
+                                                            .value
+                                                            .isFullScreen) {
+                                                      SystemChrome
+                                                          .setPreferredOrientations([
+                                                        DeviceOrientation
+                                                            .portraitUp,
+                                                      ]);
+                                                    }
+                                                  });
+                                                },
                                                 liveUIColor: Colors.amber,
                                               ),
                                             )
@@ -542,7 +545,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           textColor: Colors.white,
                           onTap: () {
                             prodDetailController.isAdded.value
-                                ? Get.toNamed('/cart')
+                                ? Get.toNamed('/cart', arguments: [true])
                                 : prodDetailController.addTocart(context);
                             // Get.toNamed('/promocode-screen');
                             // Navigator.of(context).pushNamed(

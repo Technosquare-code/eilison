@@ -6,13 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../mainscreen_controller.dart';
+
 class AddAddressController extends GetxController {
   final bool? isAdd;
   final int? index;
   AddAddressController({this.isAdd, this.index});
   var isLoading = false.obs;
   // var isAdd = Get.arguments;
-  // final mainscreenController = Get.find<MainScreenController>();
+  final mainscreenController = Get.find<MainScreenController>();
 
   final name = TextEditingController();
   final alternateNo = TextEditingController();
@@ -42,6 +44,9 @@ class AddAddressController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
+    name.text = mainscreenController.userdetailList[0].data.name;
+    email.text = mainscreenController.userdetailList[0].data.email;
+    phoneNo.text = mainscreenController.userdetailList[0].data.phone;
     if (!isAdd!) {
       print('--------------------------------------$index');
       filldata();
@@ -67,10 +72,12 @@ class AddAddressController extends GetxController {
       zipcode: pincode.text,
       state: state.text,
     );
+
     if (check) {
       isLoading(false);
       addresscontroller.getAllAddress();
       Get.back();
     }
+    isLoading(false);
   }
 }

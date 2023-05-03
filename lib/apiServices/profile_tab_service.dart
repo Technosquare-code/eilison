@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/src/multipart_file.dart' as multipart_file;
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as formData;
+import 'package:intl/intl.dart';
 
 import '../Components/snackbar.dart';
 
@@ -23,7 +24,7 @@ class ProfileTabService {
   var pref = GetStorage();
 
   Future<bool> profileUpdate(BuildContext context,
-      {String? name, phone, gender, date}) async {
+      {String? name, phone, gender, date, bio}) async {
     Dio dio = Dio();
     formData.FormData form;
     var headers = {
@@ -34,7 +35,8 @@ class ProfileTabService {
       'name': name,
       'phone': phone,
       'gender': gender,
-      'dob': date
+      'dob': date,
+      'bio': bio
     });
 
     var response = await dio.post(
@@ -229,7 +231,7 @@ class ProfileTabService {
     };
     form = formData.FormData.fromMap({
       'uid': pref.read('user_id'),
-      'order_no': orderId,
+      'order_id': orderId,
       'email': email,
       'phone': phone,
       'name': name,
@@ -293,6 +295,45 @@ class ProfileTabService {
       if (data['status'] == 'true') {
         // Get.back();
 
+        // snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> deleteSessionApi(BuildContext context,
+      {String? sessionId}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'session_id': sessionId,
+    });
+    print(form.fields);
+    print(headers);
+    var response = await dio.post(
+      '$trainerbaseUrl/session-delete.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+    print('form================== $form');
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        Get.back();
+
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -307,12 +348,12 @@ class ProfileTabService {
 
   Future<bool> addSessionApi(BuildContext context,
       {String? image,
+      String? imgpath,
       String? session_name,
       String? agenda,
       String? start_time,
       String? start_date,
       String? duration,
-      String? current_session_photo,
       String? session_type,
       String? description,
       String? zoom_link,
@@ -322,23 +363,49 @@ class ProfileTabService {
     var headers = {
       'Authorization': pref.read('token'),
     };
-    form = formData.FormData.fromMap({
-      'coach_id': pref.read('user_id'),
-      'session_name': session_name,
-      'agenda': agenda,
-      'start_date': start_date,
-      'start_time': start_time,
-      'duration': duration,
-      'session_type': session_type,
-      'description': description,
-      'zoom_link': zoom_link,
-      'session_id': session_id,
-      'session_datetime': start_date! + ' ' + start_time!,
-      'current_session_photo': current_session_photo,
-      "image":
-          await multipart_file.MultipartFile.fromFile(image!, filename: image),
-    });
-
+    String dateStr = start_date!;
+    print(dateStr);
+    DateTime date = DateFormat("dd/MM/yyyy").parse(dateStr);
+    String formattedDate = DateFormat("yyyy-MM-dd").format(date);
+    String timeStr = start_time!;
+    print(timeStr);
+    DateTime time = DateFormat("HH:mm").parse(timeStr);
+    String formattedTime = DateFormat("HH:mm:ss").format(time);
+    String amPmTime = DateFormat("h:mm a").format(time);
+    print(image);
+    form = image != ''
+        ? formData.FormData.fromMap({
+            'coach_id': pref.read('user_id'),
+            'session_name': session_name,
+            'agenda': agenda,
+            'start_date': formattedDate,
+            'start_time': amPmTime,
+            'duration': duration,
+            'session_type': session_type,
+            'description': description,
+            'zoom_link': zoom_link,
+            'session_id': session_id,
+            'session_datetime': formattedDate + ' ' + formattedTime,
+            'current_session_photo': '',
+            "image": await multipart_file.MultipartFile.fromFile(image!,
+                filename: image),
+          })
+        : formData.FormData.fromMap({
+            'coach_id': pref.read('user_id'),
+            'session_name': session_name,
+            'agenda': agenda,
+            'start_date': formattedDate,
+            'start_time': amPmTime,
+            'duration': duration,
+            'session_type': session_type,
+            'description': description,
+            'zoom_link': zoom_link,
+            'session_id': session_id,
+            'session_datetime': formattedDate + ' ' + formattedTime,
+            'current_session_photo': imgpath,
+            "image": '',
+          });
+    print(form.fields);
     var response = await dio.post(
       '$trainerbaseUrl/create-new-session.php',
       data: form,
@@ -387,7 +454,7 @@ class ProfileTabService {
     debugPrint(data['status']);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        snackbar(context: context, msg: data['data'], title: 'Success');
+        // snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
       } else {

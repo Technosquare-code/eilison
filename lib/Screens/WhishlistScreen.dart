@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'NoDataFoundScreen.dart';
+
 class WishlistScreen extends StatelessWidget {
   static const routeName = "WishlistScreen";
   final wishController = Get.put(WishlistController());
@@ -40,8 +42,11 @@ class WishlistScreen extends StatelessWidget {
         return wishController.isLoading.value
             ? WishlistShimmer()
             : wishController.wishList.isEmpty
-                ? Center(
-                    child: Text('No Data Found'),
+                ? NoDataFound(
+                    buttnText: 'Continue Shopping',
+                    img:
+                        'https://www.pinclipart.com/picdir/middle/573-5735512_com-herz-kontur-rot-empty-heart-icon-png.png',
+                    title: 'No Wishlist is Empty',
                   )
                 : SingleChildScrollView(
                     padding: const EdgeInsets.all(8),

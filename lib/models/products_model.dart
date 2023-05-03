@@ -19,6 +19,7 @@ class ProductsModel {
     required this.sellingPrice,
     required this.thumbnail,
     required this.isWhishlist,
+    required this.categoryName,
   });
 
   String id;
@@ -27,12 +28,13 @@ class ProductsModel {
   String sellingPrice;
   String thumbnail;
   bool isWhishlist;
-
+  String categoryName;
   factory ProductsModel.fromJson(Map<String, dynamic> json) => ProductsModel(
         id: json["id"],
         itemName: json["item_name"],
         mrp: json["mrp"],
         sellingPrice: json["selling_price"],
+        categoryName: json["category_name"] ?? '',
         thumbnail: json["thumbnail"],
         isWhishlist: json["is_whishlist"] == '1' ? true : false,
       );

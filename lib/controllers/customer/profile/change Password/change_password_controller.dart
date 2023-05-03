@@ -15,7 +15,7 @@ class ChangepasController extends GetxController {
     isLoading(true);
     bool check = await ProfileTabService()
         .changePass(context, current: current.text, newpas: newpass.text);
-    check ? Get.back() : null;
+    // check ? Get.back() : null;
     isLoading(false);
   }
 }

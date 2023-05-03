@@ -8,7 +8,7 @@ class Session extends StatelessWidget {
   final bool showDivider;
   final Color color;
 
-   Session({
+  Session({
     required this.showDivider,
     required this.color,
   });
@@ -23,9 +23,11 @@ class Session extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                SessionDetailScreen.routeName,
-              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SessionDetailScreen(),
+                  ));
             },
             child: Container(
               margin: const EdgeInsets.only(right: 25),
@@ -81,11 +83,15 @@ class Session extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  transform: Matrix4.translationValues(25, 0, 0),
+                                  transform:
+                                      Matrix4.translationValues(25, 0, 0),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 5),
                                   decoration: BoxDecoration(
-                                    color: Colors.primaries[_random.nextInt(Colors.primaries.length)].shade300,
+                                    color: Colors
+                                        .primaries[_random
+                                            .nextInt(Colors.primaries.length)]
+                                        .shade300,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Text(

@@ -15,7 +15,7 @@ class MyDropdown extends StatelessWidget {
   final double? borderRadius;
   final Color? errorTextColor;
   final Color? borderColor;
-  final Object? value;
+  final String? value;
   final double? padding;
   final List<String>? title;
   final double? maxHeight;
@@ -43,7 +43,7 @@ class MyDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isclass!
-        ? DropdownButtonFormField2<Object?>(
+        ? DropdownButtonFormField2(
             buttonHeight: size,
             dropdownFullScreen: true,
             dropdownWidth: width,

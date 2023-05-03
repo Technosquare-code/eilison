@@ -9,6 +9,7 @@ import 'package:elison/models/special_item_model.dart';
 import 'package:elison/models/subcategory_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -29,7 +30,7 @@ class ProductDetailController extends GetxController {
   var galleryList = List.empty(growable: true).obs;
   late YoutubePlayerController controller;
   final homescreenController = Get.find<HomeScreenController>();
-
+  var isFullScreen = false.obs;
   getcategory() async {
     isLoading(true);
     productdetails.assignAll(await HomeScreenService().productdetails(pro_id!));
@@ -98,16 +99,33 @@ class ProductDetailController extends GetxController {
     // Uri uri = Uri.parse(url);
     // String videoId = uri.queryParameters['v']!;
     // print(videoId);
+    // controller = YoutubePlayerController(
+    //   initialVideoId: YoutubePlayer.convertUrlToId(url)!,
+
+    //   // initialVideoId: YoutubePlayer.convertUrlToId(
+    //   //     "https://www.youtube.com/watch?v=3zqzYB97WC0")!,
+    //   flags: YoutubePlayerFlags(
+    //     autoPlay: false,
+    //     mute: false,
+    //   ),
+    // );
     controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(url)!,
-
-      // initialVideoId: YoutubePlayer.convertUrlToId(
-      //     "https://www.youtube.com/watch?v=3zqzYB97WC0")!,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
       ),
-    );
+    )..addListener(() {
+        if (controller.value.isFullScreen != isFullScreen.value) {
+          isFullScreen.value = controller.value.isFullScreen;
+
+          if (isFullScreen.value) {
+            SystemChrome.setPreferredOrientations([
+              DeviceOrientation.portraitUp,
+            ]);
+          }
+        }
+      });
   }
 
   // @override

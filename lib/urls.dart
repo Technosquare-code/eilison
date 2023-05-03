@@ -8,3 +8,4 @@ String galleryUrl = '/image/items/';
 String manualUrl = '/image/items/manual/';
 
 String bannerUrl = '/image/banner/';
+String sessionUrl = '/image/session/';

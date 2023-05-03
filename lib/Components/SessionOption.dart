@@ -1,12 +1,18 @@
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/controllers/customer/mainscreen_controller.dart';
+import 'package:elison/controllers/trainer/train_home_ctrl.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SessionOption extends StatefulWidget {
+  int? index;
+  SessionOption({this.index});
   @override
   _SessionOptionState createState() => _SessionOptionState();
 }
 
 class _SessionOptionState extends State<SessionOption> {
+  final mainScreenController = Get.find<TrainerHomeController>();
   String selected = "";
   List item = ['Edit Session', 'Delete Session'];
   @override
@@ -16,15 +22,24 @@ class _SessionOptionState extends State<SessionOption> {
         const SizedBox(height: 15),
         Column(
           children: [
-            OptionItem(
-              title: 'Edit Session',
-              selected: selected,
-              onTapFunc: () {},
+            InkWell(
+              onTap: () {
+                Get.toNamed('/add-session', arguments: [true, widget.index]);
+              },
+              child: OptionItem(
+                title: 'Edit Session',
+                selected: selected,
+              ),
             ),
-            OptionItem(
-              title: 'Delete Session',
-              selected: selected,
-              onTapFunc: () {},
+            InkWell(
+              onTap: () {
+                mainScreenController.deleteSession(context,
+                    mainScreenController.sessionList[widget.index!].id);
+              },
+              child: OptionItem(
+                title: 'Delete Session',
+                selected: selected,
+              ),
             ),
           ],
         )
@@ -42,12 +57,10 @@ class _SessionOptionState extends State<SessionOption> {
 class OptionItem extends StatelessWidget {
   final String title;
   final String selected;
-  final VoidCallback onTapFunc;
 
   const OptionItem({
     required this.title,
     required this.selected,
-    required this.onTapFunc,
   });
   @override
   Widget build(BuildContext context) {
@@ -59,7 +72,7 @@ class OptionItem extends StatelessWidget {
       ),
       child: ListTile(
         dense: true,
-        onTap: () => onTapFunc,
+
         title: Text(
           title,
           style: TextStyle(

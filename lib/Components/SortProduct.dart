@@ -1,5 +1,8 @@
 import 'package:elison/Utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/customer/products/main_screen_product_controller.dart';
 
 class SortProduct extends StatefulWidget {
   @override
@@ -7,8 +10,8 @@ class SortProduct extends StatefulWidget {
 }
 
 class _SortProductState extends State<SortProduct> {
-  String selected = "";
   List item = ['Clear All', 'Price - Low to High', 'Price - Hight to Low'];
+  final controlller = Get.find<MainProductController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,9 +61,20 @@ class _SortProductState extends State<SortProduct> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (ctx, i) => SortItem(
             title: item[i],
-            selected: selected,
+            selected: controlller.selected.value,
             onChanged: (s) {
-              selected = s.toString();
+              controlller.selected.value = s.toString();
+              if (controlller.selected.value == 'Price - Low to High') {
+                print('object------------');
+                controlller.lowToHigh();
+              }
+              if (controlller.selected.value == 'Price - Hight to Low') {
+                print('object------------');
+                controlller.highToLow();
+              }
+              if (controlller.selected.value == 'Clear All') {
+                controlller.clearAll();
+              }
               setState(() {});
             },
           ),

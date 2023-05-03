@@ -11,14 +11,16 @@ import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ShowProductScreen extends StatefulWidget {
+import '../controllers/customer/products/see_all_prodct_controller.dart';
+
+class SeeAllProductScreen extends StatefulWidget {
   @override
-  State<ShowProductScreen> createState() => _ShowProductScreenState();
+  State<SeeAllProductScreen> createState() => _SeeAllProductScreenState();
 }
 
-class _ShowProductScreenState extends State<ShowProductScreen> {
-  final productController = Get.put(
-      ShowProductController(cat_id: Get.arguments[1], type: Get.arguments[0]));
+class _SeeAllProductScreenState extends State<SeeAllProductScreen> {
+  final productController =
+      Get.put(SeeAllProductController(list: Get.arguments[0]));
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
           centerTitle: true,
           automaticallyImplyLeading: true,
           title: Text(
-            Get.arguments[2],
+            Get.arguments[1],
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
@@ -101,94 +103,6 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
                       ),
               );
       }),
-      // bottomSheet: Container(
-      //   color: Colors.white,
-      //   child: Column(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       Divider(color: Colors.grey, height: 2),
-      //       const SizedBox(height: 10),
-      //       Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //         children: [
-      //           InkWell(
-      //             highlightColor: Colors.transparent,
-      //             onTap: () {
-      //               Navigator.of(context).pushNamed(
-      //                 ProductFilterScreen.routeName,
-      //               );
-      //             },
-      //             child: SizedBox(
-      //               width: size.width / 2.5,
-      //               child: FittedBox(
-      //                 fit: BoxFit.scaleDown,
-      //                 child: Row(
-      //                   mainAxisSize: MainAxisSize.min,
-      //                   children: [
-      //                     ImageIcon(
-      //                       AssetImage("assets/images/filter.png"),
-      //                       color: Colors.black,
-      //                       size: 15,
-      //                     ),
-      //                     const SizedBox(width: 10),
-      //                     Text(
-      //                       "Filter",
-      //                       style: TextStyle(
-      //                         fontSize: 14,
-      //                         color: Colors.black,
-      //                         fontFamily: "Poppins",
-      //                         fontWeight: FontWeight.w500,
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ),
-      //             ),
-      //           ),
-      //           Container(
-      //             height: 20,
-      //             margin: const EdgeInsets.symmetric(horizontal: 5),
-      //             decoration: BoxDecoration(
-      //               border: Border(left: BorderSide(color: Colors.grey)),
-      //             ),
-      //           ),
-      //           InkWell(
-      //             onTap: () {
-      //               Utils.showMyBottomSheet(context, SortProduct());
-      //             },
-      //             child: SizedBox(
-      //               width: size.width / 2.5,
-      //               child: FittedBox(
-      //                 fit: BoxFit.scaleDown,
-      //                 child: Row(
-      //                   mainAxisSize: MainAxisSize.min,
-      //                   children: [
-      //                     ImageIcon(
-      //                       AssetImage("assets/images/sort.png"),
-      //                       color: Colors.black,
-      //                       size: 15,
-      //                     ),
-      //                     const SizedBox(width: 10),
-      //                     Text(
-      //                       "Sort",
-      //                       style: TextStyle(
-      //                         fontSize: 14,
-      //                         color: Colors.black,
-      //                         fontFamily: "Poppins",
-      //                         fontWeight: FontWeight.w500,
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ),
-      //             ),
-      //           )
-      //         ],
-      //       ),
-      //       const SizedBox(height: 15),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

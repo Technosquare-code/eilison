@@ -45,11 +45,13 @@ class Data {
     required this.dob,
     required this.homeCategory,
     required this.totalCartItems,
+    required this.bio,
   });
 
   String id;
   String name;
   String email;
+  String bio;
   String phone;
   String userWallet;
   String? profilePicture;
@@ -63,6 +65,7 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         name: json["name"],
+        bio: json["bio"],
         email: json["email"],
         phone: json["phone"],
         userWallet: json["user_wallet"],

@@ -1,9 +1,23 @@
 import 'package:elison/Components/FilterCategory.dart';
 import 'package:elison/Components/MyButton2.dart';
+import 'package:elison/controllers/customer/home_screen_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ProductFilterScreen extends StatelessWidget {
+import '../controllers/customer/products/main_screen_product_controller.dart';
+
+class ProductFilterScreen extends StatefulWidget {
   static const routeName = "ProductFilterScreen";
+
+  @override
+  State<ProductFilterScreen> createState() => _ProductFilterScreenState();
+}
+
+class _ProductFilterScreenState extends State<ProductFilterScreen> {
+  final homeController = Get.find<HomeScreenController>();
+
+  final productController = Get.find<MainProductController>();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -27,16 +41,23 @@ class ProductFilterScreen extends StatelessWidget {
         ),
         actions: [
           Center(
-            child: Text(
-              "Clear All",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w400,
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.black,
-                decorationThickness: 2,
+            child: InkWell(
+              onTap: () {
+                productController.clearAll();
+                // setState(() {});
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Clear All",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w400,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.black,
+                  decorationThickness: 2,
+                ),
               ),
             ),
           ),
@@ -45,12 +66,18 @@ class ProductFilterScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(25, 5, 25, 60),
-        child: ListView.builder(
-          itemCount: 4,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (ctx, i) => FilterCategory(),
-        ),
+        child: Obx(() {
+          return ListView.builder(
+            itemCount: homeController.categoryList.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (ctx, i) => FilterCategory(
+                ischek: productController.filterList
+                    .contains(homeController.categoryList[i].categoryName),
+                img: homeController.categoryList[i].categoryIcon,
+                title: homeController.categoryList[i].categoryName),
+          );
+        }),
       ),
       bottomSheet: Container(
         color: Colors.white,
@@ -88,17 +115,23 @@ class ProductFilterScreen extends StatelessWidget {
                     border: Border(left: BorderSide(color: Colors.grey)),
                   ),
                 ),
-                SizedBox(
-                  width: size.width / 2.5,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      "APPLY",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
+                InkWell(
+                  onTap: () {
+                    productController.applyFilter();
+                    Navigator.of(context).pop();
+                  },
+                  child: SizedBox(
+                    width: size.width / 2.5,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        "APPLY",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),

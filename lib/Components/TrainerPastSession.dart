@@ -1,15 +1,27 @@
+import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Screens/SessionDetailScreen.dart';
+
 class TrainerPastSession extends StatelessWidget {
+  String? title, img, description;
+  TrainerPastSession({this.img, this.title, this.description});
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/session-detail-screen');
-        // Navigator.of(context).pushNamed(
-        //   SessionDetailScreen.routeName,
-        // );
+        // Get.toNamed('/session-detail-screen');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SessionDetailScreen(
+                description: description,
+                img: img,
+                title: title,
+                isCoach: true,
+              ),
+            ));
       },
       child: Container(
         height: 130,
@@ -26,7 +38,8 @@ class TrainerPastSession extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Fullbody Workout",
+                    // "Fullbody Workout",'
+                    title ?? '',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -47,12 +60,15 @@ class TrainerPastSession extends StatelessWidget {
                   radius: 35,
                   backgroundColor: Colors.grey.shade50,
                 ),
-                Image.asset(
-                  'assets/images/session2.png',
-                  width: 65,
-                  height: 120,
-                  fit: BoxFit.fill,
-                ),
+                img != ''
+                    ? Image.network(
+                        mainUrl + sessionUrl + img!,
+                        // 'assets/images/session2.png',
+                        width: 65,
+                        height: 120,
+                        fit: BoxFit.fill,
+                      )
+                    : Container(),
               ],
             ),
           ],

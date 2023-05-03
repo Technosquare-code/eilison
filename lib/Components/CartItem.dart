@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../controllers/customer/cart_controller.dart';
 
@@ -58,7 +59,7 @@ class _CartItemState extends State<CartItem> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "\$${widget.sellingPrice}",
+                            "\$${NumberFormat('#,##0').format(double.parse(widget.sellingPrice ?? '0'))}",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -68,7 +69,7 @@ class _CartItemState extends State<CartItem> {
                           ),
                           const SizedBox(width: 15),
                           Text(
-                            "\$${widget.cutprice}",
+                            "\$${NumberFormat('#,##0').format(double.parse(widget.cutprice ?? '0'))}",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.black,

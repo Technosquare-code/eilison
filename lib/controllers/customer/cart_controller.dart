@@ -1,5 +1,6 @@
 import 'package:elison/apiServices/mainscreenService.dart';
 import 'package:elison/controllers/customer/products/main_screen_product_controller.dart';
+import 'package:elison/controllers/customer/products/product_detail_controller.dart';
 import 'package:elison/models/cart_list_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,8 @@ import 'package:get_storage/get_storage.dart';
 import 'mainscreen_controller.dart';
 
 class CartController extends GetxController {
+  bool? isadd;
+  CartController({this.isadd});
   var isLoading = false.obs;
   var addressId = ''.obs;
   var cartList = List<CartListModel>.empty(growable: true).obs;
@@ -19,7 +22,19 @@ class CartController extends GetxController {
   removeProduct(String id, BuildContext context) async {
     isLoading(true);
     bool check = await MainScreenService().removeFromCart(context, cartId: id);
-    check ? {getCartData(), ss.getuserdetails()} : null;
+
+    if (check) {
+      print('object000000000000000000');
+      getCartData();
+      ss.getuserdetails();
+
+      // Check if the controller is registered
+      if (isadd ?? false) {
+        print('object');
+        Get.find<ProductDetailController>().isAdded(false);
+      }
+    }
+
     isLoading(false);
   }
 

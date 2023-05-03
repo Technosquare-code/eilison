@@ -198,7 +198,7 @@ class MainScreenService {
     print(data);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        Fluttertoast.showToast(msg: data['data']);
+        // Fluttertoast.showToast(msg: data['data']);
         // snackbar(
         //     context: context,
         //     msg: 'Product removed successfully from card',

@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../mainscreen_controller.dart';
+
 class AddSupportController extends GetxController {
   // final bool isAdd;
   // AddAddressController(this.isAdd);
   var isLoading = false.obs;
   // var isAdd = Get.arguments;
-  // final mainscreenController = Get.find<MainScreenController>();
+  final mainscreenController = Get.find<MainScreenController>();
 
   final name = TextEditingController();
 
@@ -27,6 +29,9 @@ class AddSupportController extends GetxController {
     // if (!isAdd) {
     //   // yha pe address list ka data textcontrollers m dalenge
     // }
+    name.text = mainscreenController.userdetailList[0].data.name;
+    email.text = mainscreenController.userdetailList[0].data.email;
+    phoneNo.text = mainscreenController.userdetailList[0].data.phone;
     super.onInit();
   }
 

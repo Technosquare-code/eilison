@@ -1,3 +1,4 @@
+import 'package:elison/apiServices/profile_tab_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,15 @@ class TrainerHomeController extends GetxController {
     isLoading(true);
     pastsessionList.assignAll(await HomeScreenService().homePastSessionList());
     isLoading(false);
+  }
+
+  deleteSession(BuildContext context, String sessionId) async {
+    bool check = await ProfileTabService()
+        .deleteSessionApi(context, sessionId: sessionId);
+    if (check) {
+      getSessionList();
+      pastSessionList();
+    }
   }
 
   @override

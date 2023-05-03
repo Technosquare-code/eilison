@@ -1,31 +1,33 @@
 import 'package:elison/Components/MyNotification.dart';
 import 'package:elison/controllers/customer/home_screen_controller.dart';
+import 'package:elison/controllers/notification_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../Components/shimmer/addressShimmer.dart';
+import 'NoDataFoundScreen.dart';
 
 class NotificationScreen extends StatelessWidget {
   static const routeName = "NotificationScreen";
-  final notificationController = Get.find<HomeScreenController>();
-  final List<Map<String, dynamic>> notifications = [
-    {
-      'image': 'assets/images/not1.png',
-      'title': 'Hey, Wecome !! Account Created',
-      'time': 'About 1 minutes ago',
-    },
-    {
-      'image': 'assets/images/not2.png',
-      'title': 'Order Placed Successfully',
-      'time': 'About 3 hours ago',
-    },
-    {
-      'image': 'assets/images/not3.png',
-      'title': 'You are Enrolled in Session !!',
-      'time': 'About 3 hours ago',
-    },
-  ];
+  final notificationController = Get.put(NotificationController());
+  // final List<Map<String, dynamic>> notifications = [
+  //   {
+  //     'image': 'assets/images/not1.png',
+  //     'title': 'Hey, Wecome !! Account Created',
+  //     'time': 'About 1 minutes ago',
+  //   },
+  //   {
+  //     'image': 'assets/images/not2.png',
+  //     'title': 'Order Placed Successfully',
+  //     'time': 'About 3 hours ago',
+  //   },
+  //   {
+  //     'image': 'assets/images/not3.png',
+  //     'title': 'You are Enrolled in Session !!',
+  //     'time': 'About 3 hours ago',
+  //   },
+  // ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,11 +60,11 @@ class NotificationScreen extends StatelessWidget {
                   size: MediaQuery.of(context).size,
                 )
               : notificationController.notificationList.isEmpty
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: Text('No data found')),
-                      ],
+                  ? NoDataFound(
+                      buttnText: 'Continue Shopping',
+                      img:
+                          'https://cdn-icons-png.flaticon.com/512/3541/3541850.png',
+                      title: 'No Notifications Right Now',
                     )
                   : ListView.builder(
                       shrinkWrap: true,

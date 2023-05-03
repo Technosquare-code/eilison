@@ -55,24 +55,28 @@ class ChatHistory extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        "Order $orderNo",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                        height: 12,
-                        child: VerticalDivider(
-                          width: 2,
-                          thickness: 1,
-                          color: Colors.black,
-                        ),
-                      ),
+                      orderNo != ''
+                          ? Text(
+                              "Order $orderNo",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
+                          : Container(),
+                      orderNo != ''
+                          ? SizedBox(
+                              width: 20,
+                              height: 12,
+                              child: VerticalDivider(
+                                width: 2,
+                                thickness: 1,
+                                color: Colors.black,
+                              ),
+                            )
+                          : Container(),
                       Text(
                         "Token Id $token",
                         style: TextStyle(

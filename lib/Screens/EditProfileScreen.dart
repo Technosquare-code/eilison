@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../controllers/customer/mainscreen_controller.dart';
@@ -327,6 +328,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   type: TextInputType.number,
                   icon: Icons.date_range,
                 ),
+                const SizedBox(height: 15),
+                GetStorage().read('role') == '2'
+                    ? Text(
+                        "BIO",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    : Container(),
+                GetStorage().read('role') == '2'
+                    ? const SizedBox(height: 5)
+                    : Container(),
+                GetStorage().read('role') == '2'
+                    ? InputField(
+                        size: 30,
+                        minLine: 5,
+                        maxLine: 8,
+                        // validator: MultiValidator([
+                        //   // EmailValidator(
+                        //   //   errorText: 'Please enter valid email',
+                        //   // ),
+                        //   RequiredValidator(errorText: 'Description required')
+                        // ]),
+                        controller: editprofileController.bio,
+                        borderRadius: 15,
+                        hint: "Enter Bio",
+                        type: TextInputType.name,
+                        color: Colors.grey.shade50,
+                        borderColor: Colors.grey.shade300,
+                      )
+                    : Container(),
                 const SizedBox(height: 25),
                 MyButton(
                   fontSize: 16,

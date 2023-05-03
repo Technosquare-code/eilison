@@ -14,20 +14,26 @@ import 'package:get_storage/get_storage.dart';
 
 import 'mainscreen_controller.dart';
 
+class DynamicData {
+  HomeCategory? category;
+  List<ProductsModel>? productList;
+  DynamicData({this.category, this.productList});
+}
+
 class HomeScreenController extends GetxController {
   var isLoading = false.obs;
   var i = 0.obs;
 
   final mainscreenController = Get.find<MainScreenController>();
   var bannerList = List<BannerListModel>.empty(growable: true).obs;
-  var notificationList = List<NotificationModel>.empty(growable: true).obs;
   var categoryList = List<CategoryListModel>.empty(growable: true).obs;
-  var specialItemList = List<SpecialItemModel>.empty(growable: true).obs;
-  var dynamicItemList = List<List<ProductsModel>>.empty(growable: true).obs;
-  // var subCategoryList = List<SubcategoryModel>.empty(growable: true).obs;
+  var specialItemList = List<ProductsModel>.empty(growable: true).obs;
+
+  var dynamicItemList = List<DynamicData>.empty(growable: true).obs;
+  // var dynamicItemList = List<List<ProductsModel>>.empty(growable: true).obs;
+
   var subcatId = '0'.obs;
-  // var parentSubCategoryList =
-  //     List<List<SubcategoryModel>>.empty(growable: true).obs;
+
   var lalal = false.obs;
   getbanner() async {
     bannerList.assignAll(await HomeScreenService().bannerList());
@@ -39,18 +45,16 @@ class HomeScreenController extends GetxController {
     print('specail item============');
   }
 
-  getNotification() async {
-    notificationList.assignAll(await HomeScreenService().notificationList());
-  }
-
   getcategory() async {
     categoryList.assignAll(await HomeScreenService().categoryList());
   }
 
   getdynamiccategory() async {
     for (var element in mainscreenController.homeCategoryList) {
-      dynamicItemList
-          .add(await HomeScreenService().productList('category', element.id));
+      dynamicItemList.add(DynamicData(
+          category: element,
+          productList:
+              await HomeScreenService().productList('category', element.id)));
       print('object');
     }
     print(
@@ -59,7 +63,7 @@ class HomeScreenController extends GetxController {
   }
 
   wishlistmanaget(
-      {bool? isAdd, SpecialItemModel? prod, BuildContext? context}) async {
+      {bool? isAdd, ProductsModel? prod, BuildContext? context}) async {
     if (isAdd!) {
       prod!.isWhishlist = true;
       bool check = await HomeScreenService().manageWishlist(context!,
@@ -89,13 +93,13 @@ class HomeScreenController extends GetxController {
           action: 'add', productId: prod.id, recordId: '');
       // final mainssproductController = Get.find<MainProductController>();
 
-      check
-          ? {
-              // getSpecialItem(),
-              // mainssproductController.getcategory()
-              getdynamiccategory()
-            }
-          : null;
+      // check
+      //     ? {
+      //         // getSpecialItem(),
+      //         // mainssproductController.getcategory()
+      //         getdynamiccategory()
+      //       }
+      //     : null;
     } else {
       prod!.isWhishlist = false;
       bool check = await HomeScreenService().manageWishlist(context!,
@@ -118,7 +122,7 @@ class HomeScreenController extends GetxController {
     await getbanner();
     await getcategory();
     await getdynamiccategory();
-    await getNotification();
+    // await getNotification();
     await getSpecialItem();
 
     isLoading(false);

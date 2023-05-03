@@ -7,6 +7,7 @@ import 'package:elison/controllers/customer/cart_controller.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CartPart extends StatelessWidget {
   final cartController = Get.find<CartController>();
@@ -15,6 +16,7 @@ class CartPart extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Obx(() {
       double discount = 0;
+      String totalmrp = NumberFormat('#,##0').format(cartController.totalMrp());
       discount = cartController.totalMrp() - cartController.totalSelling();
       return cartController.isLoading.value
           ? AddressShimmer(
@@ -90,11 +92,10 @@ class CartPart extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Divider(color: Colors.grey),
                     ),
+                    PaymentDetails(title: "Total MRP", value: "\$${totalmrp}"),
                     PaymentDetails(
-                        title: "Total MRP",
-                        value: "\$${cartController.totalMrp()}"),
-                    PaymentDetails(
-                        title: "Eilison Discount", value: "-\$$discount"),
+                        title: "Eilison Discount",
+                        value: "-\$${NumberFormat('#,##0').format(discount)}"),
                     // PaymentDetails(title: "Shipping", value: "Free"),
                   ],
                 );
