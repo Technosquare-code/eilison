@@ -13,7 +13,7 @@ class NoDataFound extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
+            Image.asset(
               img ?? 'https://picsum.photos/200',
               width: size.width * 0.3,
               height: size.width * 0.3,

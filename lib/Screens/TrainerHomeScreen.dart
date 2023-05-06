@@ -42,8 +42,9 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
         child: Obx(() {
           return Padding(
             padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
-            child: mainscreenController.isLoading.value &&
-                    mainscreenController.userdetailList.isEmpty
+            child: mainscreenController.isLoading.value ||
+                    mainscreenController.userdetailList.isEmpty ||
+                    homepageController.isLoading.value
                 ? TrainerHomeShimmer(
                     size: size,
                   )

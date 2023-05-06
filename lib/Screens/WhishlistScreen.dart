@@ -44,8 +44,8 @@ class WishlistScreen extends StatelessWidget {
             : wishController.wishList.isEmpty
                 ? NoDataFound(
                     buttnText: 'Continue Shopping',
-                    img:
-                        'https://www.pinclipart.com/picdir/middle/573-5735512_com-herz-kontur-rot-empty-heart-icon-png.png',
+                    img: 'assets/images/empty_wishlist.png',
+                    // 'https://www.pinclipart.com/picdir/middle/573-5735512_com-herz-kontur-rot-empty-heart-icon-png.png',
                     title: 'No Wishlist is Empty',
                   )
                 : SingleChildScrollView(

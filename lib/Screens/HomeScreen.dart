@@ -97,10 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Obx(() {
-          homescreenController.i.value = -1;
-          return mainscreenController.isLoading.value &&
-                  homescreenController.isLoading.value &&
-                  homescreenController.dynamicItemList.isEmpty
+          return mainscreenController.isLoading.value ||
+                  homescreenController.isLoading.value ||
+                  homescreenController.dynamicItemList.isEmpty ||
+                  !homescreenController.lalal.value
               ? HomeShimmer(size: size)
               : SingleChildScrollView(
                   padding: const EdgeInsets.all(22),

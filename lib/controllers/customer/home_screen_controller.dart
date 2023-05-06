@@ -116,7 +116,7 @@ class HomeScreenController extends GetxController {
   // }
 
   @override
-  void onReady() async {
+  void onInit() async {
     // TODO: implement onReady
     isLoading(true);
     await getbanner();
@@ -126,6 +126,6 @@ class HomeScreenController extends GetxController {
     await getSpecialItem();
 
     isLoading(false);
-    super.onReady();
+    super.onInit();
   }
 }

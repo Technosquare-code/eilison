@@ -15,7 +15,7 @@ class ViewAddressController extends GetxController {
   getAllAddress() async {
     isLoading(true);
     addressList.assignAll(await ProfileTabService().addressList());
-    isLoading(false);
+    // isLoading(false);
   }
 
   deleteAdress(String id, BuildContext context) async {
@@ -30,6 +30,7 @@ class ViewAddressController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     getAllAddress();
+    isLoading(false);
     super.onInit();
   }
 }

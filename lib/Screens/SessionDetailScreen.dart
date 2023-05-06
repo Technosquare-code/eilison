@@ -5,11 +5,32 @@ import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SessionDetailScreen extends StatelessWidget {
   bool? isCoach;
-  String? img, title, description;
-  SessionDetailScreen({this.description, this.img, this.title, this.isCoach});
+  String? img,
+      title,
+      description,
+      agenda,
+      sessiontype,
+      sessiondate,
+      sessiontime,
+      duration,
+      zoomlink,
+      category;
+  SessionDetailScreen(
+      {this.description,
+      this.img,
+      this.title,
+      this.isCoach,
+      this.agenda,
+      this.category,
+      this.duration,
+      this.sessiondate,
+      this.sessiontime,
+      this.sessiontype,
+      this.zoomlink});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -99,14 +120,63 @@ class SessionDetailScreen extends StatelessWidget {
                       ),
               ],
             ),
-            const SizedBox(height: 25),
             Text(
-              "Categories",
+              '${sessiondate}  (${sessiontime})',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 12,
                 color: Colors.black,
                 fontFamily: "Poppins",
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            Text(
+              'Duration- ${duration}',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            const SizedBox(height: 25),
+            Row(
+              children: [
+                Text(
+                  category ?? '',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: () async {
+                    if (await canLaunch(zoomlink!)) {
+                      await launch(zoomlink!);
+                    }
+                  },
+                  child: Text(
+                    'Join Link',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.red,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Text(
+              'Agenda- ${agenda}',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
               ),
             ),
             const SizedBox(height: 15),

@@ -52,21 +52,21 @@ class NotificationScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(25, 10, 25, 25),
-        child: Obx(() {
-          return notificationController.isLoading.value
-              ? AddressShimmer(
-                  size: MediaQuery.of(context).size,
-                )
-              : notificationController.notificationList.isEmpty
-                  ? NoDataFound(
-                      buttnText: 'Continue Shopping',
-                      img:
-                          'https://cdn-icons-png.flaticon.com/512/3541/3541850.png',
-                      title: 'No Notifications Right Now',
-                    )
-                  : ListView.builder(
+      body: Obx(() {
+        return notificationController.isLoading.value
+            ? AddressShimmer(
+                size: MediaQuery.of(context).size,
+              )
+            : notificationController.notificationList.isEmpty
+                ? NoDataFound(
+                    buttnText: 'Continue Shopping',
+                    img: 'assets/images/empty_notification.png',
+                    // 'https://cdn-icons-png.flaticon.com/512/3541/3541850.png',
+                    title: 'No Notifications Right Now',
+                  )
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(25, 10, 25, 25),
+                    child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: notificationController.notificationList.length,
                       physics: const NeverScrollableScrollPhysics(),
@@ -78,9 +78,9 @@ class NotificationScreen extends StatelessWidget {
                             .notificationList[i].createdDate
                             .toString(),
                       ),
-                    );
-        }),
-      ),
+                    ),
+                  );
+      }),
     );
   }
 }
