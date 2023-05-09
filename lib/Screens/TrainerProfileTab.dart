@@ -10,6 +10,8 @@ import 'package:elison/Screens/SupportScreen.dart';
 import 'package:elison/Screens/UserReviewsScreen.dart';
 import 'package:elison/Screens/WarrantyManagementScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
+import 'package:elison/Screens/trainer_privacy_policy.dart';
+import 'package:elison/Screens/trainer_terms_conditions.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
@@ -142,6 +144,28 @@ class _TrainerProfileTabState extends State<TrainerProfileTab> {
                         // Navigator.of(context).pushNamed(
                         //   UserReviewScreen.routeName,
                         // );
+                      },
+                    ),
+                    Item(
+                      Icons.privacy_tip_rounded,
+                      "Privacy Policy",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CoachPrivacyPolicy(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.live_help,
+                      "Terms And Conditions",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CoachTermsConditions(),
+                            ));
                       },
                     ),
                   ],

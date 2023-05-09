@@ -48,9 +48,9 @@ class CartController extends GetxController {
       UsePaypal(
           sandboxMode: true,
           clientId:
-              "AVTLvMH0OTgSrZ4SUKLbM3ES9wU4NtIoFpCT1lMow4Al__-LdIhbR4ySvRHXezYVpZ6BtOolrmechMFC",
+              "AXIVfX83zlT2ojcultE0KkLHltYqrltxGSe-ahXsZnrzOmrgEbr8w71JWJFmoMYLAQrXq0sXU2nMN5qI",
           secretKey:
-              "EM-jSsc_90LW0a3htWnVNv9X2wN4DFEehJxdmyMyQ_xBcNXNCRaZhm8z2aaL6xaGOVTLKZNamJCm25h3",
+              "EKe18dZVc2sUP9akgru8yZRxIVlVYP4-GzIu_CPi4rgsRRetGs7aRFQCqJTkjEVvCqFfWFOptxYxQpSi",
           returnURL: "https://samplesite.com/return",
           cancelURL: "https://samplesite.com/cancel",
           transactions: [
@@ -140,6 +140,9 @@ class CartController extends GetxController {
         reason: reason,
         status: status,
         transactionNo: transactionNo);
+    if (check) {
+      Get.off('/user-home');
+    }
     isLoading(false);
   }
 

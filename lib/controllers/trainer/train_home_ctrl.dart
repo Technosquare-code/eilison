@@ -10,32 +10,45 @@ class TrainerHomeController extends GetxController {
 
   var sessionList = List<SessionListModel>.empty(growable: true).obs;
   var pastsessionList = List<SessionListModel>.empty(growable: true).obs;
+  var ongoingsessionList = List<SessionListModel>.empty(growable: true).obs;
   getSessionList() async {
-    isLoading(true);
+    // isLoading(true);
     sessionList.assignAll(await HomeScreenService().homeSessionList());
-    isLoading(false);
+    // isLoading(false);
+  }
+
+  getOngoingList() async {
+    // isLoading(true);
+    ongoingsessionList
+        .assignAll(await HomeScreenService().ongoingSessionList());
+    // isLoading(false);
   }
 
   pastSessionList() async {
-    isLoading(true);
+    // isLoading(true);
     pastsessionList.assignAll(await HomeScreenService().homePastSessionList());
-    isLoading(false);
+    // isLoading(false);
   }
 
   deleteSession(BuildContext context, String sessionId) async {
+    isLoading(true);
     bool check = await ProfileTabService()
         .deleteSessionApi(context, sessionId: sessionId);
     if (check) {
       getSessionList();
       pastSessionList();
     }
+    isLoading(false);
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
-    getSessionList();
-    pastSessionList();
+    isLoading(true);
+    await getSessionList();
+    await pastSessionList();
+    await getOngoingList();
+    isLoading(false);
     super.onInit();
   }
 }

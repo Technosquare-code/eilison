@@ -50,6 +50,7 @@ class HomeScreenController extends GetxController {
   }
 
   getdynamiccategory() async {
+    dynamicItemList.clear();
     for (var element in mainscreenController.homeCategoryList) {
       dynamicItemList.add(DynamicData(
           category: element,
@@ -104,16 +105,9 @@ class HomeScreenController extends GetxController {
       prod!.isWhishlist = false;
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'remove', productId: prod.id, recordId: '');
-      check ? getdynamiccategory() : null;
+      // check ? getdynamiccategory() : null;
     }
   }
-  // getSubcategory(String categoryId) async {
-  //   isLoading(true);
-  //   subCategoryList
-  //       .assignAll(await HomeScreenService().subcategoryList(categoryId));
-  //   print('-----------${subCategoryList.length}');
-  //   isLoading(false);
-  // }
 
   @override
   void onInit() async {

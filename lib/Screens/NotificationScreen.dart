@@ -59,7 +59,7 @@ class NotificationScreen extends StatelessWidget {
               )
             : notificationController.notificationList.isEmpty
                 ? NoDataFound(
-                    buttnText: 'Continue Shopping',
+                    buttnText: 'No Notification',
                     img: 'assets/images/empty_notification.png',
                     // 'https://cdn-icons-png.flaticon.com/512/3541/3541850.png',
                     title: 'No Notifications Right Now',

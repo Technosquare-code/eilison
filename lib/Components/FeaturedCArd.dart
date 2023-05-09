@@ -45,7 +45,7 @@ class _FeaturedCardState extends State<FeaturedCard> {
       child: Container(
         width: size.width * 0.42,
         child: Card(
-          color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
+          color: widget.color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

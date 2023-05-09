@@ -48,7 +48,8 @@ class _ProductCardState extends State<ProductCard> {
       child: Container(
         width: size.width * 0.42,
         child: Card(
-          color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
+          color: widget.color,
+          // color: Colors.primaries[_random.nextInt(Colors.primaries.length)],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

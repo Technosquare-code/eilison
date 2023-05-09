@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:elison/Components/InputFeild.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/MyDropdown.dart';
+import 'package:elison/Components/snackbar.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/profile/address/add_address_controller.dart';
 import 'package:elison/urls.dart';
@@ -459,12 +460,29 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                             "${addsessionController.zoomlink.text} is not a valid URL.");
                         return;
                       }
-                      // addsessionController.createSession(context,
-                      //     sessiontypeId: addsessionController.isEdit ?? false
-                      //         ? addsessionController.sessiontype.value
-                      //         : type,
-                      //     imgpath: image != null ? image!.path : '',
-                      //     sessionId: addsessionController.sessionIId.value);
+                      if (!addsessionController.isEdit!) {
+                        if (image != null) {
+                          addsessionController.createSession(context,
+                              sessiontypeId:
+                                  addsessionController.isEdit ?? false
+                                      ? addsessionController.sessiontype.value
+                                      : type,
+                              imgpath: image != null ? image!.path : '',
+                              sessionId: addsessionController.sessionIId.value);
+                        } else {
+                          snackbar(
+                              context: context,
+                              msg: 'Please Pick an Image',
+                              title: 'Failed');
+                        }
+                      } else {
+                        addsessionController.createSession(context,
+                            sessiontypeId: addsessionController.isEdit ?? false
+                                ? addsessionController.sessiontype.value
+                                : type,
+                            imgpath: image != null ? image!.path : '',
+                            sessionId: addsessionController.sessionIId.value);
+                      }
                     }
                   },
                 ),

@@ -22,8 +22,12 @@ class ViewAddressController extends GetxController {
     isLoading(true);
     bool check =
         await ProfileTabService().deleteAddress(context, addressId: id);
-    check ? getAllAddress() : null;
-    isLoading(false);
+    // check ?
+    if (check) {
+      await getAllAddress();
+      isLoading(false);
+    }
+    // : null;
   }
 
   @override

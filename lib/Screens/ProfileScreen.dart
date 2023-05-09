@@ -10,6 +10,10 @@ import 'package:elison/Screens/SupportScreen.dart';
 import 'package:elison/Screens/UserReviewsScreen.dart';
 import 'package:elison/Screens/WarrantyManagementScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
+import 'package:elison/Screens/customer_about.dart';
+import 'package:elison/Screens/customer_privacy_policy.dart';
+import 'package:elison/Screens/customer_refund_policy.dart';
+import 'package:elison/Screens/customer_terms_conditions.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
@@ -218,6 +222,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         // Navigator.of(context).pushNamed(
                         //   UserReviewScreen.routeName,
                         // );
+                      },
+                    ),
+                    Item(
+                      Icons.menu_book_rounded,
+                      "About Us",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AboutUs(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.privacy_tip_rounded,
+                      "Privacy Policy",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PrivacyPolicy(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.refresh_rounded,
+                      "Refund Policy",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RefundPolicy(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.live_help,
+                      "Terms And Conditions",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TermsConditions(),
+                            ));
                       },
                     ),
                   ],

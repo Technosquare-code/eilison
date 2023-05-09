@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:elison/models/address_model.dart';
+import 'package:elison/models/cms_model.dart';
 import 'package:elison/models/notification_model.dart';
 import 'package:elison/models/support_model.dart';
 import 'package:elison/models/user_details_model.dart';
@@ -370,8 +371,13 @@ class ProfileTabService {
     String timeStr = start_time!;
     print(timeStr);
     DateTime time = DateFormat("HH:mm").parse(timeStr);
+    DateTime endtime = DateFormat("HH:mm")
+        .parse(timeStr)
+        .add(Duration(minutes: int.parse(duration ?? '0')));
     String formattedTime = DateFormat("HH:mm:ss").format(time);
+    String formattedEndTime = DateFormat("HH:mm:ss").format(endtime);
     String amPmTime = DateFormat("h:mm a").format(time);
+    // String endamPmTime = DateFormat("h:mm a").format(time);
     print(image);
     form = image != ''
         ? formData.FormData.fromMap({
@@ -386,6 +392,7 @@ class ProfileTabService {
             'zoom_link': zoom_link,
             'session_id': session_id,
             'session_datetime': formattedDate + ' ' + formattedTime,
+            'session_end_datetime': formattedDate + ' ' + formattedEndTime,
             'current_session_photo': '',
             "image": await multipart_file.MultipartFile.fromFile(image!,
                 filename: image),
@@ -402,6 +409,7 @@ class ProfileTabService {
             'zoom_link': zoom_link,
             'session_id': session_id,
             'session_datetime': formattedDate + ' ' + formattedTime,
+            'session_end_datetime': formattedDate + ' ' + formattedEndTime,
             'current_session_photo': imgpath,
             "image": '',
           });
@@ -524,6 +532,58 @@ class ProfileTabService {
         }
         // blist.assignAll(categoryListModelFromJson(data));
       }
+    }
+    return blist;
+  }
+
+  Future<List<CmsModel>> customerCms() async {
+    List<CmsModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    var response =
+        await dio.post('$baseUrl/cms.php', options: Options(headers: headers));
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      // if (data['status'] == 'true') {
+      //   for (var i in data['data']) {
+      //     blist.add(CmsModel.fromJson(i));
+      //     print('object');
+      //   }
+      blist.add(CmsModel.fromJson(response.data));
+      // blist.assignAll(categoryListModelFromJson(data));
+
+    }
+    return blist;
+  }
+
+  Future<List<CmsModel>> coachCms() async {
+    List<CmsModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    var response = await dio.post('$trainerbaseUrl/cms.php',
+        options: Options(headers: headers));
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      // if (data['status'] == 'true') {
+      //   for (var i in data['data']) {
+      //     blist.add(CmsModel.fromJson(i));
+      //     print('object');
+      //   }
+      blist.add(CmsModel.fromJson(response.data));
+      // blist.assignAll(categoryListModelFromJson(data));
+
     }
     return blist;
   }

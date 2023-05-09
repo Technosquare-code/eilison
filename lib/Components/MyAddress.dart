@@ -86,9 +86,10 @@ class MyAddress extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  viewController.deleteAdress(
+                onTap: () async {
+                  await viewController.deleteAdress(
                       viewController.addressList[id!].id, context);
+                  // viewController.isLoading(false);
                 },
                 child: Text(
                   "Delete",
