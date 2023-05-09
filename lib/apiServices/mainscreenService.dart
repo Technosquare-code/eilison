@@ -21,7 +21,7 @@ class MainScreenService {
   String? deviceType;
   var pref = GetStorage();
 
-  Future<UserDetailsModel> userdetail() async {
+  Future userdetail() async {
     final FirebaseMessaging fcm = FirebaseMessaging.instance;
     final fcmToken = await fcm.getToken();
     debugPrint(fcmToken);
@@ -45,6 +45,12 @@ class MainScreenService {
     print(form.fields);
     var data = response.data;
     debugPrint(data['status']);
+    if (data['status'] != 'true') {
+      print('get user detail false ara h');
+      pref.write('isLogin', false);
+      Get.offAndToNamed('/login-screen');
+      return;
+    }
     return userDetailsModelFromJson(data);
   }
 
@@ -161,6 +167,82 @@ class MainScreenService {
         //     msg: 'Product removed successfully from card',
         //     title: 'Success');
 
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> startSessionApi(
+    BuildContext context, {
+    String? session_id,
+  }) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'session_id': session_id,
+    });
+
+    var response = await dio.post(
+      '$trainerbaseUrl/start-session.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+
+    print(form.fields);
+    var data = response.data;
+
+    print(data);
+    print('start-session api hit hori h----------');
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        Fluttertoast.showToast(msg: data['data']);
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> endSessionApi(
+    BuildContext context, {
+    String? session_id,
+  }) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'session_id': session_id,
+    });
+
+    var response = await dio.post(
+      '$trainerbaseUrl/complete-session.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+
+    print(form.fields);
+    var data = response.data;
+
+    print(data);
+    print('start-session api hit hori h----------');
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        Fluttertoast.showToast(msg: data['data']);
         return true;
       } else {
         snackbar(context: context, msg: data['data'], title: 'Failed');

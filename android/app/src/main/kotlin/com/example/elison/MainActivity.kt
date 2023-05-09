@@ -1,4 +1,4 @@
-package com.example.elison
+package com.technosquare.elison
 
 import io.flutter.embedding.android.FlutterActivity
 
