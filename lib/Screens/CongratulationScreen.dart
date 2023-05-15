@@ -1,6 +1,7 @@
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Screens/MainScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class CongratulationScreen extends StatelessWidget {
@@ -46,10 +47,7 @@ class CongratulationScreen extends StatelessWidget {
                 title: "Back To Home",
                 textColor: Colors.white,
                 onTap: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                  Navigator.of(context).pushReplacementNamed(
-                    MainScreen.routeName,
-                  );
+                  Get.offAllNamed('/user-home');
                 },
               ),
             ],

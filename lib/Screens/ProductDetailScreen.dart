@@ -536,22 +536,44 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 10.0, right: 10.0, bottom: 8.0),
-                        child: MyButton(
-                          fontSize: 16,
-                          sizeHieght: 55,
-                          title: prodDetailController.isAdded.value
-                              ? 'Go To Cart'
-                              : "Add to cart",
-                          textColor: Colors.white,
-                          onTap: () {
-                            prodDetailController.isAdded.value
-                                ? Get.toNamed('/cart', arguments: [true])
-                                : prodDetailController.addTocart(context);
-                            // Get.toNamed('/promocode-screen');
-                            // Navigator.of(context).pushNamed(
-                            //   PromocodeScreen.routeName,
-                            // );
-                          },
+                        child: Column(
+                          children: [
+                            MyButton(
+                              fontSize: 16,
+                              sizeHieght: 55,
+                              title: prodDetailController.isAdded.value
+                                  ? 'Go To Cart'
+                                  : "Add to cart",
+                              textColor: Colors.white,
+                              onTap: () {
+                                prodDetailController.isAdded.value
+                                    ? Get.toNamed('/cart', arguments: [true, 0])
+                                    : prodDetailController.addTocart(context);
+                                // Get.toNamed('/promocode-screen');
+                                // Navigator.of(context).pushNamed(
+                                //   PromocodeScreen.routeName,
+                                // );
+                              },
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            MyButton(
+                              fontSize: 16,
+                              sizeHieght: 55,
+                              color: Colors.black,
+                              title: "Buy Now",
+                              textColor: Colors.white,
+                              onTap: () async {
+                                bool check = true;
+                                //  await prodDetailController
+                                //     .addTocart(context);
+                                if (check) {
+                                  Get.toNamed('/cart', arguments: [true, 1]);
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),

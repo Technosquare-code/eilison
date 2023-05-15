@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "451323388556",
-    "project_id": "eilison",
-    "storage_bucket": "eilison.appspot.com"
+    "project_number": "355397874785",
+    "project_id": "eilision",
+    "storage_bucket": "eilision.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:451323388556:android:a08f9b59995ebabcef11a9",
+        "mobilesdk_app_id": "1:355397874785:android:1dbb27f81c11e6267f2620",
         "android_client_info": {
           "package_name": "com.technosquare.elison"
         }
       },
       "oauth_client": [
         {
-          "client_id": "451323388556-nqigoss8tppv00j26302p5477jdjnlr5.apps.googleusercontent.com",
+          "client_id": "355397874785-sqqbul0vk0tvkbm9h8qfd8oq0jv3s5ck.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAvsz7MTeBw1ysxZNa3h_TB6DKdG_3JLws"
+          "current_key": "AIzaSyAZGk6G2EB95h6LhU0pQ3gOj4Kyd57mVLY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "451323388556-nqigoss8tppv00j26302p5477jdjnlr5.apps.googleusercontent.com",
+              "client_id": "355397874785-sqqbul0vk0tvkbm9h8qfd8oq0jv3s5ck.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -141,7 +141,8 @@ class CartController extends GetxController {
         status: status,
         transactionNo: transactionNo);
     if (check) {
-      Get.off('/user-home');
+      // Get.off('/user-home');
+      Get.toNamed('/congracts');
     }
     isLoading(false);
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ProductVideos extends StatelessWidget {
-  final String image;
+  final String image, name;
 
-  const ProductVideos(this.image);
+  const ProductVideos(this.image, this.name);
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -22,11 +22,11 @@ class ProductVideos extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.asset(
+                  child: Image.network(
                     image,
                     width: size.width / 4,
                     height: size.width / 5,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Icon(
@@ -39,7 +39,7 @@ class ProductVideos extends StatelessWidget {
             const SizedBox(width: 15),
             Expanded(
               child: Text(
-                "Video Title",
+                name ?? "Video Title",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black,

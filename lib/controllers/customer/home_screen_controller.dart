@@ -8,10 +8,12 @@ import 'package:elison/models/products_model.dart';
 import 'package:elison/models/special_item_model.dart';
 import 'package:elison/models/subcategory_model.dart';
 import 'package:elison/models/user_details_model.dart';
+import 'package:elison/models/user_session_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../models/session_type_model.dart';
 import 'mainscreen_controller.dart';
 
 class DynamicData {
@@ -28,6 +30,16 @@ class HomeScreenController extends GetxController {
   var bannerList = List<BannerListModel>.empty(growable: true).obs;
   var categoryList = List<CategoryListModel>.empty(growable: true).obs;
   var specialItemList = List<ProductsModel>.empty(growable: true).obs;
+  var onlinSessionList = List<UserSessionModel>.empty(growable: true).obs;
+  var enrolledSessionList = List<UserSessionModel>.empty(growable: true).obs;
+  var seeAllOnlinSessionList = List<UserSessionModel>.empty(growable: true).obs;
+  var copySeeAllOnlinSessionList =
+      List<UserSessionModel>.empty(growable: true).obs;
+  var seeAllEnrolledSessionList =
+      List<UserSessionModel>.empty(growable: true).obs;
+  var copySeeAllEnrolledSessionList =
+      List<UserSessionModel>.empty(growable: true).obs;
+  var sessionTypeList = List<SessionTypeModel>.empty(growable: true).obs;
 
   var dynamicItemList = List<DynamicData>.empty(growable: true).obs;
   // var dynamicItemList = List<List<ProductsModel>>.empty(growable: true).obs;
@@ -37,6 +49,55 @@ class HomeScreenController extends GetxController {
   var lalal = false.obs;
   getbanner() async {
     bannerList.assignAll(await HomeScreenService().bannerList());
+  }
+
+  getSessionType() async {
+    sessionTypeList.assignAll(await HomeScreenService().sessionTypeList());
+    sessionTypeList.insert(0, SessionTypeModel(categoryName: 'All', id: "all"));
+  }
+
+  getOnlineSessions(String type) async {
+    onlinSessionList
+        .assignAll(await HomeScreenService().onlineSessionList(type));
+  }
+
+  getEnrollSessions(String type) async {
+    enrolledSessionList
+        .assignAll(await HomeScreenService().enrollSessionList(type));
+  }
+
+  getSeeAllOnlineSessions() async {
+    seeAllOnlinSessionList
+        .assignAll(await HomeScreenService().onlineSessionList('view_all'));
+    copySeeAllOnlinSessionList
+        .assignAll(await HomeScreenService().onlineSessionList('view_all'));
+  }
+
+  filterSessions(String cateId, bool isEnrolled) {
+    if (isEnrolled) {
+      if (cateId == "all") {
+        seeAllEnrolledSessionList.assignAll(copySeeAllEnrolledSessionList);
+        return;
+      }
+      seeAllEnrolledSessionList.assignAll(copySeeAllEnrolledSessionList
+          .where((p0) => p0.sessionType == cateId));
+
+      return;
+    }
+    if (cateId == "all") {
+      print('object');
+      seeAllOnlinSessionList.assignAll(copySeeAllOnlinSessionList);
+      return;
+    }
+    seeAllOnlinSessionList.assignAll(
+        copySeeAllOnlinSessionList.where((p0) => p0.sessionType == cateId));
+  }
+
+  getSeeAllEnrolledSessions() async {
+    seeAllEnrolledSessionList
+        .assignAll(await HomeScreenService().enrollSessionList('view_all'));
+    copySeeAllEnrolledSessionList
+        .assignAll(await HomeScreenService().enrollSessionList('view_all'));
   }
 
   getSpecialItem() async {
@@ -117,8 +178,10 @@ class HomeScreenController extends GetxController {
     await getcategory();
     await getdynamiccategory();
     // await getNotification();
+    await getSessionType();
     await getSpecialItem();
-
+    await getOnlineSessions('home');
+    await getEnrollSessions('home');
     isLoading(false);
     super.onInit();
   }

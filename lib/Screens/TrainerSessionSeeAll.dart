@@ -7,9 +7,15 @@ import '../package edit/src/responsive_grid_list.dart';
 import 'SessionDetailScreen.dart';
 
 class TrainerSessionSeeAll extends StatelessWidget {
+  bool? isUpcoming, isPast;
   String? title;
   List<SessionListModel> sessionlist;
-  TrainerSessionSeeAll({super.key, this.sessionlist = const [], this.title});
+  TrainerSessionSeeAll(
+      {super.key,
+      this.sessionlist = const [],
+      this.title,
+      this.isUpcoming = false,
+      this.isPast});
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +50,15 @@ class TrainerSessionSeeAll extends StatelessWidget {
                 children: List.generate(
                   sessionlist.length,
                   (index) => Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => SessionDetailScreen(
+                                sessionId: sessionlist[index].id,
+                                isPast: isPast,
                                 description: sessionlist[index].description,
                                 img: sessionlist[index].image,
                                 title: sessionlist[index].sessionName,

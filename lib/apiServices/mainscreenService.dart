@@ -215,6 +215,44 @@ class MainScreenService {
     return false;
   }
 
+  Future<bool> joinSessionApi(
+    BuildContext context, {
+    String? session_id,
+  }) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'session_id': session_id,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/join-enrolled-session.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+
+    print(form.fields);
+    var data = response.data;
+
+    print(data);
+    print('join-session api hit hori h----------');
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        Fluttertoast.showToast(msg: data['data']);
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
   Future<bool> endSessionApi(
     BuildContext context, {
     String? session_id,
@@ -239,7 +277,7 @@ class MainScreenService {
     var data = response.data;
 
     print(data);
-    print('start-session api hit hori h----------');
+    print('end-session api hit hori h----------');
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
         Fluttertoast.showToast(msg: data['data']);

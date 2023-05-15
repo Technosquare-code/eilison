@@ -92,6 +92,7 @@ class ProductDetailController extends GetxController {
       isAdded(true);
       ss.getuserdetails();
     }
+    return check;
   }
 
   initvideo(String url) {

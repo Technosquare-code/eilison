@@ -27,9 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             SizedBox(
               child: Image.asset(
-                "assets/images/eilison_logo.png",
-                width: size.width / 1.3,
-                height: size.height / 4,
+                "assets/images/elisonlogo.jpg",
+                // width: size.width / 1.3,
+                // height: size.height / 4,
                 fit: BoxFit.fill,
               ),
             )

@@ -122,9 +122,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.insert_chart_outlined,
                       "Orders",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          OrderScreen.routeName,
-                        );
+                        Get.toNamed('/order-screen');
+                        // Navigator.of(context).pushNamed(
+                        //   OrderScreen.routeName,
+                        // );
                       },
                     ),
                     Item(

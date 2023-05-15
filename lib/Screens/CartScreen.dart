@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../Components/shimmer/addressShimmer.dart';
 import '../controllers/customer/profile/address/view_address_controller.dart';
@@ -25,7 +26,7 @@ class _CartScreenState extends State<CartScreen> {
   final cartController = Get.put(CartController(isadd: Get.arguments[0]));
   final viewController = Get.put(ViewAddressController());
 
-  int currentPage = 0;
+  int currentPage = Get.arguments[1];
   List pages = [
     CartPart(),
     AddressPart(),
@@ -167,7 +168,7 @@ class _CartScreenState extends State<CartScreen> {
                           children: [
                             Obx(() {
                               return Text(
-                                "\$${cartController.totalSelling()}",
+                                "\$${NumberFormat('#,##0').format(cartController.totalSelling())}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,

@@ -1,3 +1,4 @@
+import 'package:elison/Screens/CongratulationScreen.dart';
 import 'package:elison/Screens/MainScreen.dart';
 import 'package:elison/Screens/TrainerHomeScreen.dart';
 import 'package:elison/Screens/change_password.dart';
@@ -14,6 +15,7 @@ import '../Screens/GettingStartedScreen.dart';
 import '../Screens/LoginScreen.dart';
 import '../Screens/NotificationScreen.dart';
 import '../Screens/OnBoardScreen.dart';
+import '../Screens/OrderScreen.dart';
 import '../Screens/ProductDetailScreen.dart';
 import '../Screens/ProductFilterScreen.dart';
 import '../Screens/PromocodeScreen.dart';
@@ -61,6 +63,10 @@ appRoutes() => [
         page: () => MainScreen(),
       ),
       GetPage(
+        name: '/order-screen',
+        page: () => OrderScreen(),
+      ),
+      GetPage(
         name: '/edit-profile-user',
         page: () => EditProfileScreen(),
       ),
@@ -91,6 +97,10 @@ appRoutes() => [
       GetPage(
         name: '/add-address',
         page: () => AddNewAddressScreen(),
+      ),
+      GetPage(
+        name: '/congracts',
+        page: () => CongratulationScreen(),
       ),
       GetPage(
         name: '/category-screen',

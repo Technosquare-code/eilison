@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:elison/models/address_model.dart';
 import 'package:elison/models/cms_model.dart';
 import 'package:elison/models/notification_model.dart';
+import 'package:elison/models/order_model.dart';
 import 'package:elison/models/support_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:elison/urls.dart';
@@ -500,6 +501,34 @@ class ProfileTabService {
           print('object');
         }
         // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<OrderListModel>> orderList() async {
+    List<OrderListModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+    });
+
+    var response = await dio.post('$baseUrl/my-order-list.php',
+        options: Options(headers: headers), data: form);
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(OrderListModel.fromJson(i));
+          print('object');
+        }
       }
     }
     return blist;

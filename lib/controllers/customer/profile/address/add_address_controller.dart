@@ -75,9 +75,8 @@ class AddAddressController extends GetxController {
 
     if (check) {
       isLoading(false);
-      addresscontroller.getAllAddress();
+      await addresscontroller.getAllAddress();
       addresscontroller.isLoading(false);
-      Get.back();
     }
     isLoading(false);
   }

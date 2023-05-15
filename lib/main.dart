@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
       // routes: routes,
       initialRoute: '/splash',
       // home: '',
+      defaultTransition: Transition.fade,
       getPages: appRoutes(),
       debugShowCheckedModeBanner: false,
     );

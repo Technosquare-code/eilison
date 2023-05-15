@@ -4,6 +4,7 @@ import 'package:elison/controllers/notification_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../Components/shimmer/addressShimmer.dart';
 import 'NoDataFoundScreen.dart';
@@ -71,13 +72,14 @@ class NotificationScreen extends StatelessWidget {
                       itemCount: notificationController.notificationList.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx, i) => MyNotification(
-                        image: 'assets/images/xlogo.png',
-                        title: notificationController
-                            .notificationList[i].notiTitle,
-                        time: notificationController
-                            .notificationList[i].createdDate
-                            .toString(),
-                      ),
+                          image: 'assets/images/xlogo.png',
+                          title: notificationController
+                              .notificationList[i].notiTitle,
+                          subtitle: notificationController
+                              .notificationList[i].notiDescription,
+                          time: DateFormat('d MMM y h:mm a').format(
+                              notificationController
+                                  .notificationList[i].createdDate)),
                     ),
                   );
       }),

@@ -19,9 +19,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../Components/FeaturedCArd.dart';
+import '../controllers/trainer/session_detail_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -91,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/banner4.jpg',
     'assets/images/banner3.jpg',
   ];
-
+  final detailController = Get.put(SessionDetailController());
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
@@ -108,6 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
             await homescreenController.getdynamiccategory();
             // await getNotification();
             await homescreenController.getSpecialItem();
+            await homescreenController.getOnlineSessions('home');
+            await homescreenController.getEnrollSessions('home');
 
             homescreenController.isLoading(false);
           },
@@ -189,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.black,
                                     ),
                                     onPressed: () {
-                                      Get.toNamed('/cart', arguments: [false]);
+                                      Get.toNamed('/cart',
+                                          arguments: [false, 0]);
                                       // Navigator.of(context).pushNamed(
                                       //   CartScreen.routeName,
                                       // );
@@ -503,58 +508,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           ).toList(),
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       'Resistance Band',
-                        //       style: TextStyle(
-                        //         fontSize: 16,
-                        //         color: Colors.black,
-                        //         fontFamily: "Poppins",
-                        //         fontWeight: FontWeight.w600,
-                        //       ),
-                        //     ),
-                        //     InkWell(
-                        //       onTap: () {
-                        //         Navigator.of(context).pushNamed(
-                        //           AllCategoryProductScreen.routeName,
-                        //           arguments: "Resistance Band",
-                        //         );
-                        //       },
-                        //       child: Text(
-                        //         'See All',
-                        //         style: TextStyle(
-                        //           fontSize: 12,
-                        //           color: Colors.black,
-                        //           fontFamily: "Poppins",
-                        //           fontWeight: FontWeight.w400,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        // const SizedBox(height: 15),
-                        // SingleChildScrollView(
-                        //   scrollDirection: Axis.horizontal,
-                        //   child: Wrap(
-                        //     spacing: 16,
-                        //     children: List.generate(
-                        //       likecardList.length,
-                        //       (index) => ProductCard(
-                        //         isFavourite: true,
-                        //         productId: '',
-                        //         title: likecardList[index]['title'],
-                        //         imagePath: likecardList[index]['imageAsset'],
-                        //         price: likecardList[index]['price'],
-                        //         color: Colors
-                        //             .colr[_random.nextInt(Colors.colr.length)],
-                        //         onTap: () {},
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // const SizedBox(height: 15),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -569,13 +522,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  AllSessionScreen.routeName,
-                                  arguments: {
-                                    'title': 'Online Sessions',
-                                    'type': 'Online',
-                                  },
-                                );
+                                homescreenController.getSeeAllOnlineSessions();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AllSessionScreen(
+                                          isenrolled: false,
+                                          title: 'Online Sessions',
+                                          sessions: homescreenController
+                                              .seeAllOnlinSessionList),
+                                    ));
                               },
                               child: Text(
                                 'See All',
@@ -590,60 +546,141 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         const SizedBox(height: 15),
-                        Session(
-                            showDivider: true,
-                            color: Colors.primaries[math.Random()
-                                .nextInt(Colors.primaries.length)]),
-                        Session(
-                            showDivider: false,
-                            color: Colors.primaries[math.Random()
-                                .nextInt(Colors.primaries.length)]),
+                        Wrap(
+                          spacing: 3,
+                          children: List.generate(
+                            homescreenController.onlinSessionList.length,
+                            (index) => Session(
+                                date: DateFormat('d MMM y').format(homescreenController
+                                    .onlinSessionList[index].sessionDate),
+                                duration: homescreenController
+                                    .onlinSessionList[index].duration,
+                                img: homescreenController
+                                    .onlinSessionList[index].image,
+                                time: homescreenController
+                                    .onlinSessionList[index].sessionTime,
+                                title: homescreenController
+                                    .onlinSessionList[index].sessionName,
+                                category: homescreenController
+                                    .onlinSessionList[index]
+                                    .sessionCategoryName,
+                                showDivider: index !=
+                                    homescreenController.onlinSessionList.length -
+                                        1,
+                                agenda: homescreenController
+                                    .onlinSessionList[index].agenda,
+                                description: homescreenController
+                                    .onlinSessionList[index].description,
+                                sessionId: homescreenController
+                                    .onlinSessionList[index].id,
+                                sessiontype: homescreenController
+                                    .onlinSessionList[index].sessionType,
+                                zoomlink: homescreenController
+                                    .onlinSessionList[index].zoomLink,
+                                color: Colors.primaries[
+                                    math.Random().nextInt(Colors.primaries.length)]),
+                          ),
+                        ),
+                        // Session(
+                        //     showDivider: false,
+                        //     color: Colors.primaries[math.Random()
+                        //         .nextInt(Colors.primaries.length)]),
                         const SizedBox(height: 25),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Enrolled Sessions',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  AllSessionScreen.routeName,
-                                  arguments: {
-                                    'title': 'Enrolled Sessions',
-                                    'type': 'Enrolled',
-                                  },
-                                );
-                              },
-                              child: Text(
-                                'See All',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        homescreenController.enrolledSessionList.isNotEmpty
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Enrolled Sessions',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  homescreenController
+                                          .enrolledSessionList.isNotEmpty
+                                      ? InkWell(
+                                          onTap: () {
+                                            homescreenController
+                                                .getSeeAllEnrolledSessions();
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AllSessionScreen(
+                                                          title:
+                                                              'Enrolled Sessions',
+                                                          isenrolled: true,
+                                                          sessions:
+                                                              homescreenController
+                                                                  .seeAllEnrolledSessionList),
+                                                ));
+                                          },
+                                          child: Text(
+                                            'See All',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
+                              )
+                            : Container(),
                         const SizedBox(height: 15),
-                        Session(
-                          showDivider: true,
-                          color: Colors.primaries[
-                              math.Random().nextInt(Colors.primaries.length)],
-                        ),
-                        Session(
-                          showDivider: false,
-                          color: Colors.primaries[
-                              math.Random().nextInt(Colors.primaries.length)],
-                        ),
+                        homescreenController.enrolledSessionList.isNotEmpty
+                            ? Wrap(
+                                spacing: 3,
+                                children: List.generate(
+                                  homescreenController
+                                      .enrolledSessionList.length,
+                                  (index) => Session(
+                                      isEnrolled: true,
+                                      date: DateFormat('d MMM y').format(homescreenController
+                                          .enrolledSessionList[index]
+                                          .sessionDate),
+                                      duration: homescreenController
+                                          .enrolledSessionList[index].duration,
+                                      img: homescreenController
+                                          .enrolledSessionList[index].image,
+                                      time: homescreenController
+                                          .enrolledSessionList[index]
+                                          .sessionTime,
+                                      title: homescreenController
+                                          .enrolledSessionList[index]
+                                          .sessionName,
+                                      category: homescreenController
+                                          .enrolledSessionList[index]
+                                          .sessionCategoryName,
+                                      showDivider: index !=
+                                          homescreenController.enrolledSessionList.length -
+                                              1,
+                                      agenda: homescreenController
+                                          .enrolledSessionList[index].agenda,
+                                      description: homescreenController
+                                          .enrolledSessionList[index]
+                                          .description,
+                                      sessionId: homescreenController
+                                          .enrolledSessionList[index].id,
+                                      sessiontype: homescreenController
+                                          .enrolledSessionList[index]
+                                          .sessionType,
+                                      zoomlink: homescreenController
+                                          .enrolledSessionList[index].zoomLink,
+                                      color: Colors.primaries[math.Random().nextInt(Colors.primaries.length)],
+                                      is_joined: homescreenController.enrolledSessionList[index].is_joined ?? false),
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Center(child: Text('No Data Found')),
+                              ),
                       ],
                     ),
                   );

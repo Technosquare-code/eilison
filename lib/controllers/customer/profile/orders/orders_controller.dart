@@ -1,39 +1,28 @@
 import 'package:elison/apiServices/mainscreenService.dart';
 import 'package:elison/apiServices/profile_tab_service.dart';
 import 'package:elison/models/address_model.dart';
+import 'package:elison/models/order_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class ViewAddressController extends GetxController {
+class OrderListController extends GetxController {
   var isLoading = false.obs;
   // final mainscreenController = Get.find<MainScreenController>();
 
-  var addressList = List<AddressModel>.empty(growable: true).obs;
+  var orderList = List<OrderListModel>.empty(growable: true).obs;
 
-  getAllAddress() async {
+  getAllOrders() async {
     isLoading(true);
-    addressList.assignAll(await ProfileTabService().addressList());
+    orderList.assignAll(await ProfileTabService().orderList());
     // isLoading(false);
-  }
-
-  deleteAdress(String id, BuildContext context) async {
-    isLoading(true);
-    bool check =
-        await ProfileTabService().deleteAddress(context, addressId: id);
-    // check ?
-    if (check) {
-      await getAllAddress();
-      isLoading(false);
-    }
-    // : null;
   }
 
   @override
   void onInit() async {
     // TODO: implement onInit
-    await getAllAddress();
+    await getAllOrders();
     isLoading(false);
     super.onInit();
   }
