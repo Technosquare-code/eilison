@@ -55,7 +55,18 @@ class EditProfileController extends GetxController {
     bool check =
         await ProfileTabService().profilePictureApi(context, image: imgpath);
     if (check) {
-      mainscreenController.getuserdetails();
+      await mainscreenController.getuserdetails();
+      ispictureLoading(false);
+    }
+    // isLoading(false);
+  }
+
+  uploadTimelineImage(String? imgpath, BuildContext context) async {
+    ispictureLoading(true);
+    bool check =
+        await ProfileTabService().timelinePictureApi(context, image: imgpath);
+    if (check) {
+      await mainscreenController.getuserdetails();
       ispictureLoading(false);
     }
     // isLoading(false);

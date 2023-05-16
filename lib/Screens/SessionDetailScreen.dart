@@ -22,6 +22,8 @@ class SessionDetailScreen extends StatelessWidget {
       duration,
       zoomlink,
       sessionId,
+      coach_profile_picture,
+      coach_name,
       category;
   SessionDetailScreen(
       {this.description,
@@ -38,6 +40,8 @@ class SessionDetailScreen extends StatelessWidget {
       this.sessiontype,
       this.isEnrolled = false,
       this.is_joined = false,
+      this.coach_name,
+      this.coach_profile_picture,
       this.zoomlink});
 
   final detailController = Get.find<SessionDetailController>();
@@ -87,7 +91,7 @@ class SessionDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          is_joined.toString() ?? '',
+                          title ?? '',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,
@@ -105,7 +109,8 @@ class SessionDetailScreen extends StatelessWidget {
                                       showDialog(
                                         context: context,
                                         builder: (ctx) => AlertDialog(
-                                          content: RateTrainer(),
+                                          content:
+                                              RateTrainer(sessionid: sessionId),
                                         ),
                                       );
                                     },
@@ -205,6 +210,50 @@ class SessionDetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    isCoach ?? false ? Container() : const SizedBox(height: 10),
+                    isCoach ?? false
+                        ? Container()
+                        : Row(
+                            children: [
+                              coach_profile_picture != null
+                                  ? CircleAvatar(
+                                      backgroundImage: NetworkImage(mainUrl +
+                                          imageUrl +
+                                          coach_profile_picture!),
+                                    )
+                                  : CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
+                                    ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Session By',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    // 'Coach Name',
+                                    coach_name ?? '',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                     const SizedBox(height: 25),
                     Row(
                       children: [

@@ -309,6 +309,46 @@ class ProfileTabService {
     return false;
   }
 
+  Future<bool> timelinePictureApi(BuildContext context, {String? image}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'old_timeline_picture': '',
+      "image":
+          await multipart_file.MultipartFile.fromFile(image!, filename: image),
+    });
+
+    var response = await dio.post(
+      '$trainerbaseUrl/timeline-photo-update.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+    print('form================== $form');
+    print("ddddddddddddddddddd${pref.read('user_id')}");
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        // Get.back();
+
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
   Future<bool> deleteSessionApi(BuildContext context,
       {String? sessionId}) async {
     Dio dio = Dio();

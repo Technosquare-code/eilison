@@ -191,9 +191,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.class_outlined,
                       "My Sessions",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          MySessionScreen.routeName,
-                        );
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => MySessionScreen(),
+                        //     ));
+                        Get.toNamed('/my-sessions');
                       },
                     ),
                     Item(

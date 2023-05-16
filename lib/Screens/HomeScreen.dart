@@ -551,8 +551,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: List.generate(
                             homescreenController.onlinSessionList.length,
                             (index) => Session(
-                                date: DateFormat('d MMM y').format(homescreenController
-                                    .onlinSessionList[index].sessionDate),
+                                coach_name: homescreenController
+                                    .onlinSessionList[index].coach_name,
+                                coach_profile_picture: homescreenController
+                                    .onlinSessionList[index]
+                                    .coach_profile_picture,
+                                isEnrolled: false,
+                                is_joined: false,
+                                date: DateFormat('d MMM y').format(
+                                    homescreenController
+                                        .onlinSessionList[index].sessionDate),
                                 duration: homescreenController
                                     .onlinSessionList[index].duration,
                                 img: homescreenController
@@ -577,14 +585,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .onlinSessionList[index].sessionType,
                                 zoomlink: homescreenController
                                     .onlinSessionList[index].zoomLink,
-                                color: Colors.primaries[
-                                    math.Random().nextInt(Colors.primaries.length)]),
+                                color:
+                                    Colors.primaries[math.Random().nextInt(Colors.primaries.length)]),
                           ),
                         ),
-                        // Session(
-                        //     showDivider: false,
-                        //     color: Colors.primaries[math.Random()
-                        //         .nextInt(Colors.primaries.length)]),
                         const SizedBox(height: 25),
                         homescreenController.enrolledSessionList.isNotEmpty
                             ? Row(
@@ -641,10 +645,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   homescreenController
                                       .enrolledSessionList.length,
                                   (index) => Session(
-                                      isEnrolled: true,
-                                      date: DateFormat('d MMM y').format(homescreenController
+                                      coach_name: homescreenController
                                           .enrolledSessionList[index]
-                                          .sessionDate),
+                                          .coach_name,
+                                      coach_profile_picture: homescreenController
+                                          .enrolledSessionList[index]
+                                          .coach_profile_picture,
+                                      isEnrolled: true,
+                                      date: DateFormat('d MMM y').format(
+                                          homescreenController
+                                              .enrolledSessionList[index]
+                                              .sessionDate),
                                       duration: homescreenController
                                           .enrolledSessionList[index].duration,
                                       img: homescreenController
@@ -668,11 +679,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .description,
                                       sessionId: homescreenController
                                           .enrolledSessionList[index].id,
-                                      sessiontype: homescreenController
-                                          .enrolledSessionList[index]
-                                          .sessionType,
-                                      zoomlink: homescreenController
-                                          .enrolledSessionList[index].zoomLink,
+                                      sessiontype: homescreenController.enrolledSessionList[index].sessionType,
+                                      zoomlink: homescreenController.enrolledSessionList[index].zoomLink,
                                       color: Colors.primaries[math.Random().nextInt(Colors.primaries.length)],
                                       is_joined: homescreenController.enrolledSessionList[index].is_joined ?? false),
                                 ),

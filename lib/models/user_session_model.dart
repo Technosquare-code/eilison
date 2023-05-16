@@ -30,6 +30,8 @@ class UserSessionModel {
   String status;
   DateTime createdDate;
   String? sessionCategoryName;
+  String? coach_name;
+  String? coach_profile_picture;
   bool? is_joined;
 
   UserSessionModel({
@@ -52,6 +54,8 @@ class UserSessionModel {
     required this.createdDate,
     this.sessionCategoryName,
     this.is_joined,
+    this.coach_name,
+    this.coach_profile_picture,
   });
 
   factory UserSessionModel.fromJson(Map<String, dynamic> json) =>
@@ -74,6 +78,8 @@ class UserSessionModel {
           status: json["status"],
           createdDate: DateTime.parse(json["created_date"]),
           sessionCategoryName: json["session_category_name"] ?? '',
+          coach_name: json['coach_name'],
+          coach_profile_picture: json['coach_profile_picture'],
           is_joined: json['is_joined'] == '1' ? true : false);
 
   Map<String, dynamic> toJson() => {

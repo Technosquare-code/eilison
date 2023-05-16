@@ -13,6 +13,7 @@ import '../Screens/CategoryScreen.dart';
 import '../Screens/EditProfileScreen.dart';
 import '../Screens/GettingStartedScreen.dart';
 import '../Screens/LoginScreen.dart';
+import '../Screens/MySessionScreen.dart';
 import '../Screens/NotificationScreen.dart';
 import '../Screens/OnBoardScreen.dart';
 import '../Screens/OrderScreen.dart';
@@ -81,6 +82,10 @@ appRoutes() => [
       GetPage(
         name: '/cart',
         page: () => CartScreen(),
+      ),
+      GetPage(
+        name: '/my-sessions',
+        page: () => MySessionScreen(),
       ),
       GetPage(
         name: '/change-pass',

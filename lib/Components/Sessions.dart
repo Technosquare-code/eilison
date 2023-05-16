@@ -22,6 +22,8 @@ class Session extends StatelessWidget {
       agenda,
       sessiontype,
       zoomlink,
+      coach_profile_picture,
+      coach_name,
       sessionId;
 
   Session(
@@ -38,6 +40,8 @@ class Session extends StatelessWidget {
       this.zoomlink,
       this.time,
       this.title,
+      this.coach_profile_picture,
+      this.coach_name,
       this.is_joined = false,
       this.isEnrolled = false});
   final Random _random = Random();
@@ -58,6 +62,8 @@ class Session extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SessionDetailScreen(
+                        coach_name: coach_name,
+                        coach_profile_picture: coach_profile_picture,
                         isEnrolled: isEnrolled,
                         agenda: agenda,
                         category: category,

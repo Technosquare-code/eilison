@@ -215,6 +215,46 @@ class MainScreenService {
     return false;
   }
 
+  Future<bool> rateSessionApi(BuildContext context,
+      {String? session_id, rating, review}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'session_id': session_id,
+      'rating': rating,
+      'review': review
+    });
+
+    var response = await dio.post(
+      '$baseUrl/add-rating.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+
+    print(form.fields);
+    var data = response.data;
+
+    print(data);
+    print('rate-session api hit hori h----------');
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        Get.back();
+        Fluttertoast.showToast(msg: data['data']);
+        return true;
+      } else {
+        Get.back();
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
   Future<bool> joinSessionApi(
     BuildContext context, {
     String? session_id,

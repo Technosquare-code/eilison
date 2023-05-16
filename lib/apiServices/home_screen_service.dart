@@ -60,6 +60,58 @@ class HomeScreenService {
     return blist;
   }
 
+  Future<List<UserSessionModel>> completedSessionList() async {
+    List<UserSessionModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post('$baseUrl/completed-session-list.php',
+        options: Options(headers: headers), data: form);
+    print(response.data);
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var element in data['data']) {
+          blist.add(UserSessionModel.fromJson(element));
+        }
+      }
+    }
+    return blist;
+  }
+
+  Future<List<UserSessionModel>> ongoingMySessionList() async {
+    List<UserSessionModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post('$baseUrl/ongoing-session-list.php',
+        options: Options(headers: headers), data: form);
+    print(response.data);
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var element in data['data']) {
+          blist.add(UserSessionModel.fromJson(element));
+        }
+      }
+    }
+    return blist;
+  }
+
   Future<List<UserSessionModel>> onlineSessionList(String type) async {
     List<UserSessionModel> blist = [];
     Dio dio = Dio();

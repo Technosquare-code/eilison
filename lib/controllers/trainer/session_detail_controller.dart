@@ -10,6 +10,9 @@ import '../customer/home_screen_controller.dart';
 class SessionDetailController extends GetxController {
   var isUpcoming = false.obs;
   var isLoading = false.obs;
+  var isRateLoading = false.obs;
+  var rate = "1".obs;
+  final review = TextEditingController();
 
   startSession(BuildContext context, String sessionId, zoomlink) async {
     isLoading(true);
@@ -26,6 +29,15 @@ class SessionDetailController extends GetxController {
       isUpcoming(false);
     }
     isLoading(false);
+  }
+
+  rateSession(BuildContext context, String sessionId, rating, review) async {
+    isRateLoading(true);
+    bool check = await MainScreenService().rateSessionApi(context,
+        session_id: sessionId, rating: rating, review: review);
+
+    // if (check) {}
+    isRateLoading(false);
   }
 
   joinSession(BuildContext context, String sessionId, zoomlink) async {

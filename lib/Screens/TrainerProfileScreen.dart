@@ -1,13 +1,124 @@
+import 'dart:io';
+
 import 'package:elison/Components/Review.dart';
 import 'package:elison/Screens/TrainerReviewScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/controllers/customer/edit_profile_controller.dart';
+import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:readmore/readmore.dart';
 
-class TrainerProfileScreen extends StatelessWidget {
+import '../controllers/customer/mainscreen_controller.dart';
+
+class TrainerProfileScreen extends StatefulWidget {
   static const routeName = "TrainerProfileScreen";
+
+  @override
+  State<TrainerProfileScreen> createState() => _TrainerProfileScreenState();
+}
+
+class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
+  final mainscreenController = Get.find<MainScreenController>();
+
+  final editprofileController = Get.put(EditProfileController());
+
+  File? image;
+
+  getGalaryImage() async {
+    dynamic imageData = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 40,
+    );
+    setState(() {
+      image = File(imageData.path);
+    });
+  }
+
+  getCamImage() async {
+    dynamic imageData =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      image = File(imageData.path);
+    });
+  }
+
+  void openOptions(BuildContext context, bool isBg) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20.0),
+          height: MediaQuery.of(context).size.height * 0.2,
+          child: Column(
+            children: [
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Profile photo',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          await getCamImage();
+                          if (image != null) {
+                            isBg
+                                ? editprofileController.uploadTimelineImage(
+                                    image!.path, context)
+                                : editprofileController.uploadProfileImage(
+                                    image!.path, context);
+                            Navigator.pop(context);
+                          }
+                        },
+                        icon: const Icon(Icons.photo_camera),
+                      ),
+                      const Text('Camera')
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          await getGalaryImage();
+                          if (image != null) {
+                            if (image != null) {
+                              isBg
+                                  ? editprofileController.uploadTimelineImage(
+                                      image!.path, context)
+                                  : editprofileController.uploadProfileImage(
+                                      image!.path, context);
+                              Navigator.pop(context);
+                            }
+                          }
+                        },
+                        icon: const Icon(Icons.photo),
+                      ),
+                      const Text('Gallery')
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -34,129 +145,189 @@ class TrainerProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              "assets/images/post.jpg",
-              width: size.width,
-              height: size.height / 2.5,
-              fit: BoxFit.fill,
-            ),
-            Container(
-              transform: Matrix4.translationValues(0, -15, 0),
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: Obx(() {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                alignment: Alignment.topRight,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      "assets/images/product2.PNG",
-                      width: size.width / 5,
-                      height: size.width / 5,
-                      fit: BoxFit.fill,
+                  Image.asset(
+                    "assets/images/post.jpg",
+                    width: size.width,
+                    height: size.height / 2.5,
+                    fit: BoxFit.fill,
+                  ),
+                  Container(
+                    child: IconButton(
+                      onPressed: () {
+                        openOptions(context, true);
+                      },
+                      icon: Icon(
+                        CupertinoIcons.camera_fill,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                ],
+              ),
+              Container(
+                transform: Matrix4.translationValues(0, -15, 0),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        const SizedBox(height: 30),
-                        Text(
-                          "Srija Banerjee",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w600,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: editprofileController.ispictureLoading.value
+                              ? CircularProgressIndicator()
+                              : mainscreenController.userdetailList.isNotEmpty
+                                  ? mainscreenController.userdetailList[0].data
+                                              .profilePicture !=
+                                          null
+                                      ? Image.network(
+                                          mainUrl +
+                                              imageUrl +
+                                              mainscreenController
+                                                  .userdetailList[0]
+                                                  .data
+                                                  .profilePicture!,
+                                          width: size.width / 5,
+                                          height: size.width / 5,
+                                          fit: BoxFit.fill,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/product2.PNG",
+                                          width: size.width / 5,
+                                          height: size.width / 5,
+                                          fit: BoxFit.fill,
+                                        )
+                                  : Image.asset(
+                                      "assets/images/product2.PNG",
+                                      width: size.width / 5,
+                                      height: size.width / 5,
+                                      fit: BoxFit.fill,
+                                    ),
+                        ),
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              openOptions(context, false);
+                            },
+                            icon: Icon(
+                              CupertinoIcons.camera_fill,
+                              color: Colors.white,
+                              size: 25,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ReadMoreText(
-                    'Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being. Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being.',
-                    trimLines: 4,
-                    delimiter: '  ',
-                    textAlign: TextAlign.justify,
-                    trimMode: TrimMode.Line,
-                    trimCollapsedText: 'Read More...',
-                    trimExpandedText: '',
-                    colorClickableText: primaryColor,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400,
-                    ),
-                    moreStyle: TextStyle(
-                      fontSize: 12,
-                      color: primaryColor,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Statistics(
-                        "Sessions",
-                        Text(
-                          "15",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            TrainerReviewScreen.routeName,
-                          );
-                        },
-                        child: Statistics(
-                          "87 Ratings",
-                          RatingBar.builder(
-                            initialRating: 5,
-                            minRating: 1,
-                            itemSize: 20,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            ignoreGestures: true,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 0.5),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 30),
+                          Text(
+                            "Srija Banerjee",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
                             ),
-                            onRatingUpdate: (_) {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ReadMoreText(
+                      'Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being. Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being.',
+                      trimLines: 4,
+                      delimiter: '  ',
+                      textAlign: TextAlign.justify,
+                      trimMode: TrimMode.Line,
+                      trimCollapsedText: 'Read More...',
+                      trimExpandedText: '',
+                      colorClickableText: primaryColor,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w400,
+                      ),
+                      moreStyle: TextStyle(
+                        fontSize: 12,
+                        color: primaryColor,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Statistics(
+                          "Sessions",
+                          Text(
+                            "15",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 25),
-                ],
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              TrainerReviewScreen.routeName,
+                            );
+                          },
+                          child: Statistics(
+                            "87 Ratings",
+                            RatingBar.builder(
+                              initialRating: 5,
+                              minRating: 1,
+                              itemSize: 20,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              ignoreGestures: true,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 0.5),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (_) {},
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 25),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
