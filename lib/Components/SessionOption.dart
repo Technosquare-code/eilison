@@ -1,3 +1,4 @@
+import 'package:elison/Components/deletePopup.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/mainscreen_controller.dart';
 import 'package:elison/controllers/trainer/train_home_ctrl.dart';
@@ -14,7 +15,7 @@ class SessionOption extends StatefulWidget {
 class _SessionOptionState extends State<SessionOption> {
   final mainScreenController = Get.find<TrainerHomeController>();
   String selected = "";
-  List item = ['Edit Session', 'Delete Session'];
+  // List item = ['Edit Session', 'Delete Session'];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,16 +28,30 @@ class _SessionOptionState extends State<SessionOption> {
                 Get.toNamed('/add-session', arguments: [true, widget.index]);
               },
               child: OptionItem(
+                icon: Icons.edit,
                 title: 'Edit Session',
                 selected: selected,
               ),
             ),
             InkWell(
               onTap: () {
-                mainScreenController.deleteSession(context,
-                    mainScreenController.sessionList[widget.index!].id);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return DeleteConfirmationPopup();
+                  },
+                ).then((value) async {
+                  if (value != null && value) {
+                    mainScreenController.deleteSession(context,
+                        mainScreenController.sessionList[widget.index!].id);
+                  } else {}
+                });
+
+                // mainScreenController.deleteSession(context,
+                //     mainScreenController.sessionList[widget.index!].id);
               },
               child: OptionItem(
+                icon: Icons.delete,
                 title: 'Delete Session',
                 selected: selected,
               ),
@@ -57,10 +72,11 @@ class _SessionOptionState extends State<SessionOption> {
 class OptionItem extends StatelessWidget {
   final String title;
   final String selected;
-
+  final IconData? icon;
   const OptionItem({
     required this.title,
     required this.selected,
+    required this.icon,
   });
   @override
   Widget build(BuildContext context) {
@@ -72,7 +88,15 @@ class OptionItem extends StatelessWidget {
       ),
       child: ListTile(
         dense: true,
-
+        leading: CircleAvatar(
+          radius: 18,
+          backgroundColor: Colors.grey.withOpacity(0.2),
+          child: Icon(
+            icon,
+            size: 18,
+            color: Colors.black,
+          ),
+        ),
         title: Text(
           title,
           style: TextStyle(

@@ -61,14 +61,18 @@ class MySessionScreen extends StatelessWidget {
                             children: List.generate(
                               sessionController.ongoingSessionList.length,
                               (index) => Session(
+                                  coachId: sessionController
+                                      .ongoingSessionList[index].coachId,
                                   coach_name: sessionController
                                       .ongoingSessionList[index].coach_name,
                                   coach_profile_picture: sessionController
                                       .ongoingSessionList[index]
                                       .coach_profile_picture,
                                   isEnrolled: true,
-                                  date: DateFormat('d MMM y').format(sessionController
-                                      .ongoingSessionList[index].sessionDate),
+                                  date: DateFormat('d MMM y').format(
+                                      sessionController
+                                          .ongoingSessionList[index]
+                                          .sessionDate),
                                   duration: sessionController
                                       .ongoingSessionList[index].duration,
                                   img: sessionController
@@ -93,8 +97,7 @@ class MySessionScreen extends StatelessWidget {
                                       .ongoingSessionList[index].sessionType,
                                   zoomlink: sessionController
                                       .ongoingSessionList[index].zoomLink,
-                                  color: Colors
-                                      .primaries[math.Random().nextInt(Colors.primaries.length)],
+                                  color: Colors.primaries[math.Random().nextInt(Colors.primaries.length)],
                                   is_joined: sessionController.ongoingSessionList[index].is_joined ?? false),
                             ),
                           )
@@ -140,6 +143,8 @@ class MySessionScreen extends StatelessWidget {
                             children: List.generate(
                               sessionController.completedSessionList.length,
                               (index) => Session(
+                                  coachId: sessionController
+                                      .completedSessionList[index].coachId,
                                   coach_name: sessionController
                                       .completedSessionList[index].coach_name,
                                   coach_profile_picture: sessionController

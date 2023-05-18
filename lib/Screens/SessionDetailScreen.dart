@@ -12,8 +12,10 @@ import '../controllers/trainer/session_detail_controller.dart';
 
 class SessionDetailScreen extends StatelessWidget {
   bool? isCoach, isPast, isEnrolled, is_joined;
+  // String coachId;
   String? img,
       title,
+      coachId,
       description,
       agenda,
       sessiontype,
@@ -41,6 +43,7 @@ class SessionDetailScreen extends StatelessWidget {
       this.isEnrolled = false,
       this.is_joined = false,
       this.coach_name,
+      this.coachId,
       this.coach_profile_picture,
       this.zoomlink});
 
@@ -213,46 +216,54 @@ class SessionDetailScreen extends StatelessWidget {
                     isCoach ?? false ? Container() : const SizedBox(height: 10),
                     isCoach ?? false
                         ? Container()
-                        : Row(
-                            children: [
-                              coach_profile_picture != null
-                                  ? CircleAvatar(
-                                      backgroundImage: NetworkImage(mainUrl +
-                                          imageUrl +
-                                          coach_profile_picture!),
-                                    )
-                                  : CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
+                        : InkWell(
+                            onTap: () {
+                              print('gggggggggg${coachId}');
+                              Get.toNamed('/trainer-detail',
+                                  arguments: [coachId]);
+                            },
+                            child: Row(
+                              children: [
+                                coach_profile_picture != null &&
+                                        coach_profile_picture != ''
+                                    ? CircleAvatar(
+                                        backgroundImage: NetworkImage(mainUrl +
+                                            imageUrl +
+                                            coach_profile_picture!),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
+                                      ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Session By',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Session By',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.black,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w600,
+                                    Text(
+                                      // 'Coach Name',
+                                      coach_name ?? '',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    // 'Coach Name',
-                                    coach_name ?? '',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.black,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                     const SizedBox(height: 25),
                     Row(

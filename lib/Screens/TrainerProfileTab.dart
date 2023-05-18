@@ -185,7 +185,7 @@ class _TrainerProfileTabState extends State<TrainerProfileTab> {
           onTap: () {
             GetStorage().erase();
             // Navigator.of(context).pushNamed(LoginScreen.routeName);
-            Get.offAllNamed('/login-screen');
+            Get.offAllNamed('/login-screen', arguments: [context]);
           },
         ),
       ),

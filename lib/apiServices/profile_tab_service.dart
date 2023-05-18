@@ -337,7 +337,7 @@ class ProfileTabService {
       if (data['status'] == 'true') {
         // Get.back();
 
-        snackbar(context: context, msg: data['data'], title: 'Success');
+        // snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
       } else {

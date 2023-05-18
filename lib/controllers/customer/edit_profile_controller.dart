@@ -11,6 +11,7 @@ import 'mainscreen_controller.dart';
 class EditProfileController extends GetxController {
   var isLoading = false.obs;
   var ispictureLoading = false.obs;
+  var istimelinepictureLoading = false.obs;
   final mainscreenController = Get.find<MainScreenController>();
 
   final name = TextEditingController();
@@ -62,12 +63,12 @@ class EditProfileController extends GetxController {
   }
 
   uploadTimelineImage(String? imgpath, BuildContext context) async {
-    ispictureLoading(true);
+    istimelinepictureLoading(true);
     bool check =
         await ProfileTabService().timelinePictureApi(context, image: imgpath);
     if (check) {
       await mainscreenController.getuserdetails();
-      ispictureLoading(false);
+      istimelinepictureLoading(false);
     }
     // isLoading(false);
   }

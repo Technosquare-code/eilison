@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:elison/models/cart_list_model.dart';
 import 'package:elison/models/notification_model.dart';
+import 'package:elison/models/rating_model.dart';
 import 'package:elison/models/user_details_model.dart';
 import 'package:elison/urls.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -54,6 +55,34 @@ class MainScreenService {
     return userDetailsModelFromJson(data);
   }
 
+  Future trainerdetail(String trainerId) async {
+    final FirebaseMessaging fcm = FirebaseMessaging.instance;
+    final fcmToken = await fcm.getToken();
+    debugPrint(fcmToken);
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': trainerId,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/user-details.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (data['status'] != 'true') {
+      return;
+    }
+    return userDetailsModelFromJson(data);
+  }
+
   Future<List<CartListModel>> cartList() async {
     List<CartListModel> blist = [];
     Dio dio = Dio();
@@ -78,6 +107,31 @@ class MainScreenService {
           blist.add(CartListModel.fromJson(i));
         }
         // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<RatingListModel>> ratingList(String trainerId) async {
+    List<RatingListModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'coach_id': trainerId,
+    });
+    var response = await dio.post('$trainerbaseUrl/rating-list.php',
+        options: Options(headers: headers), data: form);
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(RatingListModel.fromJson(i));
+        }
       }
     }
     return blist;

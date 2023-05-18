@@ -19,16 +19,16 @@ class AuthService {
   var pref = GetStorage();
 
   Future<bool> registerApi(BuildContext context,
-      {String? name, email, password, usertype, phoneno}) async {
-    final FirebaseMessaging fcm = FirebaseMessaging.instance;
-    final fcmToken = await fcm.getToken();
-    debugPrint(fcmToken);
+      {String? name, email, password, usertype, phoneno, fcmtoken}) async {
+    // final FirebaseMessaging fcm = FirebaseMessaging.instance;
+    // final fcmToken = await fcm.getToken();
+    // debugPrint(fcmToken);
     Dio dio = Dio();
     formData.FormData form;
 
     form = formData.FormData.fromMap({
       // 'token': token,
-      'fcm_token': fcmToken,
+      'fcm_token': fcmtoken,
       'phone': phoneno,
       'name': name,
       'email': email,
@@ -68,16 +68,17 @@ class AuthService {
     }
   }
 
-  Future<bool> loginApi(BuildContext context, {String? email, password}) async {
-    final FirebaseMessaging fcm = FirebaseMessaging.instance;
-    final fcmToken = await fcm.getToken();
-    debugPrint(fcmToken);
+  Future<bool> loginApi(BuildContext context,
+      {String? email, password, fcomtoken}) async {
+    // final FirebaseMessaging fcm = FirebaseMessaging.instance;
+    // final fcmToken = await fcm.getToken();
+    // debugPrint(fcmToken);
     Dio dio = Dio();
     formData.FormData form;
 
     form = formData.FormData.fromMap({
       // 'token': token,
-      'fcm_token': fcmToken,
+      'fcm_token': fcomtoken,
 
       'email': email,
       'password': password,

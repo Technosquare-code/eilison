@@ -12,6 +12,7 @@ import '../controllers/trainer/session_detail_controller.dart';
 class Session extends StatelessWidget {
   final bool showDivider, isEnrolled, is_joined;
   final Color color;
+  final String coachId;
   final String? img,
       title,
       category,
@@ -29,6 +30,7 @@ class Session extends StatelessWidget {
   Session(
       {required this.showDivider,
       required this.color,
+      required this.coachId,
       this.date,
       this.duration,
       this.category,
@@ -62,6 +64,7 @@ class Session extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SessionDetailScreen(
+                        coachId: coachId,
                         coach_name: coach_name,
                         coach_profile_picture: coach_profile_picture,
                         isEnrolled: isEnrolled,

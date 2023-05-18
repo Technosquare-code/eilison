@@ -10,11 +10,10 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final sp = Get.put(SplashController());
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final sp = Get.put(SplashController(context: context));
     // Timer(const Duration(seconds: 3), () => Get.offAndToNamed('/on-boarding'));
     return Scaffold(
       body: SafeArea(

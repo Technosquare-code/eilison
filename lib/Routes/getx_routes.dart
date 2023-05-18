@@ -6,6 +6,7 @@ import 'package:elison/splashscreen.dart';
 import 'package:get/get.dart';
 
 import '../Screens/AddNewAddressScreen.dart';
+import '../Screens/AddPostScreen.dart';
 import '../Screens/AddSessionScreen.dart';
 import '../Screens/AddressScreen.dart';
 import '../Screens/CartScreen.dart';
@@ -26,7 +27,9 @@ import '../Screens/ShowProductScreen.dart';
 import '../Screens/RegisterScreen.dart';
 import '../Screens/SupportHistoryScreen.dart';
 import '../Screens/SupportScreen.dart';
+import '../Screens/TrainerDetailPage.dart';
 import '../Screens/TrainerProfileScreen.dart';
+import '../Screens/TrainerReviewScreen.dart';
 import '../Screens/WarrantyManagementScreen.dart';
 import '../Screens/WhishlistScreen.dart';
 
@@ -76,12 +79,20 @@ appRoutes() => [
         page: () => AddSessionScreen(),
       ),
       GetPage(
+        name: '/trainer-detail',
+        page: () => TrainerDetailPage(),
+      ),
+      GetPage(
         name: '/notification',
         page: () => NotificationScreen(),
       ),
       GetPage(
         name: '/cart',
         page: () => CartScreen(),
+      ),
+      GetPage(
+        name: '/review',
+        page: () => TrainerReviewScreen(),
       ),
       GetPage(
         name: '/my-sessions',
@@ -146,5 +157,9 @@ appRoutes() => [
       GetPage(
         name: '/session-detail-screen',
         page: () => SessionDetailScreen(),
+      ),
+      GetPage(
+        name: '/add-post',
+        page: () => AddPostScreen(),
       ),
     ];

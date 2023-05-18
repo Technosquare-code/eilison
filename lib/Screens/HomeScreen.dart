@@ -551,6 +551,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: List.generate(
                             homescreenController.onlinSessionList.length,
                             (index) => Session(
+                                coachId: homescreenController
+                                    .onlinSessionList[index].coachId,
                                 coach_name: homescreenController
                                     .onlinSessionList[index].coach_name,
                                 coach_profile_picture: homescreenController
@@ -585,8 +587,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .onlinSessionList[index].sessionType,
                                 zoomlink: homescreenController
                                     .onlinSessionList[index].zoomLink,
-                                color:
-                                    Colors.primaries[math.Random().nextInt(Colors.primaries.length)]),
+                                color: Colors.primaries[math.Random().nextInt(Colors.primaries.length)]),
                           ),
                         ),
                         const SizedBox(height: 25),
@@ -645,6 +646,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   homescreenController
                                       .enrolledSessionList.length,
                                   (index) => Session(
+                                      coachId: homescreenController
+                                          .enrolledSessionList[index].coachId,
                                       coach_name: homescreenController
                                           .enrolledSessionList[index]
                                           .coach_name,
@@ -670,15 +673,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .enrolledSessionList[index]
                                           .sessionCategoryName,
                                       showDivider: index !=
-                                          homescreenController.enrolledSessionList.length -
+                                          homescreenController
+                                                  .enrolledSessionList.length -
                                               1,
                                       agenda: homescreenController
                                           .enrolledSessionList[index].agenda,
                                       description: homescreenController
                                           .enrolledSessionList[index]
                                           .description,
-                                      sessionId: homescreenController
-                                          .enrolledSessionList[index].id,
+                                      sessionId: homescreenController.enrolledSessionList[index].id,
                                       sessiontype: homescreenController.enrolledSessionList[index].sessionType,
                                       zoomlink: homescreenController.enrolledSessionList[index].zoomLink,
                                       color: Colors.primaries[math.Random().nextInt(Colors.primaries.length)],

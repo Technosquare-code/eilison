@@ -6,12 +6,23 @@ import 'package:elison/Utils/Colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'Routes/getx_routes.dart';
 import 'Utils/Colors.dart';
 
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  "High_Importance_channel",
+  "Notification",
+  playSound: true,
+  importance: Importance.high,
+  showBadge: true,
+);
+
+final AndroidFlutterLocalNotificationsPlugin notificationsPlugin =
+    AndroidFlutterLocalNotificationsPlugin();
 Future<void> main() async {
   await GetStorage.init();
   await Firebase.initializeApp();

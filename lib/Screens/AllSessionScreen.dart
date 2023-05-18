@@ -113,6 +113,7 @@ class _AllSessionScreenState extends State<AllSessionScreen> {
                       itemBuilder: (ctx, i) {
                         if (i == 3) {
                           return Session(
+                              coachId: widget.sessions![i].coachId,
                               isEnrolled: widget.isenrolled,
                               date: DateFormat('d MMM y')
                                   .format(widget.sessions![i].sessionDate),
@@ -133,6 +134,7 @@ class _AllSessionScreenState extends State<AllSessionScreen> {
                                   widget.sessions![i].is_joined ?? false);
                         } else {
                           return Session(
+                              coachId: widget.sessions![i].coachId,
                               date: DateFormat('d MMM y')
                                   .format(widget.sessions![i].sessionDate),
                               duration: widget.sessions![i].duration,

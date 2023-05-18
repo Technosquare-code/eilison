@@ -107,7 +107,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 setState(() {});
               } else {
                 GetStorage().write('onboarding', true);
-                Get.toNamed('/login-screen');
+                Get.toNamed('/login-screen', arguments: [context]);
                 // Navigator.of(context).pushNamed(LoginScreen.routeName);
               }
             },

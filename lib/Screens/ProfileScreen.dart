@@ -289,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: () {
             GetStorage().erase();
             // Navigator.of(context).pushNamed(LoginScreen.routeName);
-            Get.offAllNamed('/login-screen');
+            Get.offAllNamed('/login-screen', arguments: [context]);
           },
         ),
       ),
