@@ -31,10 +31,14 @@ class SessionDetailController extends GetxController {
     isLoading(false);
   }
 
-  rateSession(BuildContext context, String sessionId, rating, review) async {
+  rateSession(
+      BuildContext context, String sessionId, rating, review, coach_id) async {
     isRateLoading(true);
     bool check = await MainScreenService().rateSessionApi(context,
-        session_id: sessionId, rating: rating, review: review);
+        session_id: sessionId,
+        rating: rating,
+        review: review,
+        coachId: coach_id);
 
     // if (check) {}
     isRateLoading(false);

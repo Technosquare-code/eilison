@@ -270,7 +270,7 @@ class MainScreenService {
   }
 
   Future<bool> rateSessionApi(BuildContext context,
-      {String? session_id, rating, review}) async {
+      {String? session_id, rating, review, coachId}) async {
     Dio dio = Dio();
     formData.FormData form;
     var headers = {
@@ -280,7 +280,8 @@ class MainScreenService {
       'uid': pref.read('user_id'),
       'session_id': session_id,
       'rating': rating,
-      'review': review
+      'review': review,
+      'coach_id': coachId
     });
 
     var response = await dio.post(

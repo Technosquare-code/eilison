@@ -35,10 +35,14 @@ class AddSupportController extends GetxController {
     super.onInit();
   }
 
-  addsupposrtmsg(BuildContext context) async {
+  addsupposrtmsg(BuildContext context, String orderID) async {
     isLoading(true);
     bool check = await ProfileTabService().sendSupportmsg(context,
-        email: email.text, name: name.text, phone: phoneNo.text, msg: msg.text);
+        email: email.text,
+        name: name.text,
+        phone: phoneNo.text,
+        msg: msg.text,
+        orderID: orderID);
     if (check) {
       isLoading(false);
       Future.delayed(

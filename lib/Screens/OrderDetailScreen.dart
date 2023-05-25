@@ -138,7 +138,8 @@ class OrderDetailScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     // "\$$amo",
-                                    NumberFormat('#,##0').format(payableAmount),
+                                    NumberFormat('#,##0').format(
+                                        double.parse(payableAmount ?? '0')),
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
@@ -230,7 +231,7 @@ class OrderDetailScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "\$${NumberFormat('#,##0').format(payableAmount)}",
+                        "\$${NumberFormat('#,##0').format(double.parse(payableAmount ?? '0'))}",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -352,7 +353,11 @@ class OrderDetailScreen extends StatelessWidget {
         borderRadius: 0,
         sizeHieght: 40,
         onTap: () {
-          Utils.showMyBottomSheet(context, Help());
+          Utils.showMyBottomSheet(
+              context,
+              Help(
+                orderId: id,
+              ));
         },
       ),
     );

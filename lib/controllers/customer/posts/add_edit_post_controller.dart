@@ -13,7 +13,6 @@ class AddEditPostController extends GetxController {
   bool? isEdit;
   int? index;
   AddEditPostController({this.isEdit, this.index});
-  var postList = List<PostListModel>.empty(growable: true).obs;
   var imageUploded = ''.obs;
   var isVideo = false.obs;
   var videoPlayerController = Rxn<VideoPlayerController>();
@@ -28,9 +27,10 @@ class AddEditPostController extends GetxController {
         image: img,
         isImg: isImg,
         description: descriptionController.text,
-        post_id: isEdit! ? postController.postList[index!].id : '');
+        post_id: isEdit! ? postController.mypostList[index!].id : '');
     if (check) {
       // get posts
+      postController.isLoading(true);
       await postController.getPosts();
     }
     isLoading(false);
@@ -46,13 +46,14 @@ class AddEditPostController extends GetxController {
 
     if (isEdit!) {
       print('object--------------$isEdit');
-      descriptionController.text = postController.postList[index!].postContent;
-      imageUploded.value = postController.postList[index!].postMedia;
+      descriptionController.text =
+          postController.mypostList[index!].postContent;
+      imageUploded.value = postController.mypostList[index!].postMedia;
       isVideo.value =
-          postController.postList[index!].isVideo == '0' ? false : true;
+          postController.mypostList[index!].isVideo == '0' ? false : true;
       if (isVideo.value) {
         videoPlayerController.value = VideoPlayerController.network(
-            mainUrl + postUrl + postController.postList[index!].postMedia);
+            mainUrl + postUrl + postController.mypostList[index!].postMedia);
         initializeVideoPlayerFuture.value =
             videoPlayerController.value!.initialize();
       }

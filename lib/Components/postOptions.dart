@@ -38,6 +38,7 @@ class _postoptionsState extends State<postoptions> {
           onChanged: (s) {
             selected = s.toString();
             setState(() {});
+            Navigator.pop(context);
             Get.toNamed('/add-post', arguments: [true, widget.index]);
           },
         ),
@@ -47,6 +48,8 @@ class _postoptionsState extends State<postoptions> {
           selected: selected,
           onChanged: (s) {
             selected = s.toString();
+            Navigator.pop(context);
+
             postController.deletePost(context, widget.postId);
             setState(() {});
           },

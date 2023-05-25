@@ -59,6 +59,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                 onTap: () {
                                   selectedIndex = 0;
                                   setState(() {});
+                                  print(selectedIndex);
+                                  print('alll post');
+                                  postController.getallPost();
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -87,8 +90,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                               const SizedBox(width: 15),
                               InkWell(
                                 onTap: () {
-                                  selectedIndex = 0;
+                                  selectedIndex = 1;
                                   setState(() {});
+                                  print(selectedIndex);
+                                  postController.getmyPost();
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -117,29 +122,70 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             ],
                           ),
                         ),
-                        ListView.builder(
-                          itemCount: postController.postList.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (ctx, i) => Post(
-                            userName: postController.postList[i].userName,
-                            userProfile: postController.postList[i].userProfile,
-                            index: i,
-                            createdDate: postController.postList[i].createdDate,
-                            id: postController.postList[i].id,
-                            isImage: postController.postList[i].isImage,
-                            isVideo: postController.postList[i].isVideo,
-                            postContent: postController.postList[i].postContent,
-                            // postHashtags:
-                            //     postController.postList[i].postHashtags,
-                            postMedia: postController.postList[i].postMedia,
-                            status: postController.postList[i].status,
-                            totalComment:
-                                postController.postList[i].totalComment,
-                            totalLike: postController.postList[i].totalLike,
-                            uid: postController.postList[i].uid,
-                          ),
-                        ),
+                        selectedIndex == 0
+                            ? ListView.builder(
+                                itemCount: postController.postList.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (ctx, i) {
+                                  final post = postController.postList[i];
+                                  return Post(
+                                    isLike: post.isLike,
+                                    isedit: false,
+                                    userName: post.userName,
+                                    userProfile: post.userProfile,
+                                    index: i,
+                                    createdDate: post.createdDate,
+                                    id: post.id,
+                                    isImage: post.isImage,
+                                    isVideo: post.isVideo,
+                                    postContent: post.postContent,
+                                    // postHashtags:
+                                    //     post.postHashtags,
+                                    postMedia: post.postMedia,
+                                    status: post.status,
+                                    totalComment: post.totalComment,
+                                    totalLike: post.totalLike,
+                                    uid: post.uid,
+                                  );
+                                })
+                            : postController.mypostList.isEmpty
+                                ? Container(
+                                    height: size.height - size.height * 0.2,
+                                    width: size.width,
+                                    color: Colors.white,
+                                    child: Center(
+                                      child: Text("No data found"),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: postController.mypostList.length,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (ctx, i) {
+                                      final post = postController.mypostList[i];
+
+                                      return Post(
+                                        isLike: post.isLike,
+                                        isedit: true,
+                                        userName: post.userName,
+                                        userProfile: post.userProfile,
+                                        index: i,
+                                        createdDate: post.createdDate,
+                                        id: post.id,
+                                        isImage: post.isImage,
+                                        isVideo: post.isVideo,
+                                        postContent: post.postContent,
+                                        // postHashtags:
+                                        //     postController.mypostList[i].postHashtags,
+                                        postMedia: post.postMedia,
+                                        status: post.status,
+                                        totalComment: post.totalComment,
+                                        totalLike: post.totalLike,
+                                        uid: post.uid,
+                                      );
+                                    }),
                       ],
                     ),
         );

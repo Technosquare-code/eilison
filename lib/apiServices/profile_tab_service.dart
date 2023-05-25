@@ -180,7 +180,7 @@ class ProfileTabService {
   }
 
   Future<bool> sendSupportmsg(BuildContext context,
-      {String? name, phone, email, msg}) async {
+      {String? name, phone, email, msg, orderID}) async {
     Dio dio = Dio();
     formData.FormData form;
     var headers = {
@@ -188,7 +188,7 @@ class ProfileTabService {
     };
     form = formData.FormData.fromMap({
       'uid': pref.read('user_id'),
-      'order_no': '',
+      'order_no': orderID,
       'email': email,
       'phone': phone,
       'name': name,
@@ -302,6 +302,41 @@ class ProfileTabService {
         // Get.back();
 
         // snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> postLike(BuildContext context, {String? post_id}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'post_id': post_id,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/post-like.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+    print('form================== ${form.fields}');
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        Get.back();
+        snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
       } else {
@@ -503,7 +538,7 @@ class ProfileTabService {
       if (data['status'] == 'true') {
         // Get.back();
 
-        snackbar(context: context, msg: data['data'], title: 'Success');
+        // snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
       } else {
@@ -688,12 +723,40 @@ class ProfileTabService {
     var headers = {
       'Authorization': pref.read('token'),
     };
-    // form = formData.FormData.fromMap({
-    //   'uid': pref.read('user_id'),
-    // });
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+    });
 
     var response = await dio.post('$baseUrl/posts-list.php',
-        options: Options(headers: headers));
+        data: form, options: Options(headers: headers));
+    var data = response.data;
+    print(data);
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(PostListModel.fromJson(i));
+          print('object');
+        }
+        // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<PostListModel>> mypostsList() async {
+    List<PostListModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+    });
+
+    var response = await dio.post('$baseUrl/my-posts-list.php',
+        data: form, options: Options(headers: headers));
     var data = response.data;
     print(data);
     debugPrint(data['status']);

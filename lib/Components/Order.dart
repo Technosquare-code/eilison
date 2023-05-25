@@ -136,7 +136,11 @@ class Order extends StatelessWidget {
                           sizeWidth: size.width / 4,
                           sizeHieght: 30,
                           onTap: () {
-                            Utils.showMyBottomSheet(context, Help());
+                            Utils.showMyBottomSheet(
+                                context,
+                                Help(
+                                  orderId: id,
+                                ));
                           },
                         ),
                       ],

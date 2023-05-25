@@ -112,8 +112,9 @@ class SessionDetailScreen extends StatelessWidget {
                                       showDialog(
                                         context: context,
                                         builder: (ctx) => AlertDialog(
-                                          content:
-                                              RateTrainer(sessionid: sessionId),
+                                          content: RateTrainer(
+                                              sessionid: sessionId,
+                                              coach_id: coachId),
                                         ),
                                       );
                                     },

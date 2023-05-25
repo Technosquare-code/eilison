@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerItem extends StatefulWidget {
@@ -42,7 +43,30 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
                 child: VideoPlayer(_videoPlayerController),
               );
             } else {
-              return CircularProgressIndicator();
+              return Shimmer(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.grey[200]!,
+                    Colors.grey[300]!,
+                    Colors.grey[200]!,
+                  ],
+                  begin: Alignment(-1.0, -0.5),
+                  end: Alignment(1.0, 0.5),
+                  stops: [0.0, 0.5, 1.0],
+                  tileMode: TileMode.clamp,
+                ),
+                // period: Duration(seconds: 2),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        color: Colors.grey[300],
+                      ),
+                    ],
+                  ),
+                ),
+              );
             }
           },
         ),

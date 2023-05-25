@@ -19,8 +19,9 @@ class PostListModel {
   String postMedia;
   String isVideo;
   String isImage;
-  String totalLike;
-  String totalComment;
+  int totalLike;
+  int totalComment;
+  bool isLike;
   String status;
   String userProfile;
   String userName;
@@ -39,6 +40,7 @@ class PostListModel {
     required this.totalComment,
     required this.status,
     required this.createdDate,
+    required this.isLike,
   });
 
   factory PostListModel.fromJson(Map<String, dynamic> json) => PostListModel(
@@ -49,11 +51,12 @@ class PostListModel {
         postMedia: json["post_media"],
         isVideo: json["is_video"],
         isImage: json["is_image"],
-        totalLike: json["total_like"],
-        totalComment: json["total_comment"],
+        totalLike: int.parse(json["total_like"]),
+        totalComment: int.parse(json["total_comment"]),
         status: json["status"],
         userName: json['userName'],
         userProfile: json['userProfile'] ?? '',
+        isLike: json['is_like'] == '1' ? true : false,
         createdDate: DateTime.parse(json["created_date"]),
       );
 

@@ -14,8 +14,8 @@ class PostDetailScreen extends StatefulWidget {
   final String? postMedia;
   final String? isVideo;
   final String? isImage;
-  final String? totalLike;
-  final String? totalComment;
+  final int? totalLike;
+  final int? totalComment;
   final String? status;
   final DateTime? createdDate;
   final String? userProfile;

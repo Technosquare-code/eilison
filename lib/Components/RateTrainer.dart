@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import '../controllers/trainer/session_detail_controller.dart';
 
 class RateTrainer extends StatefulWidget {
-  String? sessionid;
-  RateTrainer({this.sessionid});
+  String? sessionid, coach_id;
+  RateTrainer({this.sessionid, this.coach_id});
   @override
   _RateTrainerState createState() => _RateTrainerState();
 }
@@ -69,7 +69,8 @@ class _RateTrainerState extends State<RateTrainer> {
                       context,
                       widget.sessionid ?? '',
                       detailController.rate.value,
-                      detailController.review.text);
+                      detailController.review.text,
+                      widget.coach_id);
                 },
               ),
             ],

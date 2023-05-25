@@ -4,11 +4,14 @@ import 'package:elison/Screens/PostDetailScreen.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Utils/Utils.dart';
+import '../controllers/customer/posts/post_controller.dart';
 import 'SessionOption.dart';
 
 class Post extends StatefulWidget {
+  final bool isedit;
   final int? index;
   final String? id;
   final String? uid;
@@ -16,26 +19,30 @@ class Post extends StatefulWidget {
   final String? postMedia;
   final String? isVideo;
   final String? isImage;
-  final String? totalLike;
-  final String? totalComment;
+  final int? totalLike;
+  final int? totalComment;
   final String? status;
   final DateTime? createdDate;
   final String? userProfile;
   final String? userName;
-  const Post(
-      {this.createdDate,
-      this.id,
-      this.isImage,
-      this.isVideo,
-      this.postContent,
-      this.postMedia,
-      this.status,
-      this.totalComment,
-      this.totalLike,
-      this.index,
-      this.userName,
-      this.userProfile,
-      this.uid});
+  final bool? isLike;
+  const Post({
+    this.createdDate,
+    this.isedit = false,
+    this.id,
+    this.isImage,
+    this.isVideo,
+    this.postContent,
+    this.postMedia,
+    this.status,
+    this.totalComment,
+    this.totalLike,
+    this.index,
+    this.userName,
+    this.userProfile,
+    this.uid,
+    this.isLike,
+  });
   @override
   State<Post> createState() => _PostState();
 }
@@ -43,6 +50,8 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   bool liked = false;
   int like = 116;
+  final postController = Get.find<PostController>();
+
   timeDiff(DateTime comingDateTime) {
     // Current datetime
     DateTime currentDateTime = DateTime.now();
@@ -72,6 +81,27 @@ class _PostState extends State<Post> {
 
     print('Difference: $differenceString');
     return differenceString;
+  }
+
+  void _toggleLike() {
+    setState(() {
+      if (liked) {
+        liked = false;
+        like--;
+      } else {
+        liked = true;
+        like++;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    liked = widget.isLike!;
+    print('is liked ka init h $liked');
+    like = widget.totalLike!;
+    super.initState();
   }
 
   @override
@@ -147,17 +177,19 @@ class _PostState extends State<Post> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    Utils.showMyBottomSheet(
-                        context, postoptions(widget.id!, widget.index!));
-                  },
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.black,
-                    size: 25,
-                  ),
-                ),
+                trailing: widget.isedit
+                    ? IconButton(
+                        onPressed: () {
+                          Utils.showMyBottomSheet(
+                              context, postoptions(widget.id!, widget.index!));
+                        },
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.black,
+                          size: 25,
+                        ),
+                      )
+                    : SizedBox(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -190,13 +222,16 @@ class _PostState extends State<Post> {
                   children: [
                     InkWell(
                       onTap: () {
-                        liked = !liked;
-                        if (liked == true) {
-                          like++;
-                        } else {
-                          like--;
-                        }
+                        // liked = !liked;
+                        // if (liked == true) {
+                        //   like++;
+                        // } else {
+                        //   like--;
+                        // }
+                        // setState(() {});
+                        _toggleLike();
                         setState(() {});
+                        postController.managelike(context, widget.id!);
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -208,7 +243,7 @@ class _PostState extends State<Post> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "${widget.totalLike}",
+                            "${like}",
                             maxLines: 1,
                             style: TextStyle(
                               fontSize: 14,
