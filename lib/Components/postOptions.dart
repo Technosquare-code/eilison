@@ -1,14 +1,22 @@
 import 'package:elison/Utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/customer/posts/post_controller.dart';
 
 class postoptions extends StatefulWidget {
+  final String postId;
+  final int index;
+  postoptions(this.postId, this.index);
   @override
   _postoptionsState createState() => _postoptionsState();
 }
 
 class _postoptionsState extends State<postoptions> {
+  final postController = Get.find<PostController>();
+
   String selected = "";
-  final List options = ['Report', 'Edit', 'Delete'];
+  // final List options = ['Report', 'Edit', 'Delete'];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,6 +38,7 @@ class _postoptionsState extends State<postoptions> {
           onChanged: (s) {
             selected = s.toString();
             setState(() {});
+            Get.toNamed('/add-post', arguments: [true, widget.index]);
           },
         ),
         OptionItem(
@@ -38,6 +47,7 @@ class _postoptionsState extends State<postoptions> {
           selected: selected,
           onChanged: (s) {
             selected = s.toString();
+            postController.deletePost(context, widget.postId);
             setState(() {});
           },
         ),

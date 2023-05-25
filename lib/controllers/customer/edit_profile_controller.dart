@@ -53,6 +53,7 @@ class EditProfileController extends GetxController {
 
   uploadProfileImage(String? imgpath, BuildContext context) async {
     ispictureLoading(true);
+    print(imgpath);
     bool check =
         await ProfileTabService().profilePictureApi(context, image: imgpath);
     if (check) {

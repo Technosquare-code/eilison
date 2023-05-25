@@ -6,6 +6,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PostDetailScreen extends StatefulWidget {
+  final int? index;
+  final String? id;
+  final String? uid;
+  final String? postContent;
+
+  final String? postMedia;
+  final String? isVideo;
+  final String? isImage;
+  final String? totalLike;
+  final String? totalComment;
+  final String? status;
+  final DateTime? createdDate;
+  final String? userProfile;
+  final String? userName;
+  PostDetailScreen({
+    this.createdDate,
+    this.id,
+    this.index,
+    this.isImage,
+    this.isVideo,
+    this.postContent,
+    this.postMedia,
+    this.totalComment,
+    this.status,
+    this.totalLike,
+    this.uid,
+    this.userName,
+    this.userProfile,
+  });
   static const routeName = "PostDetailScreen";
 
   @override
@@ -50,7 +79,21 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Post(false),
+            Post(
+              createdDate: widget.createdDate,
+              id: widget.id,
+              index: widget.index,
+              isImage: widget.isImage,
+              isVideo: widget.isVideo,
+              postContent: widget.postContent,
+              userName: widget.userName,
+              userProfile: widget.userProfile,
+              postMedia: widget.postMedia,
+              status: widget.status,
+              totalComment: widget.totalComment,
+              totalLike: widget.totalLike,
+              uid: widget.uid,
+            ),
             Container(
               color: Colors.white,
               width: size.width,

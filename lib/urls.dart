@@ -10,3 +10,4 @@ String manualUrl = '/image/items/manual/';
 
 String bannerUrl = '/image/banner/';
 String sessionUrl = '/image/session/';
+String postUrl = '/image/posts/';
