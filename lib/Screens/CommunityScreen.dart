@@ -1,5 +1,6 @@
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/Post.dart';
+import 'package:elison/Components/shimmer/ComunityShimmer.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/Screens/AddPostScreen.dart';
 import 'package:elison/Utils/Colors.dart';
@@ -38,7 +39,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
       body: Obx(() {
         return SingleChildScrollView(
           child: postController.isLoading.value
-              ? AddressShimmer(size: size)
+              ? CommunityShimmer()
               : postController.postList.isEmpty
                   ? Container(
                       height: size.height - size.height * 0.2,

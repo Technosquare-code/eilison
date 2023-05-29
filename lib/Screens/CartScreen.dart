@@ -2,6 +2,7 @@ import 'package:elison/Components/AddressPart.dart';
 import 'package:elison/Components/CartPart.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/PaymentPart.dart';
+import 'package:elison/Components/shimmer/CartScreenShimmer.dart';
 import 'package:elison/Components/snackbar.dart';
 import 'package:elison/Screens/CongratulationScreen.dart';
 import 'package:elison/Utils/Colors.dart';
@@ -68,9 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                     automaticallyImplyLeading: false,
                   ),
         body: cartController.isLoading.value
-            ? AddressShimmer(
-                size: MediaQuery.of(context).size,
-              )
+            ? CartScreenShimmer()
             : cartController.cartList.isEmpty
                 ? NoDataFound(
                     buttnText: 'Continue Shopping',

@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elison/Components/HomeCategory.dart';
 import 'package:elison/Components/ProductCard.dart';
 import 'package:elison/Components/Sessions.dart';
+import 'package:elison/Components/shimmer/HomeShimmer.dart';
 import 'package:elison/Screens/AllCategoryProductScreen.dart';
 import 'package:elison/Screens/AllSessionScreen.dart';
 import 'package:elison/Screens/CartScreen.dart';
@@ -15,6 +16,7 @@ import 'package:elison/controllers/customer/home_screen_controller.dart';
 import 'package:elison/controllers/customer/mainscreen_controller.dart';
 import 'package:elison/urls.dart';
 import 'package:elison/package%20edit/src/responsive_grid_list.dart';
+import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -696,91 +698,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
           }),
-        ),
-      ),
-    );
-  }
-}
-
-class HomeShimmer extends StatelessWidget {
-  const HomeShimmer({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer(
-      gradient: LinearGradient(
-        colors: [
-          Colors.grey[200]!,
-          Colors.grey[300]!,
-          Colors.grey[200]!,
-        ],
-        begin: Alignment(-1.0, -0.5),
-        end: Alignment(1.0, 0.5),
-        stops: [0.0, 0.5, 1.0],
-        tileMode: TileMode.clamp,
-      ),
-      // period: Duration(seconds: 2),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: size.height * 0.1,
-              color: Colors.grey[300],
-            ),
-            SizedBox(height: 20),
-            Container(
-              height: size.height * 0.3,
-              color: Colors.grey[300],
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: size.height * 0.15,
-                    color: Colors.grey[300],
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Container(
-                    height: size.height * 0.15,
-                    color: Colors.grey[300],
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Container(
-                    height: size.height * 0.15,
-                    color: Colors.grey[300],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: size.height * 0.2,
-                    color: Colors.grey[300],
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Container(
-                    height: size.height * 0.2,
-                    color: Colors.grey[300],
-                  ),
-                ),
-              ],
-            ),
-          ],
         ),
       ),
     );

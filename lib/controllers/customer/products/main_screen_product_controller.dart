@@ -33,13 +33,15 @@ class MainProductController extends GetxController {
   }
 
   lowToHigh() {
-    productList.sort((a, b) =>
-        double.parse(a.sellingPrice).compareTo(double.parse(b.sellingPrice)));
+    productList.sort(
+      (a, b) => double.parse(a.mrp).compareTo(double.parse(b.mrp)),
+    );
   }
 
   highToLow() {
-    productList.sort((a, b) =>
-        double.parse(b.sellingPrice).compareTo(double.parse(a.sellingPrice)));
+    productList.sort(
+      (a, b) => double.parse(b.mrp).compareTo(double.parse(a.mrp)),
+    );
   }
 
   getcategory() async {
