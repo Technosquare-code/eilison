@@ -1,4 +1,5 @@
 import 'package:elison/apiServices/profile_tab_service.dart';
+import 'package:elison/controllers/customer/posts/post_controller.dart';
 import 'package:elison/models/comment_model.dart';
 import 'package:elison/models/post_model.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ class PostDetailController extends GetxController {
 
   final commentController = TextEditingController();
   var isLoading = false.obs;
+  final postController = Get.find<PostController>();
+
   // getPosts() async {
   //   isLoading(true);
   //   postList.assignAll(await ProfileTabService().postsList());
@@ -44,6 +47,8 @@ class PostDetailController extends GetxController {
     if (check) {
       getComments(post_id);
       isLoading(false);
+      commentController.clear();
+      postController.getallPost();
     }
   }
 

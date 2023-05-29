@@ -55,7 +55,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   final commentFocus = FocusNode();
   final postDetailContrl =
       Get.put(PostDetailController(post_id: Get.arguments[0].id));
-  final postController = Get.find<PostController>();
 
   @override
   Widget build(BuildContext context) {
@@ -211,8 +210,17 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   const SizedBox(width: 15),
                   InkWell(
                     onTap: () {
-                      postDetailContrl.addComment(context, Get.arguments[0].id,
-                          '', postDetailContrl.commentController.text);
+                      if (postDetailContrl.commentController.text.isNotEmpty) {
+                        postDetailContrl.addComment(
+                            context,
+                            Get.arguments[0].id,
+                            '',
+                            postDetailContrl.commentController.text);
+                      }
+                      setState(() {});
+                      if (commentFocus.hasFocus) {
+                        commentFocus.unfocus();
+                      }
                     },
                     child: Text(
                       "SEND",
