@@ -25,6 +25,8 @@ class Order extends StatelessWidget {
   String? landmark;
   String? state;
   String? town;
+  String? status;
+
   Order(
       {this.address,
       this.alternateNumber,
@@ -43,10 +45,35 @@ class Order extends StatelessWidget {
       this.thumbnail,
       this.town,
       this.transactionNo,
-      this.zipCode});
+      this.zipCode,
+      this.status});
+
   @override
   Widget build(BuildContext context) {
+    Color statusColor;
     var size = MediaQuery.of(context).size;
+    if (status == '0') {
+      status = 'Pending';
+      statusColor = Colors.red;
+    } else if (status == '1') {
+      status = 'Processing';
+      statusColor = Colors.yellow;
+    } else if (status == '2') {
+      status = 'Shipped';
+      statusColor = Colors.green;
+    } else if (status == '3') {
+      status = 'Delivered';
+      statusColor = Colors.green;
+    } else if (status == '4') {
+      status = 'Cancelled by User';
+      statusColor = Colors.red;
+    } else if (status == '5') {
+      status = 'Cancelled by Admin';
+      statusColor = Colors.red;
+    } else {
+      status = 'Payment Failed';
+      statusColor = Colors.red;
+    }
     return InkWell(
       onTap: () {
         // Navigator.of(context).pushNamed(.routeName);
@@ -54,6 +81,8 @@ class Order extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => OrderDetailScreen(
+                status: status,
+                statusColor: statusColor,
                 address: address,
                 alternateNumber: alternateNumber,
                 city: city,
@@ -85,15 +114,30 @@ class Order extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "${orderNo}",
-              // "ORDER ${orderNo}",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w400,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "${orderNo}",
+                  // "ORDER ${orderNo}",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Text(
+                  "${status}",
+                  // "ORDER ${orderNo}",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: statusColor,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 15),
             Row(

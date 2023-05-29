@@ -2,6 +2,7 @@ import 'package:elison/Components/postOptions.dart';
 import 'package:elison/Components/video_player.dart';
 import 'package:elison/Screens/PostDetailScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/models/post_model.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,7 @@ class Post extends StatefulWidget {
   final String? userProfile;
   final String? userName;
   final bool? isLike;
+  final bool? isMain;
   const Post({
     this.createdDate,
     this.isedit = false,
@@ -42,6 +44,7 @@ class Post extends StatefulWidget {
     this.userProfile,
     this.uid,
     this.isLike,
+    this.isMain = true,
   });
   @override
   State<Post> createState() => _PostState();
@@ -110,28 +113,43 @@ class _PostState extends State<Post> {
     return InkWell(
       onTap: () {
         if (true) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PostDetailScreen(
-                  createdDate: widget.createdDate,
-                  id: widget.id,
-                  userName: widget.userName,
-                  userProfile: widget.userProfile,
-                  index: widget.index,
-                  isImage: widget.isImage,
-                  isVideo: widget.isVideo,
-                  postContent: widget.postContent,
-                  postMedia: widget.postMedia,
-                  status: widget.status,
-                  totalComment: widget.totalComment,
-                  totalLike: widget.totalLike,
-                  uid: widget.uid,
-                ),
-              ));
-          // Navigator.of(context).pushNamed(
-          //   PostDetailScreen.routeName,
-          // );
+          Get.toNamed('/post-detail', arguments: [
+            PostListModel(
+                id: widget.id!,
+                uid: widget.uid!,
+                postContent: widget.postContent!,
+                userName: widget.userName!,
+                userProfile: widget.userProfile!,
+                postMedia: widget.postMedia!,
+                isVideo: widget.isVideo!,
+                isImage: widget.isImage!,
+                totalLike: widget.totalLike!,
+                totalComment: widget.totalComment!,
+                status: widget.status!,
+                createdDate: widget.createdDate!,
+                isLike: widget.isLike!)
+          ]);
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => PostDetailScreen(
+          //         isLike: widget.isLike,
+          //         createdDate: widget.createdDate,
+          //         id: widget.id,
+          //         userName: widget.userName,
+          //         userProfile: widget.userProfile,
+          //         index: widget.index,
+          //         isImage: widget.isImage,
+          //         isVideo: widget.isVideo,
+          //         postContent: widget.postContent,
+          //         postMedia: widget.postMedia,
+          //         status: widget.status,
+          //         totalComment: widget.totalComment,
+          //         totalLike: widget.totalLike,
+          //         uid: widget.uid,
+          //       ),
+          //     ));
+
         }
       },
       child: Container(
@@ -215,35 +233,58 @@ class _PostState extends State<Post> {
                     )
                   : VideoPlayerItem(
                       videoUrl: mainUrl + postUrl + widget.postMedia!),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        // liked = !liked;
-                        // if (liked == true) {
-                        //   like++;
-                        // } else {
-                        //   like--;
-                        // }
-                        // setState(() {});
-                        _toggleLike();
-                        setState(() {});
-                        postController.managelike(context, widget.id!);
-                      },
+              widget.isMain!
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 10),
                       child: Row(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
+                          InkWell(
+                            onTap: () {
+                              // liked = !liked;
+                              // if (liked == true) {
+                              //   like++;
+                              // } else {
+                              //   like--;
+                              // }
+                              // setState(() {});
+                              _toggleLike();
+                              setState(() {});
+                              postController.managelike(context, widget.id!);
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  liked
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: liked ? primaryColor : Colors.black,
+                                  size: 15,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  "${like}",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 30),
                           Icon(
-                            liked ? Icons.favorite : Icons.favorite_border,
-                            color: liked ? primaryColor : Colors.black,
+                            Icons.comment,
+                            color: Colors.black,
                             size: 15,
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "${like}",
+                            "${widget.totalComment}",
                             maxLines: 1,
                             style: TextStyle(
                               fontSize: 14,
@@ -254,27 +295,8 @@ class _PostState extends State<Post> {
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 30),
-                    Icon(
-                      Icons.comment,
-                      color: Colors.black,
-                      size: 15,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      "${widget.totalComment}",
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : Container(),
             ],
           ),
         ),

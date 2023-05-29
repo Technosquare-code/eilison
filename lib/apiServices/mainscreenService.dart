@@ -7,6 +7,7 @@ import 'package:elison/models/user_details_model.dart';
 import 'package:elison/urls.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -421,7 +422,16 @@ class MainScreenService {
 
         return true;
       } else {
-        snackbar(context: context, msg: data['data'], title: 'Failed');
+        Get.snackbar('Failed', data['data'] ?? '',
+            duration: Duration(seconds: 3),
+            backgroundColor: Colors.red,
+            snackStyle: SnackStyle.FLOATING,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            isDismissible: true,
+            margin: EdgeInsets.only(bottom: 50),
+            maxWidth: 300);
+        // snackbar(context: context, msg: data['data'], title: 'Failed');
 
         return false;
       }

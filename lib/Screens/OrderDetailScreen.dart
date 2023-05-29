@@ -28,6 +28,8 @@ class OrderDetailScreen extends StatelessWidget {
   String? landmark;
   String? state;
   String? town;
+  Color? statusColor;
+  String? status;
   OrderDetailScreen(
       {this.address,
       this.alternateNumber,
@@ -46,7 +48,9 @@ class OrderDetailScreen extends StatelessWidget {
       this.thumbnail,
       this.town,
       this.transactionNo,
-      this.zipCode});
+      this.zipCode,
+      this.status,
+      this.statusColor});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -84,14 +88,28 @@ class OrderDetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    orderNo ?? "ORDER 243242",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        orderNo ?? "ORDER 243242",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        status ?? "Pending",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: statusColor,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 15),
                   Divider(color: Colors.grey),

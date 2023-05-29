@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:elison/models/address_model.dart';
 import 'package:elison/models/chat_model.dart';
 import 'package:elison/models/cms_model.dart';
+import 'package:elison/models/comment_model.dart';
 import 'package:elison/models/notification_model.dart';
 import 'package:elison/models/order_model.dart';
 import 'package:elison/models/post_model.dart';
@@ -168,6 +169,44 @@ class ProfileTabService {
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
         Get.back();
+        snackbar(context: context, msg: data['data'], title: 'Success');
+
+        return true;
+      } else {
+        snackbar(context: context, msg: data['data'], title: 'Failed');
+
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> postComment(BuildContext context,
+      {String? post_id, comment_id, comment}) async {
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id'),
+      'comment': comment,
+      'comment_id': comment_id,
+      'post_id': post_id,
+    });
+
+    var response = await dio.post(
+      '$baseUrl/add-comment.php',
+      data: form,
+      options: Options(headers: headers),
+    );
+    print(headers);
+    print(form.fields);
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        // Get.back();
         snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
@@ -813,6 +852,33 @@ class ProfileTabService {
           print('object');
         }
         // blist.assignAll(categoryListModelFromJson(data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<CommentModel>> commentList(String post_id) async {
+    List<CommentModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'post_id': post_id,
+    });
+
+    var response = await dio.post('$baseUrl/post-comment-list.php',
+        data: form, options: Options(headers: headers));
+    var data = response.data;
+    print('---------------$data');
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var i in data['data']) {
+          blist.add(CommentModel.fromJson(i));
+          print('object');
+        }
       }
     }
     return blist;

@@ -608,9 +608,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 10.0, right: 10.0, bottom: 8.0),
-                        child: Column(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             MyButton(
+                              sizeWidth: size.width * 0.45,
                               fontSize: 16,
                               sizeHieght: 55,
                               title: prodDetailController.isAdded.value
@@ -628,10 +630,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 // );
                               },
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
                             MyButton(
+                              sizeWidth: size.width * 0.45,
                               fontSize: 16,
                               sizeHieght: 55,
                               color: Colors.black,

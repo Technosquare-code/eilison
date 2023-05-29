@@ -30,6 +30,7 @@ class OrderListModel {
   String landmark;
   String state;
   String town;
+  String status;
 
   OrderListModel({
     required this.id,
@@ -50,6 +51,7 @@ class OrderListModel {
     required this.landmark,
     required this.state,
     required this.town,
+    required this.status,
   });
 
   factory OrderListModel.fromJson(Map<String, dynamic> json) => OrderListModel(
@@ -71,6 +73,7 @@ class OrderListModel {
         landmark: json["landmark"],
         state: json["state"],
         town: json["town"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {

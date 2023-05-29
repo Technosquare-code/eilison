@@ -68,6 +68,7 @@ class OrderScreen extends StatelessWidget {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (ctx, i) => Order(
+                                  status: orderController.orderList[i].status,
                                   address: orderController.orderList[i].address,
                                   alternateNumber: orderController
                                       .orderList[i].alternateNumber,

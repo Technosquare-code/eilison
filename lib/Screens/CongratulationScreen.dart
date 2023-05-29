@@ -47,7 +47,7 @@ class CongratulationScreen extends StatelessWidget {
                 title: "Back To Home",
                 textColor: Colors.white,
                 onTap: () {
-                  Get.offAllNamed('/user-home');
+                  Get.offAllNamed('/user-home', arguments: [context]);
                 },
               ),
             ],

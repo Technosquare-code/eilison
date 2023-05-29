@@ -151,11 +151,18 @@ class CartController extends GetxController {
   moveToWishlist(String id, BuildContext context) async {
     isLoading(true);
     bool check = await MainScreenService().moveToWishlist(context, cartId: id);
-    check ? {getCartData(), ss.getuserdetails(context)} : null;
-    if (isadd ?? false) {
-      print('object');
-      Get.find<ProductDetailController>().isAdded(false);
+    // check ? {, } : null;
+    if (check) {
+      // await getCartData();
+      // ss.getuserdetails(context);
+      if (isadd ?? false) {
+        print('object');
+        Get.find<ProductDetailController>().isAdded(false);
+      }
     }
+    await getCartData();
+    ss.getuserdetails(context);
+
     isLoading(false);
   }
 
