@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: RefreshIndicator(
           onRefresh: () async {
             mainscreenController.isLoading(true);
-            await mainscreenController.getuserdetails();
+            await mainscreenController.getuserdetails(context);
             mainscreenController.isLoading(false);
             // TODO: implement onReady
             homescreenController.isLoading(true);
@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     onPressed: () {
                                       Get.toNamed('/cart',
-                                          arguments: [false, 0]);
+                                          arguments: [false, 0, context]);
                                       // Navigator.of(context).pushNamed(
                                       //   CartScreen.routeName,
                                       // );

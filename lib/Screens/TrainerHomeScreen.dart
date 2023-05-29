@@ -26,7 +26,7 @@ class TrainerHomeScreen extends StatefulWidget {
 }
 
 class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
-  final mainscreenController = Get.put(MainScreenController());
+  final mainscreenController = Get.put(MainScreenController(Get.arguments[0]));
   final homepageController = Get.put(TrainerHomeController());
   final detailController = Get.put(SessionDetailController());
   int selectedIndex = 0;
@@ -45,7 +45,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            await mainscreenController.getuserdetails();
+            await mainscreenController.getuserdetails(context);
             await homepageController.getSessionList();
             await homepageController.pastSessionList();
             await homepageController.getOngoingList();

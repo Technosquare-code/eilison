@@ -57,7 +57,7 @@ class EditProfileController extends GetxController {
     bool check =
         await ProfileTabService().profilePictureApi(context, image: imgpath);
     if (check) {
-      await mainscreenController.getuserdetails();
+      await mainscreenController.getuserdetails(context);
       ispictureLoading(false);
     }
     // isLoading(false);
@@ -68,7 +68,7 @@ class EditProfileController extends GetxController {
     bool check =
         await ProfileTabService().timelinePictureApi(context, image: imgpath);
     if (check) {
-      await mainscreenController.getuserdetails();
+      await mainscreenController.getuserdetails(context);
       istimelinepictureLoading(false);
     }
     // isLoading(false);
@@ -83,7 +83,7 @@ class EditProfileController extends GetxController {
         phone: phoneNo.text,
         bio: bio.text);
     if (check) {
-      mainscreenController.getuserdetails();
+      mainscreenController.getuserdetails(context);
     }
     isLoading(false);
   }

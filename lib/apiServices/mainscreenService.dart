@@ -22,7 +22,7 @@ class MainScreenService {
   String? deviceType;
   var pref = GetStorage();
 
-  Future userdetail() async {
+  Future userdetail(BuildContext context) async {
     final FirebaseMessaging fcm = FirebaseMessaging.instance;
     final fcmToken = await fcm.getToken();
     debugPrint(fcmToken);
@@ -49,7 +49,7 @@ class MainScreenService {
     if (data['status'] != 'true') {
       print('get user detail false ara h');
       pref.write('isLogin', false);
-      Get.offAndToNamed('/login-screen');
+      Get.offAllNamed('/login-screen', arguments: [context]);
       return;
     }
     return userDetailsModelFromJson(data);

@@ -11,8 +11,6 @@ class TrainerDetailsController extends GetxController {
   String? trainerid;
   TrainerDetailsController({this.trainerid});
   var isLoading = false.obs;
-  // final mainscreenController = Get.find<MainScreenController>();
-
   var userDetails = List<UserDetailsModel>.empty(growable: true).obs;
 
   getdetails(String trainerId) async {

@@ -23,7 +23,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final cartController = Get.put(CartController(isadd: Get.arguments[0]));
+  final cartController =
+      Get.put(CartController(Get.arguments[2], isadd: Get.arguments[0]));
   final viewController = Get.put(ViewAddressController());
 
   int currentPage = Get.arguments[1];

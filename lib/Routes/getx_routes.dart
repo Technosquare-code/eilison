@@ -1,3 +1,4 @@
+import 'package:elison/Screens/ChatScreen.dart';
 import 'package:elison/Screens/CongratulationScreen.dart';
 import 'package:elison/Screens/MainScreen.dart';
 import 'package:elison/Screens/TrainerHomeScreen.dart';
@@ -89,6 +90,10 @@ appRoutes() => [
       GetPage(
         name: '/cart',
         page: () => CartScreen(),
+      ),
+      GetPage(
+        name: '/chat',
+        page: () => ChatScreen(),
       ),
       GetPage(
         name: '/review',

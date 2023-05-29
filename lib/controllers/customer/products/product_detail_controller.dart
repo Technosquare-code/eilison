@@ -90,7 +90,7 @@ class ProductDetailController extends GetxController {
     // check ? Get.back() : null;
     if (check) {
       isAdded(true);
-      ss.getuserdetails();
+      ss.getuserdetails(context);
     }
     return check;
   }

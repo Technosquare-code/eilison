@@ -12,7 +12,6 @@ class ReviewController extends GetxController {
   String? trainerid;
   ReviewController({this.trainerid});
   var isLoading = false.obs;
-  // final mainscreenController = Get.find<MainScreenController>();
   var totalratings = 0.obs;
   var avg_rating = 0.0.obs;
   var fiveStar = 0.0.obs;

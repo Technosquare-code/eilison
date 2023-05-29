@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
@@ -450,7 +451,7 @@ class HomeScreenService {
     print(data);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
-        snackbar(context: context, msg: data['data'], title: 'Success');
+        // snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
       } else {
@@ -473,17 +474,16 @@ class HomeScreenService {
       'product_id': pro_id,
       'uid': pref.read('user_id') ?? '1',
     });
+    print(headers);
+    print(form.fields);
     var response = await dio.post(
       '$baseUrl/product-details.php',
       options: Options(headers: headers),
       data: form,
     );
-    print(headers);
-
-    print("ddddddddddddddddddd${pref.read('user_id')}");
 
     var data = response.data;
-    debugPrint(data['status']);
+    debugPrint(response.statusMessage);
     if (response.statusCode == 200) {
       if (data['status'] == 'true') {
         for (var i in [data['data']]) {

@@ -22,6 +22,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../controllers/customer/mainscreen_controller.dart';
+import 'ChatScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -270,6 +271,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             MaterialPageRoute(
                               builder: (context) => TermsConditions(),
                             ));
+                      },
+                    ),
+                    Item(
+                      Icons.live_help,
+                      "Chat",
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => ChatScreen()),
+                        // );
+                        Get.toNamed('/chat');
                       },
                     ),
                   ],

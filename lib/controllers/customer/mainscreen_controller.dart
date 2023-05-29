@@ -5,14 +5,16 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class MainScreenController extends GetxController {
+  BuildContext context;
+  MainScreenController(this.context);
   var isLoading = false.obs;
   var userdetailList = List<UserDetailsModel>.empty(growable: true).obs;
   var homeCategoryList = List<HomeCategory>.empty(growable: true).obs;
 
-  getuserdetails() async {
+  getuserdetails(BuildContext context) async {
     isLoading(true);
     userdetailList.clear();
-    userdetailList.add(await MainScreenService().userdetail());
+    userdetailList.add(await MainScreenService().userdetail(context));
     if (userdetailList[0].data.homeCategory.isNotEmpty) {
       homeCategoryList.assignAll(userdetailList[0].data.homeCategory);
     }
@@ -22,7 +24,7 @@ class MainScreenController extends GetxController {
   @override
   void onReady() {
     // TODO: implement onReady
-    getuserdetails();
+    getuserdetails(context);
     super.onReady();
   }
 }

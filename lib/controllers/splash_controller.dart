@@ -38,8 +38,8 @@ class SplashController extends GetxController {
       if (isLogin) {
         print('------------------------${pref.read('role')}');
         pref.read('role') == '1'
-            ? Get.offNamed('/user-home')
-            : Get.offNamed('/trainer-home');
+            ? Get.offNamed('/user-home', arguments: [context])
+            : Get.offNamed('/trainer-home', arguments: [context]);
       } else {
         pref.read('onboarding') ?? false
             ? Get.offAndToNamed('/login-screen', arguments: [context])

@@ -12,8 +12,9 @@ import 'package:get_storage/get_storage.dart';
 import 'mainscreen_controller.dart';
 
 class CartController extends GetxController {
+  BuildContext context;
   bool? isadd;
-  CartController({this.isadd});
+  CartController(this.context, {this.isadd});
   var isLoading = false.obs;
   var addressId = ''.obs;
   var cartList = List<CartListModel>.empty(growable: true).obs;
@@ -25,8 +26,8 @@ class CartController extends GetxController {
 
     if (check) {
       print('object000000000000000000');
-      getCartData();
-      ss.getuserdetails();
+      await getCartData();
+      await ss.getuserdetails(context);
 
       // Check if the controller is registered
       if (isadd ?? false) {
@@ -150,7 +151,11 @@ class CartController extends GetxController {
   moveToWishlist(String id, BuildContext context) async {
     isLoading(true);
     bool check = await MainScreenService().moveToWishlist(context, cartId: id);
-    check ? {getCartData(), ss.getuserdetails()} : null;
+    check ? {getCartData(), ss.getuserdetails(context)} : null;
+    if (isadd ?? false) {
+      print('object');
+      Get.find<ProductDetailController>().isAdded(false);
+    }
     isLoading(false);
   }
 
