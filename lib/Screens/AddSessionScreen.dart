@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:elison/Components/InputFeild.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/MyDropdown.dart';
+import 'package:elison/Components/snackbar.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/profile/address/add_address_controller.dart';
 import 'package:elison/urls.dart';
@@ -27,6 +28,10 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
   // final pref = GetStorage();
   final addsessionController = Get.put(
       AddSessionController(isEdit: Get.arguments[0], index: Get.arguments[1]));
+  String urlPattern =
+      r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)';
+  // r'(^(http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$';
+
   getGalaryImage() async {
     dynamic imageData = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -132,7 +137,9 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
           ),
         ),
         title: Text(
-          Get.arguments[0] ? 'Edit Session' : "Add New Session",
+          addsessionController.isEdit ?? false
+              ? 'Edit Session'
+              : "Add New Session",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -362,6 +369,8 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                     // EmailValidator(
                     //   errorText: 'Please enter valid email',
                     // ),
+                    PatternValidator(urlPattern,
+                        errorText: 'Please enter a valid URL'),
                     RequiredValidator(errorText: 'Zoom Link required')
                   ]),
                   controller: addsessionController.zoomlink,
@@ -385,7 +394,7 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                     ? CircularProgressIndicator()
                     : MyDropdown(
                         size: 21,
-                        value: Get.arguments[0]
+                        value: addsessionController.isEdit ?? false
                             ? addsessionController.sessiontype.value
                             : type,
                         padding: 12,
@@ -442,12 +451,38 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                   sizeHieght: 50,
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      addsessionController.createSession(context,
-                          sessiontypeId: Get.arguments[0]
-                              ? addsessionController.sessiontype.value
-                              : type,
-                          imgpath: image != null ? image!.path : '',
-                          sessionId: addsessionController.sessionIId.value);
+                      try {
+                        Uri.parse(addsessionController.zoomlink.text);
+                        print(
+                            "${addsessionController.zoomlink.text} is a valid URL.");
+                      } on FormatException {
+                        print(
+                            "${addsessionController.zoomlink.text} is not a valid URL.");
+                        return;
+                      }
+                      if (!addsessionController.isEdit!) {
+                        if (image != null) {
+                          addsessionController.createSession(context,
+                              sessiontypeId:
+                                  addsessionController.isEdit ?? false
+                                      ? addsessionController.sessiontype.value
+                                      : type,
+                              imgpath: image != null ? image!.path : '',
+                              sessionId: addsessionController.sessionIId.value);
+                        } else {
+                          snackbar(
+                              context: context,
+                              msg: 'Please Pick an Image',
+                              title: 'Failed');
+                        }
+                      } else {
+                        addsessionController.createSession(context,
+                            sessiontypeId: addsessionController.isEdit ?? false
+                                ? addsessionController.sessiontype.value
+                                : type,
+                            imgpath: image != null ? image!.path : '',
+                            sessionId: addsessionController.sessionIId.value);
+                      }
                     }
                   },
                 ),

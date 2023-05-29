@@ -4,6 +4,7 @@ import 'package:elison/controllers/notification_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../Components/shimmer/addressShimmer.dart';
 import 'NoDataFoundScreen.dart';
@@ -52,35 +53,36 @@ class NotificationScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(25, 10, 25, 25),
-        child: Obx(() {
-          return notificationController.isLoading.value
-              ? AddressShimmer(
-                  size: MediaQuery.of(context).size,
-                )
-              : notificationController.notificationList.isEmpty
-                  ? NoDataFound(
-                      buttnText: 'Continue Shopping',
-                      img:
-                          'https://cdn-icons-png.flaticon.com/512/3541/3541850.png',
-                      title: 'No Notifications Right Now',
-                    )
-                  : ListView.builder(
+      body: Obx(() {
+        return notificationController.isLoading.value
+            ? AddressShimmer(
+                size: MediaQuery.of(context).size,
+              )
+            : notificationController.notificationList.isEmpty
+                ? NoDataFound(
+                    buttnText: 'No Notification',
+                    img: 'assets/images/empty_notification.png',
+                    // 'https://cdn-icons-png.flaticon.com/512/3541/3541850.png',
+                    title: 'No Notifications Right Now',
+                  )
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(25, 10, 25, 25),
+                    child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: notificationController.notificationList.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx, i) => MyNotification(
-                        image: 'assets/images/xlogo.png',
-                        title: notificationController
-                            .notificationList[i].notiTitle,
-                        time: notificationController
-                            .notificationList[i].createdDate
-                            .toString(),
-                      ),
-                    );
-        }),
-      ),
+                          image: 'assets/images/xlogo.png',
+                          title: notificationController
+                              .notificationList[i].notiTitle,
+                          subtitle: notificationController
+                              .notificationList[i].notiDescription,
+                          time: DateFormat('d MMM y h:mm a').format(
+                              notificationController
+                                  .notificationList[i].createdDate)),
+                    ),
+                  );
+      }),
     );
   }
 }

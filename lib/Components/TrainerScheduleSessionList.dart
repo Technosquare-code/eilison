@@ -29,7 +29,19 @@ class TrainerScheduleSessionList extends StatelessWidget {
                       description:
                           mainscreenController.sessionList[i].description,
                       img: mainscreenController.sessionList[i].image,
-                      title: mainscreenController.sessionList[i].sessionName,
+                      sessionName:
+                          mainscreenController.sessionList[i].sessionName,
+                      agenda: mainscreenController.sessionList[i].agenda,
+                      category: mainscreenController
+                          .sessionList[i].sessionCategoryName,
+                      duration: mainscreenController.sessionList[i].duration,
+                      sessiondate:
+                          mainscreenController.sessionList[i].sessionDate,
+                      sessiontime:
+                          mainscreenController.sessionList[i].sessionTime,
+                      sessiontype:
+                          mainscreenController.sessionList[i].sessionType,
+                      zoomlink: mainscreenController.sessionList[i].zoomLink,
                     ),
                   ),
       );

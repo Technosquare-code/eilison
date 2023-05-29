@@ -15,21 +15,26 @@ class ViewAddressController extends GetxController {
   getAllAddress() async {
     isLoading(true);
     addressList.assignAll(await ProfileTabService().addressList());
-    isLoading(false);
+    // isLoading(false);
   }
 
   deleteAdress(String id, BuildContext context) async {
     isLoading(true);
     bool check =
         await ProfileTabService().deleteAddress(context, addressId: id);
-    check ? getAllAddress() : null;
-    isLoading(false);
+    // check ?
+    if (check) {
+      await getAllAddress();
+      isLoading(false);
+    }
+    // : null;
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
-    getAllAddress();
+    await getAllAddress();
+    isLoading(false);
     super.onInit();
   }
 }

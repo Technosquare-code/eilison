@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final logincontroller = Get.put(LoginController());
+  final logincontroller = Get.put(LoginController(context: Get.arguments[0]));
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +181,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Get.toNamed('/register');
+                                  Get.toNamed('/register',
+                                      arguments: [context]);
                                   // Navigator.of(context).pushNamed(
                                   //   RegisterScreen.routeName,
                                   // );

@@ -1,151 +1,181 @@
 import 'package:elison/Components/Review.dart';
+import 'package:elison/Components/shimmer/addressShimmer.dart';
+import 'package:elison/controllers/review_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 
 class TrainerReviewScreen extends StatelessWidget {
   static const routeName = "TrainerReviewScreen";
+  final reviewController =
+      Get.put(ReviewController(trainerid: Get.arguments[0]));
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(
-            CupertinoIcons.back,
-            color: Colors.black,
-            size: 20,
+    return Obx(() {
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: Icon(
+              CupertinoIcons.back,
+              color: Colors.black,
+              size: 20,
+            ),
+          ),
+          title: Text(
+            "Reviews",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontFamily: "Poppins",
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
-        title: Text(
-          "Reviews",
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Text(
-                "Overal Rating",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  RatingBar.builder(
-                    initialRating: 5,
-                    minRating: 1,
-                    itemSize: 40,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    ignoreGestures: true,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 0.5),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
+        body: reviewController.isLoading.value
+            ? AddressShimmer(size: size)
+            : reviewController.ratinglist.isEmpty
+                ? Text('data not found')
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            "Overal Rating",
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              RatingBar.builder(
+                                initialRating:
+                                    reviewController.avg_rating.value,
+                                minRating: 1,
+                                itemSize: 40,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                ignoreGestures: true,
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 0.5),
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (_) {},
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                "${reviewController.avg_rating.value}",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        Center(
+                          child: Text(
+                            reviewController.totalratings.value == 1
+                                ? "Based on ${reviewController.totalratings.value} rating"
+                                : "Based on ${reviewController.totalratings.value} ratings",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        Container(
+                          width: size.width,
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade100,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Column(
+                            children: [
+                              RatingItem(
+                                rank: "Excellent",
+                                value: reviewController.fiveStar.value,
+                                color: Colors.green.shade800,
+                                rate: reviewController.fiveStar.value
+                                    .round()
+                                    .toString(),
+                              ),
+                              RatingItem(
+                                rank: "Good",
+                                value: reviewController.fourStar.value,
+                                color: Colors.orange.shade400,
+                                rate: reviewController.fourStar.value
+                                    .round()
+                                    .toString(),
+                              ),
+                              RatingItem(
+                                rank: "Average",
+                                value: reviewController.threeStar.value,
+                                color: Colors.orange.shade800,
+                                rate:
+                                    "${reviewController.threeStar.value.round()}",
+                              ),
+                              RatingItem(
+                                rank: "Below Average",
+                                value: reviewController.twoStar.value,
+                                color: Colors.orange.shade400,
+                                rate:
+                                    "${reviewController.twoStar.value.round()}",
+                              ),
+                              RatingItem(
+                                rank: "Poor",
+                                value: reviewController.oneStar.value,
+                                color: Colors.yellow.shade800,
+                                rate:
+                                    "${reviewController.oneStar.value.round()}",
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        ListView.builder(
+                          itemCount: reviewController.ratinglist.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (ctx, i) => Review(
+                            name: reviewController.ratinglist[i].name,
+                            profilePicture:
+                                reviewController.ratinglist[i].profilePicture,
+                            rating: reviewController.ratinglist[i].rating,
+                            review: reviewController.ratinglist[i].review,
+                            createdDate:
+                                reviewController.ratinglist[i].createdDate,
+                          ),
+                        ),
+                      ],
                     ),
-                    onRatingUpdate: (_) {},
                   ),
-                  const SizedBox(width: 10),
-                  Text(
-                    "5.0",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 15),
-            Center(
-              child: Text(
-                "Based on 87 ratings",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 25),
-            Container(
-              width: size.width,
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.blueGrey.shade100,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                children: [
-                  RatingItem(
-                    rank: "Excellent",
-                    value: 0.85,
-                    color: Colors.green.shade800,
-                    rate: "85",
-                  ),
-                  RatingItem(
-                    rank: "Good",
-                    value: 0,
-                    color: Colors.orange.shade400,
-                    rate: "0",
-                  ),
-                  RatingItem(
-                    rank: "Average",
-                    value: 0,
-                    color: Colors.orange.shade800,
-                    rate: "0",
-                  ),
-                  RatingItem(
-                    rank: "Below Average",
-                    value: 0.1,
-                    color: Colors.orange.shade400,
-                    rate: "1",
-                  ),
-                  RatingItem(
-                    rank: "Poor",
-                    value: 0,
-                    color: Colors.yellow.shade800,
-                    rate: "0",
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 15),
-            ListView.builder(
-              itemCount: 6,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (ctx, i) => Review(),
-            ),
-          ],
-        ),
-      ),
-    );
+      );
+    });
   }
 }
 

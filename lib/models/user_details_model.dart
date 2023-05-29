@@ -32,21 +32,24 @@ class UserDetailsModel {
 }
 
 class Data {
-  Data({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.userWallet,
-    this.profilePicture,
-    required this.isProfileDescriptionSkip,
-    required this.role,
-    required this.gender,
-    required this.dob,
-    required this.homeCategory,
-    required this.totalCartItems,
-    required this.bio,
-  });
+  Data(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.phone,
+      required this.userWallet,
+      this.profilePicture,
+      required this.isProfileDescriptionSkip,
+      required this.role,
+      required this.gender,
+      required this.dob,
+      required this.homeCategory,
+      required this.totalCartItems,
+      required this.bio,
+      this.timeline_photo,
+      this.avg_rating,
+      this.total_rating_count,
+      this.total_session});
 
   String id;
   String name;
@@ -60,6 +63,10 @@ class Data {
   String gender;
   String dob;
   String totalCartItems;
+  String? timeline_photo;
+  String? total_session;
+  String? total_rating_count;
+  String? avg_rating;
   List<HomeCategory> homeCategory;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -75,6 +82,10 @@ class Data {
         gender: json["gender"],
         dob: json["dob"],
         totalCartItems: json["total_cart_items"],
+        avg_rating: json['avg_rating'],
+        timeline_photo: json['timeline_photo'],
+        total_rating_count: json['total_rating_count'],
+        total_session: json['total_session'],
         homeCategory: List<HomeCategory>.from(
             json["home_category"].map((x) => HomeCategory.fromJson(x))),
       );

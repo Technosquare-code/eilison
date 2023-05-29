@@ -12,8 +12,9 @@ import 'package:get_storage/get_storage.dart';
 import 'mainscreen_controller.dart';
 
 class CartController extends GetxController {
+  BuildContext context;
   bool? isadd;
-  CartController({this.isadd});
+  CartController(this.context, {this.isadd});
   var isLoading = false.obs;
   var addressId = ''.obs;
   var cartList = List<CartListModel>.empty(growable: true).obs;
@@ -25,8 +26,8 @@ class CartController extends GetxController {
 
     if (check) {
       print('object000000000000000000');
-      getCartData();
-      ss.getuserdetails();
+      await getCartData();
+      await ss.getuserdetails(context);
 
       // Check if the controller is registered
       if (isadd ?? false) {
@@ -48,9 +49,9 @@ class CartController extends GetxController {
       UsePaypal(
           sandboxMode: true,
           clientId:
-              "AVTLvMH0OTgSrZ4SUKLbM3ES9wU4NtIoFpCT1lMow4Al__-LdIhbR4ySvRHXezYVpZ6BtOolrmechMFC",
+              "AXIVfX83zlT2ojcultE0KkLHltYqrltxGSe-ahXsZnrzOmrgEbr8w71JWJFmoMYLAQrXq0sXU2nMN5qI",
           secretKey:
-              "EM-jSsc_90LW0a3htWnVNv9X2wN4DFEehJxdmyMyQ_xBcNXNCRaZhm8z2aaL6xaGOVTLKZNamJCm25h3",
+              "EKe18dZVc2sUP9akgru8yZRxIVlVYP4-GzIu_CPi4rgsRRetGs7aRFQCqJTkjEVvCqFfWFOptxYxQpSi",
           returnURL: "https://samplesite.com/return",
           cancelURL: "https://samplesite.com/cancel",
           transactions: [
@@ -140,13 +141,21 @@ class CartController extends GetxController {
         reason: reason,
         status: status,
         transactionNo: transactionNo);
+    if (check) {
+      // Get.off('/user-home');
+      Get.toNamed('/congracts');
+    }
     isLoading(false);
   }
 
   moveToWishlist(String id, BuildContext context) async {
     isLoading(true);
     bool check = await MainScreenService().moveToWishlist(context, cartId: id);
-    check ? {getCartData(), ss.getuserdetails()} : null;
+    check ? {getCartData(), ss.getuserdetails(context)} : null;
+    if (isadd ?? false) {
+      print('object');
+      Get.find<ProductDetailController>().isAdded(false);
+    }
     isLoading(false);
   }
 

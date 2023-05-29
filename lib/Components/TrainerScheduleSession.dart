@@ -6,10 +6,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TrainerScheduleSession extends StatelessWidget {
-  final String? title, img, description;
+  final String? sessionName,
+      img,
+      description,
+      agenda,
+      sessiontype,
+      sessiondate,
+      sessiontime,
+      duration,
+      zoomlink,
+      category;
   final int? index;
   const TrainerScheduleSession(
-      {super.key, this.img, this.title, this.description, this.index});
+      {super.key,
+      this.img,
+      this.sessionName,
+      this.description,
+      this.index,
+      this.agenda,
+      this.category,
+      this.duration,
+      this.sessiondate,
+      this.sessiontime,
+      this.sessiontype,
+      this.zoomlink});
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -21,8 +41,15 @@ class TrainerScheduleSession extends StatelessWidget {
               builder: (context) => SessionDetailScreen(
                 description: description,
                 img: img,
-                title: title,
+                title: sessionName,
                 isCoach: true,
+                agenda: agenda,
+                category: category,
+                duration: duration,
+                sessiondate: sessiondate,
+                sessiontime: sessiontime,
+                sessiontype: sessiontype,
+                zoomlink: zoomlink,
               ),
             ));
       },
@@ -43,7 +70,7 @@ class TrainerScheduleSession extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title ?? '',
+                        sessionName ?? '',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

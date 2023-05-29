@@ -21,7 +21,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final registercontroller = Get.put(RegisterController());
+  final registercontroller =
+      Get.put(RegisterController(context: Get.arguments[0]));
   changeState(bool? status) {
     registercontroller.isCheck.value = status!;
     setState(() {});

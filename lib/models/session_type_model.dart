@@ -12,11 +12,11 @@ String sessionTypeModelToJson(List<SessionTypeModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SessionTypeModel {
-  String id;
+  String? id;
   String categoryName;
 
   SessionTypeModel({
-    required this.id,
+    this.id,
     required this.categoryName,
   });
 

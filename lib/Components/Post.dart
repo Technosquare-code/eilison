@@ -1,15 +1,48 @@
 import 'package:elison/Components/postOptions.dart';
+import 'package:elison/Components/video_player.dart';
 import 'package:elison/Screens/PostDetailScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Utils/Utils.dart';
+import '../controllers/customer/posts/post_controller.dart';
 import 'SessionOption.dart';
 
 class Post extends StatefulWidget {
-  final bool clickable;
-
-  const Post(this.clickable);
+  final bool isedit;
+  final int? index;
+  final String? id;
+  final String? uid;
+  final String? postContent;
+  final String? postMedia;
+  final String? isVideo;
+  final String? isImage;
+  final int? totalLike;
+  final int? totalComment;
+  final String? status;
+  final DateTime? createdDate;
+  final String? userProfile;
+  final String? userName;
+  final bool? isLike;
+  const Post({
+    this.createdDate,
+    this.isedit = false,
+    this.id,
+    this.isImage,
+    this.isVideo,
+    this.postContent,
+    this.postMedia,
+    this.status,
+    this.totalComment,
+    this.totalLike,
+    this.index,
+    this.userName,
+    this.userProfile,
+    this.uid,
+    this.isLike,
+  });
   @override
   State<Post> createState() => _PostState();
 }
@@ -17,17 +50,88 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   bool liked = false;
   int like = 116;
+  final postController = Get.find<PostController>();
 
+  timeDiff(DateTime comingDateTime) {
+    // Current datetime
+    DateTime currentDateTime = DateTime.now();
+
+    // Another datetime (e.g., coming date)
+    // DateTime comingDateTime = DateTime(2023, 5, 20, 12, 0, 0);
+
+    // Calculate the difference
+    Duration difference = currentDateTime.difference(comingDateTime);
+
+    // Extract the difference in days, hours, and minutes
+    int days = difference.inDays;
+    int hours = difference.inHours;
+    int minutes = difference.inMinutes;
+    print('object $difference');
+    String differenceString;
+
+    if (days > 0) {
+      differenceString = '$days day ago';
+    } else if (hours > 0) {
+      differenceString = '$hours hr ago';
+    } else if (minutes > 0) {
+      differenceString = '$minutes min ago';
+    } else {
+      differenceString = 'Less than a minute';
+    }
+
+    print('Difference: $differenceString');
+    return differenceString;
+  }
+
+  void _toggleLike() {
+    setState(() {
+      if (liked) {
+        liked = false;
+        like--;
+      } else {
+        liked = true;
+        like++;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    liked = widget.isLike!;
+    print('is liked ka init h $liked');
+    like = widget.totalLike!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        if (widget.clickable == true) {
-          Navigator.of(context).pushNamed(
-            PostDetailScreen.routeName,
-          );
+        if (true) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostDetailScreen(
+                  createdDate: widget.createdDate,
+                  id: widget.id,
+                  userName: widget.userName,
+                  userProfile: widget.userProfile,
+                  index: widget.index,
+                  isImage: widget.isImage,
+                  isVideo: widget.isVideo,
+                  postContent: widget.postContent,
+                  postMedia: widget.postMedia,
+                  status: widget.status,
+                  totalComment: widget.totalComment,
+                  totalLike: widget.totalLike,
+                  uid: widget.uid,
+                ),
+              ));
+          // Navigator.of(context).pushNamed(
+          //   PostDetailScreen.routeName,
+          // );
         }
       },
       child: Container(
@@ -41,13 +145,21 @@ class _PostState extends State<Post> {
             children: [
               ListTile(
                 horizontalTitleGap: 8,
-                leading: CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.grey.shade100,
-                  backgroundImage: AssetImage("assets/images/avatar.png"),
-                ),
+                leading: widget.userProfile == ''
+                    ? CircleAvatar(
+                        radius: 25,
+                        backgroundColor: Colors.grey.shade100,
+                        backgroundImage: AssetImage("assets/images/avatar.png"),
+                      )
+                    : CircleAvatar(
+                        radius: 25,
+                        backgroundColor: Colors.grey.shade100,
+                        backgroundImage: NetworkImage(
+                            mainUrl + imageUrl + widget.userProfile!),
+                      ),
                 title: Text(
-                  "Manoj Saini",
+                  widget.userName ?? "Manoj Saini",
+                  // .toString(),
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,
@@ -56,7 +168,8 @@ class _PostState extends State<Post> {
                   ),
                 ),
                 subtitle: Text(
-                  "2 days ago",
+                  // "2 days ago",
+                  timeDiff(widget.createdDate ?? DateTime.now()),
                   style: TextStyle(
                     fontSize: 10,
                     color: Colors.grey,
@@ -64,21 +177,25 @@ class _PostState extends State<Post> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    Utils.showMyBottomSheet(context,postoptions() );
-                  },
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.black,
-                    size: 25,
-                  ),
-                ),
+                trailing: widget.isedit
+                    ? IconButton(
+                        onPressed: () {
+                          Utils.showMyBottomSheet(
+                              context, postoptions(widget.id!, widget.index!));
+                        },
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.black,
+                          size: 25,
+                        ),
+                      )
+                    : SizedBox(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  "Has updated a new picture..",
+                  // "Has updated a new picture..",
+                  widget.postContent! ?? "Has updated a new picture..",
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.black,
@@ -88,25 +205,33 @@ class _PostState extends State<Post> {
                 ),
               ),
               const SizedBox(height: 5),
-              Image.asset(
-                'assets/images/post.jpg',
-                width: size.width,
-                height: size.height / 2.5,
-                fit: BoxFit.cover,
-              ),
+              widget.isVideo == '0'
+                  ? Image.network(
+                      // 'assets/images/post.jpg',
+                      mainUrl + postUrl + widget.postMedia!,
+                      width: size.width,
+                      height: size.height / 2.5,
+                      fit: BoxFit.cover,
+                    )
+                  : VideoPlayerItem(
+                      videoUrl: mainUrl + postUrl + widget.postMedia!),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: Row(
                   children: [
                     InkWell(
                       onTap: () {
-                        liked = !liked;
-                        if (liked == true) {
-                          like++;
-                        } else {
-                          like--;
-                        }
+                        // liked = !liked;
+                        // if (liked == true) {
+                        //   like++;
+                        // } else {
+                        //   like--;
+                        // }
+                        // setState(() {});
+                        _toggleLike();
                         setState(() {});
+                        postController.managelike(context, widget.id!);
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -118,7 +243,7 @@ class _PostState extends State<Post> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "$like",
+                            "${like}",
                             maxLines: 1,
                             style: TextStyle(
                               fontSize: 14,
@@ -138,7 +263,7 @@ class _PostState extends State<Post> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "12",
+                      "${widget.totalComment}",
                       maxLines: 1,
                       style: TextStyle(
                         fontSize: 14,

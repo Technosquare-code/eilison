@@ -10,6 +10,10 @@ import 'package:elison/Screens/SupportScreen.dart';
 import 'package:elison/Screens/UserReviewsScreen.dart';
 import 'package:elison/Screens/WarrantyManagementScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
+import 'package:elison/Screens/customer_about.dart';
+import 'package:elison/Screens/customer_privacy_policy.dart';
+import 'package:elison/Screens/customer_refund_policy.dart';
+import 'package:elison/Screens/customer_terms_conditions.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +22,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../controllers/customer/mainscreen_controller.dart';
+import 'ChatScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -118,9 +123,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.insert_chart_outlined,
                       "Orders",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          OrderScreen.routeName,
-                        );
+                        Get.toNamed('/order-screen');
+                        // Navigator.of(context).pushNamed(
+                        //   OrderScreen.routeName,
+                        // );
                       },
                     ),
                     Item(
@@ -186,9 +192,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.class_outlined,
                       "My Sessions",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          MySessionScreen.routeName,
-                        );
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => MySessionScreen(),
+                        //     ));
+                        Get.toNamed('/my-sessions');
                       },
                     ),
                     Item(
@@ -220,6 +229,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         // );
                       },
                     ),
+                    Item(
+                      Icons.menu_book_rounded,
+                      "About Us",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AboutUs(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.privacy_tip_rounded,
+                      "Privacy Policy",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PrivacyPolicy(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.refresh_rounded,
+                      "Refund Policy",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RefundPolicy(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.live_help,
+                      "Terms And Conditions",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TermsConditions(),
+                            ));
+                      },
+                    ),
+                    Item(
+                      Icons.live_help,
+                      "Chat",
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => ChatScreen()),
+                        // );
+                        Get.toNamed('/chat');
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -237,7 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: () {
             GetStorage().erase();
             // Navigator.of(context).pushNamed(LoginScreen.routeName);
-            Get.offAllNamed('/login-screen');
+            Get.offAllNamed('/login-screen', arguments: [context]);
           },
         ),
       ),

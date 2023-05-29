@@ -1,3 +1,4 @@
+import 'package:elison/Components/deletePopup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -86,9 +87,27 @@ class MyAddress extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  viewController.deleteAdress(
-                      viewController.addressList[id!].id, context);
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DeleteConfirmationPopup();
+                    },
+                  ).then((value) async {
+                    if (value != null && value) {
+                      print('object');
+                      await viewController.deleteAdress(
+                          viewController.addressList[id!].id, context);
+                    } else {
+                      // Delete canceled
+                      // ...
+                      // Get.back();
+                    }
+                  });
+
+                  // await viewController.deleteAdress(
+                  //     viewController.addressList[id!].id, context);
+                  // viewController.isLoading(false);
                 },
                 child: Text(
                   "Delete",

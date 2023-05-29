@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     {"title": ".", "icon": "assets/images/camera.png"},
     {"title": ".", "icon": "assets/images/person.png"},
   ];
-  final mainscreenController = Get.put(MainScreenController());
+  final mainscreenController = Get.put(MainScreenController(Get.arguments[0]));
   final List pages = [
     HomeScreen(),
     CommunityScreen(),

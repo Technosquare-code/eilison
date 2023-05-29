@@ -16,7 +16,7 @@ class WishlistController extends GetxController {
   var isLoading = false.obs;
 
   var wishList = List<WishlistModel>.empty(growable: true).obs;
-
+  final homecontroller = Get.find<HomeScreenController>();
   getWishlist() async {
     isLoading(true);
     wishList.assignAll(await HomeScreenService().getWishlist());
@@ -28,18 +28,33 @@ class WishlistController extends GetxController {
     if (isAdd!) {
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'add', productId: prod!.productId, recordId: '');
-      check
-          ? {
-              getWishlist(),
-              Get.find<HomeScreenController>().getSpecialItem(),
-            }
-          : null;
+      getWishlist();
+      homecontroller.dynamicItemList.clear();
+      homecontroller.specialItemList.clear();
+      homecontroller.getSpecialItem();
+
+      homecontroller.getdynamiccategory();
+      // check
+      //     ? {
+      //         getWishlist(),
+      //         Get.find<HomeScreenController>().getSpecialItem(),
+      //         Get.find<HomeScreenController>().getdynamiccategory(),
+      //       }
+      //     : null;
     } else {
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'remove',
           productId: prod!.productId,
           recordId: prod.recordId);
-      check ? getWishlist() : null;
+      // check ?
+      getWishlist();
+      homecontroller.dynamicItemList.clear();
+      homecontroller.specialItemList.clear();
+      homecontroller.getSpecialItem();
+
+      homecontroller.getdynamiccategory();
+      // : null;
+
     }
   }
   // getSubcategory(String categoryId) async {

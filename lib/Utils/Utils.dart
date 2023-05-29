@@ -6,12 +6,12 @@ class Utils {
     return await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),
-        ),
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: const BorderRadius.only(
+      //     topLeft: Radius.circular(25),
+      //     topRight: Radius.circular(25),
+      //   ),
+      // ),
       builder: (ctx) => SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(

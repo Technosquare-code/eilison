@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class MyNotification extends StatelessWidget {
   final String image;
-  final String title;
+  final String title, subtitle;
   final String time;
 
   const MyNotification({
     required this.image,
     required this.title,
+    this.subtitle = '',
     required this.time,
   });
   @override
@@ -42,9 +43,9 @@ class MyNotification extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  // const SizedBox(height: 4),
                   Text(
-                    time,
+                    subtitle,
                     style: TextStyle(
                       fontSize: 10,
                       color: Colors.black,
@@ -53,6 +54,15 @@ class MyNotification extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Text(
+              time,
+              style: TextStyle(
+                fontSize: 10,
+                color: Colors.black,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],

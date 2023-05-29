@@ -2,8 +2,10 @@ import 'dart:math' as math;
 
 import 'package:elison/Components/ProductCard.dart';
 import 'package:elison/Components/SortProduct.dart';
+import 'package:elison/Components/shimmer/ItemListLoading.dart';
 import 'package:elison/Screens/ProductFilterScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
+import 'package:elison/Utils/Colors.dart';
 import 'package:elison/Utils/Utils.dart';
 import 'package:elison/controllers/customer/products/main_screen_product_controller.dart';
 import 'package:elison/package%20edit/responsive_grid_list.dart';
@@ -39,7 +41,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ),
         body: mainssproductController.isLoading.value
-            ? WishlistShimmer()
+            ? ItemListLoading()
             : mainssproductController.productList.isEmpty
                 ? Center(
                     child: Text('Data Not Found'),
@@ -68,10 +70,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   .productList[index].thumbnail,
                           price: double.parse(
                               mainssproductController.productList[index].mrp),
-                          color: Colors
-                              .primaries[math.Random()
-                                  .nextInt(Colors.primaries.length)]
-                              .shade200,
+                          color: colorList[index % colorList.length],
+                          // color: Colors
+                          //     .primaries[math.Random()
+                          //         .nextInt(Colors.primaries.length)]
+                          // .shade200,
                           onTap: () {
                             mainssproductController.wishlistmanaget(
                                 isAdd: !(mainssproductController

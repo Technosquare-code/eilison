@@ -1,3 +1,4 @@
+import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/cart_controller.dart';
@@ -18,43 +19,89 @@ class _AddressPartState extends State<AddressPart> {
   String selectedAddress = "";
   @override
   Widget build(BuildContext context) {
-    return viewController.isLoading.value
-        ? AddressShimmer(
-            size: MediaQuery.of(context).size,
+    Size size = MediaQuery.of(context).size;
+    return Obx(() {
+      return Container(
+        child: viewController.isLoading.value
+            ? AddressShimmer(
+                size: MediaQuery.of(context).size,
+              )
+            : viewController.addressList.isEmpty
+                ? AddressNotFoundAtCart(size: size)
+                : ListView.builder(
+                    itemCount: viewController.addressList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (ctx, i) => SelectAddress(
+                      id: viewController.addressList[i].id,
+                      index: i.toString(),
+                      title: viewController.addressList[i].fullName,
+                      des: viewController.addressList[i].address +
+                          ' ' +
+                          viewController.addressList[i].landmark +
+                          ' ' +
+                          viewController.addressList[i].town +
+                          ' ' +
+                          viewController.addressList[i].city +
+                          ' ' +
+                          viewController.addressList[i].zipCode +
+                          // ' ' +
+                          // viewController.addressList[i].state
+                          // +
+                          ' ' +
+                          viewController.addressList[i].alternateNumber,
+                      selectedIndex: selectedAddress,
+                      onTap: () {
+                        selectedAddress = i.toString();
+                        cartController.addressId.value =
+                            viewController.addressList[i].id;
+                        print(cartController.addressId.value);
+                        setState(() {});
+                      },
+                    ),
+                  ),
+      );
+    });
+  }
+}
+
+class AddressNotFoundAtCart extends StatelessWidget {
+  const AddressNotFoundAtCart({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/images/location.png', height: size.height * 0.15),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text('No Address Found'),
+          ),
+          MyButton(
+            title: "ADD ADDRESS",
+            borderRadius: 5,
+            sizeWidth: size.width / 2.5,
+            sizeHieght: 40,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: Colors.black,
+            onTap: () {
+              Get.toNamed('/add-address', arguments: [true, null]);
+            },
+          ),
+          SizedBox(
+            height: size.height * 0.1,
           )
-        : viewController.addressList.isEmpty
-            ? Text('No Address Found')
-            : ListView.builder(
-                itemCount: viewController.addressList.length,
-                shrinkWrap: true,
-                itemBuilder: (ctx, i) => SelectAddress(
-                  id: viewController.addressList[i].id,
-                  index: i.toString(),
-                  title: viewController.addressList[i].fullName,
-                  des: viewController.addressList[i].address +
-                      ' ' +
-                      viewController.addressList[i].landmark +
-                      ' ' +
-                      viewController.addressList[i].town +
-                      ' ' +
-                      viewController.addressList[i].city +
-                      ' ' +
-                      viewController.addressList[i].zipCode +
-                      // ' ' +
-                      // viewController.addressList[i].state
-                      // +
-                      ' ' +
-                      viewController.addressList[i].alternateNumber,
-                  selectedIndex: selectedAddress,
-                  onTap: () {
-                    selectedAddress = i.toString();
-                    cartController.addressId.value =
-                        viewController.addressList[i].id;
-                    print(cartController.addressId.value);
-                    setState(() {});
-                  },
-                ),
-              );
+        ],
+      ),
+    );
   }
 }
 

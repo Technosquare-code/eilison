@@ -197,7 +197,7 @@ class WarrantyManagementScreen extends StatelessWidget {
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(1900),
-                      lastDate: DateTime(2100),
+                      lastDate: DateTime.now(),
                     );
                     if (selectedDate != null) {
                       String formattedDate =

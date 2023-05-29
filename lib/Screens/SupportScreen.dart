@@ -99,9 +99,9 @@ class SupportScreen extends StatelessWidget {
                 InputField(
                   color: Colors.grey.shade50,
                   size: 50,
-                  controller: spcontroller.phoneNo,
                   borderColor: Colors.grey.shade300,
                   hint: "Enter Your Phone",
+                  controller: spcontroller.phoneNo,
                   validator: MultiValidator([
                     LengthRangeValidator(
                         min: 10, max: 15, errorText: 'Length range 10-15'),
@@ -177,7 +177,7 @@ class SupportScreen extends StatelessWidget {
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       FocusScope.of(context).unfocus();
-                      spcontroller.addsupposrtmsg(context);
+                      spcontroller.addsupposrtmsg(context, '');
                     }
                   },
                 ),
