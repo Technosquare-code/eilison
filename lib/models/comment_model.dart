@@ -17,7 +17,7 @@ class CommentModel {
   DateTime createdDate;
   String name;
   dynamic profilePicture;
-
+  List<CommentModel> replies;
   CommentModel({
     required this.id,
     required this.commentId,
@@ -25,6 +25,7 @@ class CommentModel {
     required this.createdDate,
     required this.name,
     this.profilePicture,
+    this.replies = const [],
   });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(

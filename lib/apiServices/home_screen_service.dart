@@ -5,6 +5,7 @@ import 'package:elison/models/banner_model.dart';
 import 'package:elison/models/category_model.dart';
 import 'package:elison/models/product_detail_model.dart';
 import 'package:elison/models/products_model.dart';
+import 'package:elison/models/review_model.dart';
 import 'package:elison/models/session_list_model.dart';
 import 'package:elison/models/session_type_model.dart';
 import 'package:elison/models/special_item_model.dart';
@@ -56,6 +57,32 @@ class HomeScreenService {
 
         // }
         blist.add(BannerListModel.fromJson(response.data));
+      }
+    }
+    return blist;
+  }
+
+  Future<List<ReviewModel>> myReviews() async {
+    List<ReviewModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    var headers = {
+      'Authorization': pref.read('token'),
+    };
+    form = formData.FormData.fromMap({
+      'uid': pref.read('user_id') ?? '1',
+    });
+    var response = await dio.post('$baseUrl/my-review.php',
+        options: Options(headers: headers), data: form);
+    print(response.data);
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var element in data['data']) {
+          blist.add(ReviewModel.fromJson(element));
+        }
       }
     }
     return blist;

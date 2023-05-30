@@ -214,9 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icons.star_outline,
                       "My Reviews",
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          UserReviewScreen.routeName,
-                        );
+                        Get.toNamed('/my-reviews');
                       },
                     ),
                     Item(

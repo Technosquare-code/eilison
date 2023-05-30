@@ -69,7 +69,7 @@ class _PostState extends State<Post> {
     int days = difference.inDays;
     int hours = difference.inHours;
     int minutes = difference.inMinutes;
-    print('object $difference');
+    // print('object $difference');
     String differenceString;
 
     if (days > 0) {
@@ -82,7 +82,7 @@ class _PostState extends State<Post> {
       differenceString = 'Less than a minute';
     }
 
-    print('Difference: $differenceString');
+    // print('Difference: $differenceString');
     return differenceString;
   }
 

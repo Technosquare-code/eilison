@@ -41,7 +41,7 @@ class Review extends StatelessWidget {
       differenceString = 'Less than a minute';
     }
 
-    print('Difference: $differenceString');
+    // print('Difference: $differenceString');
     return differenceString;
   }
 

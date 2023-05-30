@@ -32,6 +32,7 @@ import '../Screens/SupportScreen.dart';
 import '../Screens/TrainerDetailPage.dart';
 import '../Screens/TrainerProfileScreen.dart';
 import '../Screens/TrainerReviewScreen.dart';
+import '../Screens/UserReviewsScreen.dart';
 import '../Screens/WarrantyManagementScreen.dart';
 import '../Screens/WhishlistScreen.dart';
 
@@ -99,6 +100,10 @@ appRoutes() => [
       GetPage(
         name: '/post-detail',
         page: () => PostDetailScreen(),
+      ),
+      GetPage(
+        name: '/my-reviews',
+        page: () => UserReviewScreen(),
       ),
       GetPage(
         name: '/review',

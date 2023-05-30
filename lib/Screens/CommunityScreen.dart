@@ -37,158 +37,166 @@ class _CommunityScreenState extends State<CommunityScreen> {
         ),
       ),
       body: Obx(() {
-        return SingleChildScrollView(
-          child: postController.isLoading.value
-              ? CommunityShimmer()
-              : postController.postList.isEmpty
-                  ? Container(
-                      height: size.height - size.height * 0.2,
-                      width: size.width,
-                      color: Colors.white,
-                      child: Center(
-                        child: Text("No data found"),
-                      ),
-                    )
-                  : Column(
-                      children: [
-                        Container(
-                          color: Colors.white,
-                          padding: const EdgeInsets.fromLTRB(8, 5, 10, 5),
-                          child: Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  selectedIndex = 0;
-                                  setState(() {});
-                                  print(selectedIndex);
-                                  print('alll post');
-                                  postController.getallPost();
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: selectedIndex == 0
-                                        ? primaryColor
-                                        : Colors.grey.shade200,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    "All Post",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: selectedIndex == 0
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 15),
-                              InkWell(
-                                onTap: () {
-                                  selectedIndex = 1;
-                                  setState(() {});
-                                  print(selectedIndex);
-                                  postController.getmyPost();
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: selectedIndex == 1
-                                        ? primaryColor
-                                        : Colors.grey.shade200,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    "My Post",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: selectedIndex == 1
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+        return RefreshIndicator(
+          onRefresh: () async {
+            await postController.getPosts();
+            postController.isLoading(false);
+          },
+          child: SingleChildScrollView(
+            child: postController.isLoading.value
+                ? CommunityShimmer()
+                : postController.postList.isEmpty
+                    ? Container(
+                        height: size.height - size.height * 0.2,
+                        width: size.width,
+                        color: Colors.white,
+                        child: Center(
+                          child: Text("No data found"),
                         ),
-                        selectedIndex == 0
-                            ? ListView.builder(
-                                itemCount: postController.postList.length,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (ctx, i) {
-                                  final post = postController.postList[i];
-                                  return Post(
-                                    isLike: post.isLike,
-                                    isedit: false,
-                                    userName: post.userName,
-                                    userProfile: post.userProfile,
-                                    index: i,
-                                    createdDate: post.createdDate,
-                                    id: post.id,
-                                    isImage: post.isImage,
-                                    isVideo: post.isVideo,
-                                    postContent: post.postContent,
-                                    // postHashtags:
-                                    //     post.postHashtags,
-                                    postMedia: post.postMedia,
-                                    status: post.status,
-                                    totalComment: post.totalComment,
-                                    totalLike: post.totalLike,
-                                    uid: post.uid,
-                                  );
-                                })
-                            : postController.mypostList.isEmpty
-                                ? Container(
-                                    height: size.height - size.height * 0.2,
-                                    width: size.width,
-                                    color: Colors.white,
-                                    child: Center(
-                                      child: Text("No data found"),
+                      )
+                    : Column(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.fromLTRB(8, 5, 10, 5),
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    selectedIndex = 0;
+                                    setState(() {});
+                                    print(selectedIndex);
+                                    print('alll post');
+                                    // postController.getallPost();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 8,
                                     ),
-                                  )
-                                : ListView.builder(
-                                    itemCount: postController.mypostList.length,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (ctx, i) {
-                                      final post = postController.mypostList[i];
+                                    decoration: BoxDecoration(
+                                      color: selectedIndex == 0
+                                          ? primaryColor
+                                          : Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      "All Post",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: selectedIndex == 0
+                                            ? Colors.white
+                                            : Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 15),
+                                InkWell(
+                                  onTap: () {
+                                    selectedIndex = 1;
+                                    setState(() {});
+                                    print(selectedIndex);
+                                    // postController.getmyPost();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: selectedIndex == 1
+                                          ? primaryColor
+                                          : Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      "My Post",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: selectedIndex == 1
+                                            ? Colors.white
+                                            : Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          selectedIndex == 0
+                              ? ListView.builder(
+                                  itemCount: postController.postList.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (ctx, i) {
+                                    final post = postController.postList[i];
+                                    return Post(
+                                      isLike: post.isLike,
+                                      isedit: false,
+                                      userName: post.userName,
+                                      userProfile: post.userProfile,
+                                      index: i,
+                                      createdDate: post.createdDate,
+                                      id: post.id,
+                                      isImage: post.isImage,
+                                      isVideo: post.isVideo,
+                                      postContent: post.postContent,
+                                      // postHashtags:
+                                      //     post.postHashtags,
+                                      postMedia: post.postMedia,
+                                      status: post.status,
+                                      totalComment: post.totalComment,
+                                      totalLike: post.totalLike,
+                                      uid: post.uid,
+                                    );
+                                  })
+                              : postController.mypostList.isEmpty
+                                  ? Container(
+                                      height: size.height - size.height * 0.2,
+                                      width: size.width,
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: Text("No data found"),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      itemCount:
+                                          postController.mypostList.length,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (ctx, i) {
+                                        final post =
+                                            postController.mypostList[i];
 
-                                      return Post(
-                                        isLike: post.isLike,
-                                        isedit: true,
-                                        userName: post.userName,
-                                        userProfile: post.userProfile,
-                                        index: i,
-                                        createdDate: post.createdDate,
-                                        id: post.id,
-                                        isImage: post.isImage,
-                                        isVideo: post.isVideo,
-                                        postContent: post.postContent,
-                                        // postHashtags:
-                                        //     postController.mypostList[i].postHashtags,
-                                        postMedia: post.postMedia,
-                                        status: post.status,
-                                        totalComment: post.totalComment,
-                                        totalLike: post.totalLike,
-                                        uid: post.uid,
-                                      );
-                                    }),
-                      ],
-                    ),
+                                        return Post(
+                                          isLike: post.isLike,
+                                          isedit: true,
+                                          userName: post.userName,
+                                          userProfile: post.userProfile,
+                                          index: i,
+                                          createdDate: post.createdDate,
+                                          id: post.id,
+                                          isImage: post.isImage,
+                                          isVideo: post.isVideo,
+                                          postContent: post.postContent,
+                                          // postHashtags:
+                                          //     postController.mypostList[i].postHashtags,
+                                          postMedia: post.postMedia,
+                                          status: post.status,
+                                          totalComment: post.totalComment,
+                                          totalLike: post.totalLike,
+                                          uid: post.uid,
+                                        );
+                                      }),
+                        ],
+                      ),
+          ),
         );
       }),
       floatingActionButton: FloatingActionButton(

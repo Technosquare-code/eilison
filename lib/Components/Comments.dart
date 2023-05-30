@@ -40,7 +40,7 @@ class _CommentsState extends State<Comments> {
     int days = difference.inDays;
     int hours = difference.inHours;
     int minutes = difference.inMinutes;
-    print('object $difference');
+    // print('object $difference');
     String differenceString;
 
     if (days > 0) {
@@ -53,7 +53,7 @@ class _CommentsState extends State<Comments> {
       differenceString = 'Less than a minute';
     }
 
-    print('Difference: $differenceString');
+    // print('Difference: $differenceString');
     return differenceString;
   }
 
@@ -104,7 +104,7 @@ class _CommentsState extends State<Comments> {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
                       timeDiff(widget.createdDate!) ?? "Yesterday",
@@ -115,39 +115,53 @@ class _CommentsState extends State<Comments> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                    SizedBox(
+                      width: 30,
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         InkWell(
-                          onTap: widget.comment,
-                          child: Icon(
-                            Icons.messenger_outline,
-                            color: Colors.black,
-                            size: 15,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          "1",
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        InkWell(
-                          onTap: () {
-                            liked = !liked;
-                            setState(() {});
-                          },
-                          child: Icon(
-                            liked ? Icons.favorite : Icons.favorite_border,
-                            color: liked ? primaryColor : Colors.black,
-                            size: 15,
-                          ),
-                        ),
+                            onTap: widget.comment,
+                            child: Text(
+                              "Reply",
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )),
+                        // InkWell(
+                        //   onTap: widget.comment,
+                        //   child: Icon(
+                        //     Icons.messenger_outline,
+                        //     color: Colors.black,
+                        //     size: 15,
+                        //   ),
+                        // ),
+                        // const SizedBox(width: 8),
+                        // Text(
+                        //   "1",
+                        //   style: TextStyle(
+                        //     fontSize: 10,
+                        //     color: Colors.black,
+                        //     fontFamily: "Poppins",
+                        //     fontWeight: FontWeight.w600,
+                        //   ),
+                        // ),
+                        // const SizedBox(width: 8),
+                        // InkWell(
+                        //   onTap: () {
+                        //     liked = !liked;
+                        //     setState(() {});
+                        //   },
+                        //   child: Icon(
+                        //     liked ? Icons.favorite : Icons.favorite_border,
+                        //     color: liked ? primaryColor : Colors.black,
+                        //     size: 15,
+                        //   ),
+                        // ),
                       ],
                     )
                   ],

@@ -9,9 +9,11 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 class PostDetailController extends GetxController {
   String? post_id;
   PostDetailController({this.post_id});
-  var postList = List<PostListModel>.empty(growable: true).obs;
-  var mypostList = List<PostListModel>.empty(growable: true).obs;
+  // var postList = List<PostListModel>.empty(growable: true).obs;
+  // var mypostList = List<PostListModel>.empty(growable: true).obs;
   var commentList = List<CommentModel>.empty(growable: true).obs;
+  var groupCommentList = List<CommentModel>.empty(growable: true).obs;
+  var replyingTo = Rxn<CommentModel>();
 
   final commentController = TextEditingController();
   var isLoading = false.obs;
@@ -29,6 +31,25 @@ class PostDetailController extends GetxController {
     print(commentList);
   }
 
+  List<CommentModel> groupComments(List<CommentModel> comments) {
+    List<CommentModel> mainComments = [];
+    List<CommentModel> replies = [];
+
+    for (var comment in comments) {
+      if (comment.commentId == "0") {
+        mainComments.add(comment);
+      } else {
+        replies.add(comment);
+      }
+    }
+
+    for (var mainComment in mainComments) {
+      mainComment.replies =
+          replies.where((reply) => reply.commentId == mainComment.id).toList();
+    }
+
+    return mainComments;
+  }
   // getallPost() async {
   //   isLoading(true);
   //   postList.assignAll(await ProfileTabService().postsList());
@@ -67,6 +88,7 @@ class PostDetailController extends GetxController {
     // TODO: implement onInit
     // await getPosts();
     await getComments(post_id!);
+    groupCommentList.value = groupComments(commentList.value);
     isLoading(false);
     super.onInit();
   }
