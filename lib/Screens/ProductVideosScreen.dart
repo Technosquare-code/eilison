@@ -1,4 +1,5 @@
 import 'package:elison/Components/ProductVideos.dart';
+import 'package:elison/Components/shimmer/OurVideosShimmer.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/package%20edit/responsive_grid_list.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class ProductVideoScreen extends StatelessWidget {
           ),
         ),
         body: videoController.isLoading.value
-            ? AddressShimmer(size: size)
+            ? OurVideosShimmer()
             : videoController.videoList.isEmpty
                 ? Text('No data found')
                 : SingleChildScrollView(

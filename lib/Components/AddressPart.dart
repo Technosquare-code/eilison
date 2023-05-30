@@ -1,4 +1,5 @@
 import 'package:elison/Components/MyButtton.dart';
+import 'package:elison/Components/shimmer/CartAddressLlistLoading.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/cart_controller.dart';
@@ -23,9 +24,7 @@ class _AddressPartState extends State<AddressPart> {
     return Obx(() {
       return Container(
         child: viewController.isLoading.value
-            ? AddressShimmer(
-                size: MediaQuery.of(context).size,
-              )
+            ? CartAddressListLoading()
             : viewController.addressList.isEmpty
                 ? AddressNotFoundAtCart(size: size)
                 : ListView.builder(

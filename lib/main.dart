@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'EILISON',
-
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         fontFamily: "Poppins",
