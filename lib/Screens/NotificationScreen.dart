@@ -1,4 +1,5 @@
 import 'package:elison/Components/MyNotification.dart';
+import 'package:elison/Components/shimmer/NotificationShimmer.dart';
 import 'package:elison/controllers/customer/home_screen_controller.dart';
 import 'package:elison/controllers/notification_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,9 +56,7 @@ class NotificationScreen extends StatelessWidget {
       ),
       body: Obx(() {
         return notificationController.isLoading.value
-            ? AddressShimmer(
-                size: MediaQuery.of(context).size,
-              )
+            ? NotificationShimmer()
             : notificationController.notificationList.isEmpty
                 ? NoDataFound(
                     buttnText: 'No Notification',

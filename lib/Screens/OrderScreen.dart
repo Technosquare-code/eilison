@@ -1,4 +1,5 @@
 import 'package:elison/Components/Order.dart';
+import 'package:elison/Components/shimmer/OrderShimmer.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/controllers/customer/profile/orders/orders_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,7 +59,7 @@ class OrderScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 15),
                     orderController.isLoading.value
-                        ? AddressShimmer(size: size)
+                        ? OrderShimmer()
                         : orderController.orderList.isEmpty
                             ? Center(
                                 child: Text('No data found'),

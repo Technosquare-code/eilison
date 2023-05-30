@@ -1,5 +1,6 @@
 import 'package:elison/Components/MyAddress.dart';
 import 'package:elison/Components/MyButtton.dart';
+import 'package:elison/Components/shimmer/AddressScreenLoading.dart';
 import 'package:elison/Screens/AddNewAddressScreen.dart';
 import 'package:elison/controllers/customer/profile/address/view_address_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,9 +41,7 @@ class AddressScreen extends StatelessWidget {
       ),
       body: Obx(() {
         return viewController.isLoading.value
-            ? AddressShimmer(
-                size: MediaQuery.of(context).size,
-              )
+            ? AddressScreenLoading()
             : viewController.addressList.isEmpty
                 ? Container(
                     color: Colors.white,

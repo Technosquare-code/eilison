@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:elison/Components/Sessions.dart';
+import 'package:elison/Components/shimmer/SessionScreenLoading.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/controllers/customer/profile/mysessions/mysessions_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +40,7 @@ class MySessionScreen extends StatelessWidget {
       ),
       body: Obx(() {
         return sessionController.isLoading.value
-            ? AddressShimmer(size: size)
+            ? SessionScreenLoading()
             : SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(25, 15, 10, 5),
                 child: Column(
