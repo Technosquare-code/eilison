@@ -1,5 +1,5 @@
 import 'package:elison/Components/TrainerScheduleSession.dart';
-import 'package:elison/Screens/TrainerShimmer.dart';
+import 'package:elison/Components/shimmer/TrainerHomeShimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,9 +14,7 @@ class TrainerScheduleSessionList extends StatelessWidget {
     return Obx(() {
       return Container(
         child: mainscreenController.isLoading.value
-            ? TrainerHomeShimmer(
-                size: size,
-              )
+            ? TrainerHomeShimmer()
             : mainscreenController.sessionList.isEmpty
                 ? Center(
                     child: Text('No data Found'),

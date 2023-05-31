@@ -376,8 +376,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: List.generate(
                                     homescreenController
                                                 .specialItemList.length >=
-                                            2
-                                        ? 2
+                                            6
+                                        ? 6
                                         : homescreenController
                                             .specialItemList.length,
                                     (index) => FeaturedCard(

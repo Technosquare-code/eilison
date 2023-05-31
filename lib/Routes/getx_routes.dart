@@ -3,6 +3,7 @@ import 'package:elison/Screens/CongratulationScreen.dart';
 import 'package:elison/Screens/MainScreen.dart';
 import 'package:elison/Screens/PostDetailScreen.dart';
 import 'package:elison/Screens/TrainerHomeScreen.dart';
+import 'package:elison/Screens/VideoPlayerScreen.dart';
 import 'package:elison/Screens/change_password.dart';
 import 'package:elison/splashscreen.dart';
 import 'package:get/get.dart';
@@ -176,5 +177,9 @@ appRoutes() => [
       GetPage(
         name: '/add-post',
         page: () => AddPostScreen(),
+      ),
+      GetPage(
+        name: '/video-player-screen',
+        page: () => VideoPlayerScreen(),
       ),
     ];

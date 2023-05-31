@@ -428,7 +428,7 @@ class HomeScreenService {
     });
     print('wishlist api----------${form.fields}');
     var response = await dio.post(
-      '$baseUrl/manager-wishlist.php',
+      '$baseUrl/manage-wishlist.php',
       data: form,
       options: Options(headers: headers),
     );

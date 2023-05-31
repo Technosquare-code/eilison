@@ -1,6 +1,7 @@
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/pdf_viewer.dart';
 import 'package:elison/Components/product_more_image.dart';
+import 'package:elison/Components/shimmer/ProductDetailShimmer.dart';
 import 'package:elison/Screens/PromocodeScreen.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/products/product_detail_controller.dart';
@@ -38,48 +39,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       body: SafeArea(
         child: Obx(() {
           return prodDetailController.isLoading.value
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 40.0),
-                        // Spacer(),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.6,
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+              ? ProductDetailShimmer()
               : Stack(
                   children: [
                     SingleChildScrollView(
@@ -410,34 +370,62 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           prodDetailController.productdetails[0]
                                                       .videoUrl !=
                                                   ''
-                                              ? ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                  child: YoutubePlayer(
-                                                    controller:
-                                                        prodDetailController
-                                                            .controller,
-                                                    onReady: () {
-                                                      prodDetailController
-                                                          .controller
-                                                          .addListener(() {
-                                                        if (prodDetailController
-                                                                .controller
-                                                                .value
-                                                                .isPlaying &&
-                                                            !prodDetailController
-                                                                .controller
-                                                                .value
-                                                                .isFullScreen) {
-                                                          SystemChrome
-                                                              .setPreferredOrientations([
-                                                            DeviceOrientation
-                                                                .portraitUp,
-                                                          ]);
-                                                        }
-                                                      });
-                                                    },
-                                                    liveUIColor: Colors.amber,
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                        "/video-player-screen",
+                                                        arguments:
+                                                            prodDetailController
+                                                                .productdetails[
+                                                                    0]
+                                                                .videoUrl);
+                                                  },
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                    child: YoutubePlayer(
+                                                      controller:
+                                                          YoutubePlayerController(
+                                                        initialVideoId: YoutubePlayer
+                                                            .convertUrlToId(
+                                                                prodDetailController
+                                                                    .productdetails[
+                                                                        0]
+                                                                    .videoUrl)!,
+                                                        flags:
+                                                            YoutubePlayerFlags(
+                                                          autoPlay: false,
+                                                          mute: false,
+                                                          hideControls: true,
+                                                          hideThumbnail: true,
+                                                          controlsVisibleAtStart:
+                                                              false,
+                                                          isLive: false,
+                                                        ),
+                                                      ),
+                                                      onReady: () {
+                                                        // prodDetailController
+                                                        //     .controller
+                                                        //     .addListener(() {
+                                                        //   if (prodDetailController
+                                                        //           .controller
+                                                        //           .value
+                                                        //           .isPlaying &&
+                                                        //       !prodDetailController
+                                                        //           .controller
+                                                        //           .value
+                                                        //           .isFullScreen) {
+                                                        //     SystemChrome
+                                                        //         .setPreferredOrientations([
+                                                        //       DeviceOrientation
+                                                        //           .portraitUp,
+                                                        //     ]);
+                                                        //   }
+                                                        // });
+                                                      },
+                                                      liveUIColor: Colors.amber,
+                                                    ),
                                                   ),
                                                 )
                                               : InkWell(

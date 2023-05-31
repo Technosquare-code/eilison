@@ -1,9 +1,9 @@
 import 'package:elison/Components/TrainerPastSession.dart';
+import 'package:elison/Components/shimmer/TrainerHomeShimmer.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Screens/TrainerShimmer.dart';
 import '../controllers/trainer/train_home_ctrl.dart';
 
 class TrainerPastSessionList extends StatelessWidget {
@@ -15,9 +15,7 @@ class TrainerPastSessionList extends StatelessWidget {
     return Obx(() {
       return Container(
         child: mainscreenController.isLoading.value
-            ? TrainerHomeShimmer(
-                size: size,
-              )
+            ? TrainerHomeShimmer()
             : mainscreenController.pastsessionList.isEmpty
                 ? Center(
                     child: Text("No Session Found"),
