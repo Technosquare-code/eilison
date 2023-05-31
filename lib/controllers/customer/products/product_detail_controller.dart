@@ -117,15 +117,15 @@ class ProductDetailController extends GetxController {
         mute: false,
       ),
     )..addListener(() {
-        if (controller.value.isFullScreen != isFullScreen.value) {
-          isFullScreen.value = controller.value.isFullScreen;
+        // if (controller.value.isFullScreen != isFullScreen.value) {
+        //   isFullScreen.value = controller.value.isFullScreen;
 
-          if (isFullScreen.value) {
-            SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp,
-            ]);
-          }
-        }
+        //   if (isFullScreen.value) {
+        //     SystemChrome.setPreferredOrientations([
+        //       DeviceOrientation.portraitUp,
+        //     ]);
+        //   }
+        // }
       });
   }
 

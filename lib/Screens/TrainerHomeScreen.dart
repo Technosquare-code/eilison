@@ -1,6 +1,7 @@
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/TrainerPastSessionList.dart';
 import 'package:elison/Components/TrainerScheduleSessionList.dart';
+import 'package:elison/Components/shimmer/TrainerHomeShimmer.dart';
 import 'package:elison/Components/trainerSessionCard.dart';
 import 'package:elison/Screens/AddSessionScreen.dart';
 import 'package:elison/Screens/NotificationScreen.dart';
@@ -8,7 +9,6 @@ import 'package:elison/Screens/SessionDetailScreen.dart';
 import 'package:elison/Screens/TrainerProfileScreen.dart';
 import 'package:elison/Screens/TrainerProfileTab.dart';
 import 'package:elison/Screens/TrainerSessionSeeAll.dart';
-import 'package:elison/Screens/TrainerShimmer.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/customer/mainscreen_controller.dart';
 import 'package:elison/controllers/trainer/session_detail_controller.dart';
@@ -57,9 +57,7 @@ class _TrainerHomeScreenState extends State<TrainerHomeScreen> {
                 child: mainscreenController.isLoading.value ||
                         mainscreenController.userdetailList.isEmpty ||
                         homepageController.isLoading.value
-                    ? TrainerHomeShimmer(
-                        size: size,
-                      )
+                    ? TrainerHomeShimmer()
                     : SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

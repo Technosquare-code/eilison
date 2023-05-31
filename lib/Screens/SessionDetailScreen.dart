@@ -32,7 +32,7 @@ class SessionDetailScreen extends StatelessWidget {
       this.img,
       this.title,
       this.isPast = false,
-      this.isCoach,
+      this.isCoach = false,
       this.agenda,
       this.category,
       this.duration,

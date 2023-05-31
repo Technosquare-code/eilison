@@ -45,13 +45,19 @@ class ProductVideoScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx, i) => GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VideoScreen(
-                                    videoUrl:
-                                        videoController.videoList[i].videoUrl),
-                              ));
+                          if (videoController.videoList[i].videoUrl != "") {
+                            Get.toNamed(
+                              "/video-player-screen",
+                              arguments: videoController.videoList[i].videoUrl,
+                            );
+                          }
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => VideoScreen(
+                          //           videoUrl:
+                          //               videoController.videoList[i].videoUrl),
+                          //     ));
                         },
                         child: ProductVideos(
                             videoController.videoList[i].youtubeVideoThumbnail,

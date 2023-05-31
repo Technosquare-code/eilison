@@ -4,6 +4,7 @@ import 'package:elison/Screens/ProductListScreen.dart';
 import 'package:elison/Screens/ProductVideosScreen.dart';
 import 'package:elison/Screens/ProfileScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/Utils/Utils.dart';
 import 'package:elison/controllers/customer/mainscreen_controller.dart';
 import 'package:elison/controllers/customer/products/main_screen_product_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,7 +43,17 @@ class _MainScreenState extends State<MainScreen> {
       statusBarIconBrightness: Brightness.dark,
     ));
     return Scaffold(
-      body: pages[currentPage],
+      body: WillPopScope(
+        child: pages[currentPage],
+        onWillPop: () async {
+          return await Utils.showConfirmDialog(
+            context,
+            "Are you sure you want to",
+            "Exit?",
+            () => Navigator.of(context).pop(true),
+          );
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         transform: Matrix4.translationValues(0, 15, 0),
