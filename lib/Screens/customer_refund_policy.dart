@@ -7,6 +7,8 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Components/shimmer/PrivacyPolicyShimmer.dart';
+
 class RefundPolicy extends StatelessWidget {
   const RefundPolicy({super.key});
 
@@ -14,6 +16,7 @@ class RefundPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 1,
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -22,7 +25,12 @@ class RefundPolicy extends StatelessWidget {
         ),
         title: Text(
           "Refund Policy",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -56,7 +64,7 @@ class RefundPolicy extends StatelessWidget {
               }
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CoachPrivacyPolicyShimmer(),
               );
             }
           },

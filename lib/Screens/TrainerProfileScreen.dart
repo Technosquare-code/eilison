@@ -268,7 +268,7 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                                   mainscreenController.userdetailList.isNotEmpty
                                       ? mainscreenController
                                           .userdetailList[0].data.name
-                                      : "Manoj Saini",
+                                      : "User",
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black,

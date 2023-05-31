@@ -1,3 +1,4 @@
+import 'package:elison/Components/shimmer/PrivacyPolicyShimmer.dart';
 import 'package:elison/apiServices/profile_tab_service.dart';
 import 'package:elison/models/cms_model.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class AboutUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 1,
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -22,7 +24,12 @@ class AboutUs extends StatelessWidget {
         ),
         title: Text(
           "About Us",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -55,9 +62,7 @@ class AboutUs extends StatelessWidget {
                 return const Center(child: Text('No data Found'));
               }
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return CoachPrivacyPolicyShimmer();
             }
           },
         ),

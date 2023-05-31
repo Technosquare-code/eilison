@@ -25,9 +25,8 @@ class CommentModel {
     required this.createdDate,
     required this.name,
     this.profilePicture,
-    this.replies = const [],
-  });
-
+    List<CommentModel>? replies,
+  }) : replies = replies ?? [];
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
         id: json["id"],
         commentId: json["comment_id"],

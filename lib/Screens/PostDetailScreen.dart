@@ -234,6 +234,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                             postDetailContrl.commentController.text);
                       }
                       print('000000000000000000000000000$replying');
+                      replying = false;
                       setState(() {});
                       if (commentFocus.hasFocus) {
                         commentFocus.unfocus();

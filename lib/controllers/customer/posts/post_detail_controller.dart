@@ -31,36 +31,48 @@ class PostDetailController extends GetxController {
     print(commentList);
   }
 
+  // List<CommentModel> groupComments(List<CommentModel> comments) {
+  //   List<CommentModel> mainComments = [];
+  //   List<CommentModel> replies = [];
+
+  //   for (var comment in comments) {
+  //     if (comment.commentId == "0") {
+  //       mainComments.add(comment);
+  //     } else {
+  //       replies.add(comment);
+  //     }
+  //   }
+
+  //   for (var mainComment in mainComments) {
+  //     mainComment.replies =
+  //         replies.where((reply) => reply.commentId == mainComment.id).toList();
+  //   }
+
+  //   return mainComments;
+  // }
   List<CommentModel> groupComments(List<CommentModel> comments) {
-    List<CommentModel> mainComments = [];
-    List<CommentModel> replies = [];
+    Map<String, CommentModel> commentMap = {};
+
+    for (var comment in comments) {
+      commentMap[comment.id] = comment;
+    }
+
+    List<CommentModel> groupedComments = [];
 
     for (var comment in comments) {
       if (comment.commentId == "0") {
-        mainComments.add(comment);
+        groupedComments.add(comment);
       } else {
-        replies.add(comment);
+        CommentModel? parentComment = commentMap[comment.commentId];
+        if (parentComment != null) {
+          parentComment.replies ??= [];
+          parentComment.replies!.add(comment);
+        }
       }
     }
 
-    for (var mainComment in mainComments) {
-      mainComment.replies =
-          replies.where((reply) => reply.commentId == mainComment.id).toList();
-    }
-
-    return mainComments;
+    return groupedComments;
   }
-  // getallPost() async {
-  //   isLoading(true);
-  //   postList.assignAll(await ProfileTabService().postsList());
-  //   isLoading(false);
-  // }
-
-  // getmyPost() async {
-  //   isLoading(true);
-  //   mypostList.assignAll(await ProfileTabService().mypostsList());
-  //   isLoading(false);
-  // }
 
   addComment(BuildContext context, String post_id, comment_id, comment) async {
     bool check = await ProfileTabService().postComment(context,

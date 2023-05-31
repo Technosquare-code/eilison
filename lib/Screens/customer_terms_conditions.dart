@@ -7,6 +7,8 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Components/shimmer/PrivacyPolicyShimmer.dart';
+
 class TermsConditions extends StatelessWidget {
   const TermsConditions({super.key});
 
@@ -56,7 +58,7 @@ class TermsConditions extends StatelessWidget {
               }
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CoachPrivacyPolicyShimmer(),
               );
             }
           },

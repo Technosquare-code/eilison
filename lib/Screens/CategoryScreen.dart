@@ -48,16 +48,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: showBackButton
-            ? IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  CupertinoIcons.back,
-                  color: Colors.black,
-                ),
-              )
-            : null,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(
+            CupertinoIcons.back,
+            color: Colors.black,
+          ),
+        ),
         title: Text(
           "Categories",
           style: TextStyle(
@@ -73,23 +71,73 @@ class _CategoryScreenState extends State<CategoryScreen> {
         child: Obx(() {
           return homescreenController.categoryList.isEmpty
               ? Center(child: Text('Data not found'))
-              : ListView.builder(
-                  itemCount: homescreenController.categoryList.length,
+              : GridView.builder(
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => Category(
-                    img: mainUrl +
-                        categoryUrl +
-                        homescreenController.categoryList[index].categoryIcon,
-                    title:
-                        homescreenController.categoryList[index].categoryName,
-                    id: homescreenController.categoryList[index].id,
-                    count: homescreenController
-                        .categoryList[index].subcategoryCount,
-
-                    // subcat: homescreenController.parentSubCategoryList[index],
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // Adjust the number of columns as needed
+                    childAspectRatio:
+                        .8, // Adjust the aspect ratio to control item size
                   ),
+                  itemCount: homescreenController.categoryList.length,
+                  // Replace 'data' with your list of image data
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Get.toNamed('/show-products-screen', arguments: [
+                          'category',
+                          homescreenController.categoryList[index].id,
+                          homescreenController.categoryList[index].categoryName
+                        ]);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.grey.shade200,
+                              radius: 50, // Adjust the radius as needed
+                              backgroundImage: NetworkImage(mainUrl +
+                                  categoryUrl +
+                                  homescreenController.categoryList[index]
+                                      .categoryIcon), // Replace with your image URL
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              homescreenController
+                                  .categoryList[index].categoryName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 );
+
+          // ListView.builder(
+          //     itemCount: homescreenController.categoryList.length,
+          //     shrinkWrap: true,
+          //     physics: const NeverScrollableScrollPhysics(),
+          //     itemBuilder: (context, index) => Category(
+          //       img: mainUrl +
+          //           categoryUrl +
+          //           homescreenController.categoryList[index].categoryIcon,
+          //       title:
+          //           homescreenController.categoryList[index].categoryName,
+          //       id: homescreenController.categoryList[index].id,
+          //       count: homescreenController
+          //           .categoryList[index].subcategoryCount,
+
+          //       // subcat: homescreenController.parentSubCategoryList[index],
+          //     ),
+          //   );
         }),
       ),
     );

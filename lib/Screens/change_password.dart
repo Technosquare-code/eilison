@@ -111,6 +111,7 @@ class ChangePassword extends StatelessWidget {
                     // EmailValidator(
                     //   errorText: 'Please enter valid email',
                     // ),
+                    MinLengthValidator(6, errorText: 'minimum length 6'),
                     RequiredValidator(errorText: 'New Password required')
                   ]),
                   // type: TextInputType.text,
@@ -136,6 +137,7 @@ class ChangePassword extends StatelessWidget {
                   controller: changepasscontroller.confirmpas,
                   // type: TextInputType.text,
                   validator: MultiValidator([
+                    MinLengthValidator(6, errorText: 'minimum length 6'),
                     RequiredValidator(errorText: 'Confirm Password required')
                   ]),
                   icon: Icons.lock_outline,

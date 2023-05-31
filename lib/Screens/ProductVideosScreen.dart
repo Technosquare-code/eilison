@@ -29,7 +29,7 @@ class ProductVideoScreen extends StatelessWidget {
               fontSize: 18,
               color: Colors.black,
               fontFamily: "Poppins",
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

@@ -44,10 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text(
           "Profile",
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 18,
             color: Colors.black,
-            fontFamily: "Montserrat",
-            fontWeight: FontWeight.w400,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w700,
           ),
         ),
         // actions: [
@@ -77,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           null
                       ? CircleAvatar(
                           radius: 45,
-                          backgroundColor: Colors.orange,
+                          backgroundColor: Colors.grey[200],
                           backgroundImage: NetworkImage(mainUrl +
                               imageUrl +
                               mainscreenController
@@ -85,20 +85,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )
                       : CircleAvatar(
                           radius: 45,
-                          backgroundColor: Colors.orange,
+                          backgroundColor: Colors.grey[200],
                           backgroundImage:
                               AssetImage("assets/images/profile.jpg"),
                         )
                   : CircleAvatar(
                       radius: 45,
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Colors.grey[200],
                       backgroundImage: AssetImage("assets/images/profile.jpg"),
                     ),
               const SizedBox(height: 20),
               Text(
                 mainscreenController.userdetailList.isNotEmpty
                     ? mainscreenController.userdetailList[0].data.name
-                    : "Manoj Saini",
+                    : "User",
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,

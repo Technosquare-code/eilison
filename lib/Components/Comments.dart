@@ -85,7 +85,7 @@ class _CommentsState extends State<Comments> {
               children: [
                 const SizedBox(height: 5),
                 Text(
-                  widget.name ?? "Manoj Saini",
+                  widget.name ?? "User",
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.black,

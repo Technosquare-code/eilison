@@ -165,14 +165,41 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              color: Colors.grey[200],
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
               child: Row(
                 children: [
+                  SizedBox(
+                    width: 8,
+                  ),
                   Expanded(
                     child: TextField(
+                      cursorHeight: 25,
                       controller: chatController.textController,
                       decoration: InputDecoration(
                         hintText: 'Type a message',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.normal,
+                        ),
+                        filled: true,
+
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Make it rounded
+                          borderSide: BorderSide.none, // Remove the border
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Make it rounded
+                          borderSide: BorderSide.none, // Remove the border
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 4), // Adjust the vertical padding
                       ),
                     ),
                   ),
