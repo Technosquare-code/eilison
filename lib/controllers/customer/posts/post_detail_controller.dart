@@ -31,6 +31,25 @@ class PostDetailController extends GetxController {
     print(commentList);
   }
 
+  List<CommentModel> groupComments(List<CommentModel> commentList) {
+    Map<String, CommentModel> commentMap = {};
+
+    for (CommentModel comment in commentList) {
+      if (!commentMap.containsKey(comment.commentId)) {
+        commentMap[comment.commentId] = comment;
+      } else {
+        CommentModel existingComment = commentMap[comment.commentId]!;
+        existingComment.replies.add(comment);
+      }
+    }
+
+    List<CommentModel> filteredComments = commentMap.values.toList();
+
+    // return filteredComments;
+    print('===================${filteredComments.length}');
+    return filteredComments;
+  }
+
   // List<CommentModel> groupComments(List<CommentModel> comments) {
   //   List<CommentModel> mainComments = [];
   //   List<CommentModel> replies = [];
@@ -50,37 +69,16 @@ class PostDetailController extends GetxController {
 
   //   return mainComments;
   // }
-  List<CommentModel> groupComments(List<CommentModel> comments) {
-    Map<String, CommentModel> commentMap = {};
-
-    for (var comment in comments) {
-      commentMap[comment.id] = comment;
-    }
-
-    List<CommentModel> groupedComments = [];
-
-    for (var comment in comments) {
-      if (comment.commentId == "0") {
-        groupedComments.add(comment);
-      } else {
-        CommentModel? parentComment = commentMap[comment.commentId];
-        if (parentComment != null) {
-          parentComment.replies ??= [];
-          parentComment.replies!.add(comment);
-        }
-      }
-    }
-
-    return groupedComments;
-  }
 
   addComment(BuildContext context, String post_id, comment_id, comment) async {
     bool check = await ProfileTabService().postComment(context,
         comment: comment, comment_id: comment_id, post_id: post_id);
     if (check) {
-      getComments(post_id);
+      await getComments(post_id);
       isLoading(false);
       commentController.clear();
+      groupCommentList.value = groupComments(commentList.value);
+
       postController.getallPost();
     }
   }

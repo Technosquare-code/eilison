@@ -179,7 +179,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "# Reply to ${postDetailContrl.replyingTo.value!.name}",
+                        "# Reply to ${postDetailContrl.replyingTo.value != null ? postDetailContrl.replyingTo.value!.name : ''}",
                         style: TextStyle(
                           fontSize: 12,
                           color: primaryColor,
@@ -280,6 +280,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             replying = true;
             setState(() {});
             commentFocus.requestFocus();
+            print(comment.name);
+            print('object-----------');
             postDetailContrl.replyingTo.value = comment;
           },
         ),
@@ -304,6 +306,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                         replying = true;
                         setState(() {});
                         commentFocus.requestFocus();
+                        print(reply.name);
+                        postDetailContrl.replyingTo.value = reply;
                       },
                     ),
                 ],
