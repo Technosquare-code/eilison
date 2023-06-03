@@ -134,10 +134,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         title: Text(
           "Edit Profile",
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 18,
             color: Colors.black,
             fontFamily: "Poppins",
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

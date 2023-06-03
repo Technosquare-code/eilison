@@ -4,9 +4,13 @@ import 'package:elison/Components/shimmer/ComunityShimmer.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/Screens/AddPostScreen.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/Utils/Utils.dart';
 import 'package:elison/controllers/customer/posts/post_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../Components/AddPostSheet.dart';
+import '../controllers/customer/posts/add_edit_post_controller.dart';
 
 class CommunityScreen extends StatefulWidget {
   @override
@@ -202,7 +206,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
       floatingActionButton: FloatingActionButton(
         heroTag: "btn2",
         onPressed: () {
-          Get.toNamed('/add-post', arguments: [false, 0]);
+          // Get.toNamed('/add-post', arguments: [false, 0]);
+          // Utils.showMyBottomSheet(context, AddPostSheet(0, false));
+          Utils.showMyBottomSheet(
+              context,
+              AddPostSheet(0, false, onDeleteController: () {
+                // Delete the postController here
+                Get.delete<AddEditPostController>();
+              }));
           // Navigator.of(context).pushNamed(AddPostScreen.routeName);
         },
         elevation: 8,

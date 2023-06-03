@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Components/MyButtton.dart';
 
@@ -36,7 +37,8 @@ class NoDataFound extends StatelessWidget {
               color: Colors.black,
               sizeHieght: 55,
               onTap: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                Get.offAllNamed('/user-home');
               },
             ),
           ],

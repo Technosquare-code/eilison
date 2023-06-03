@@ -46,44 +46,49 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 ? Center(
                     child: Text('Data Not Found'),
                   )
-                : SingleChildScrollView(
-                    padding: const EdgeInsets.only(
-                        bottom: 60, left: 5.0, right: 5.0),
-                    child: ResponsiveGridList(
-                      shrinkWrap: true,
-                      horizontalGridMargin: 5,
-                      verticalGridMargin: 5,
-                      minItemWidth: size.width / 2.5,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: List.generate(
-                        mainssproductController.productList.length,
-                        (index) => ProductCard(
-                          isFavourite: mainssproductController
-                              .productList[index].isWhishlist,
-                          productId:
-                              mainssproductController.productList[index].id,
-                          title: mainssproductController
-                              .productList[index].itemName,
-                          imagePath: mainUrl +
-                              specialItemUrl +
-                              mainssproductController
-                                  .productList[index].thumbnail,
-                          price: double.parse(
-                              mainssproductController.productList[index].mrp),
-                          color: colorList[index % colorList.length],
-                          // color: Colors
-                          //     .primaries[math.Random()
-                          //         .nextInt(Colors.primaries.length)]
-                          // .shade200,
-                          onTap: () {
-                            mainssproductController.wishlistmanaget(
-                                isAdd: !(mainssproductController
-                                    .productList[index].isWhishlist),
-                                context: context,
-                                prod:
-                                    mainssproductController.productList[index]);
-                            setState(() {});
-                          },
+                : RefreshIndicator(
+                    onRefresh: () {
+                      return mainssproductController.getcategory();
+                    },
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.only(
+                          bottom: 60, left: 5.0, right: 5.0),
+                      child: ResponsiveGridList(
+                        shrinkWrap: true,
+                        horizontalGridMargin: 5,
+                        verticalGridMargin: 5,
+                        minItemWidth: size.width / 2.5,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: List.generate(
+                          mainssproductController.productList.length,
+                          (index) => ProductCard(
+                            isFavourite: mainssproductController
+                                .productList[index].isWhishlist,
+                            productId:
+                                mainssproductController.productList[index].id,
+                            title: mainssproductController
+                                .productList[index].itemName,
+                            imagePath: mainUrl +
+                                specialItemUrl +
+                                mainssproductController
+                                    .productList[index].thumbnail,
+                            price: double.parse(
+                                mainssproductController.productList[index].mrp),
+                            color: colorList[index % colorList.length],
+                            // color: Colors
+                            //     .primaries[math.Random()
+                            //         .nextInt(Colors.primaries.length)]
+                            // .shade200,
+                            onTap: () {
+                              mainssproductController.wishlistmanaget(
+                                  isAdd: !(mainssproductController
+                                      .productList[index].isWhishlist),
+                                  context: context,
+                                  prod: mainssproductController
+                                      .productList[index]);
+                              setState(() {});
+                            },
+                          ),
                         ),
                       ),
                     ),

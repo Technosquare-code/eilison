@@ -74,7 +74,7 @@ class OrderDetailScreen extends StatelessWidget {
             fontSize: 18,
             color: Colors.black,
             fontFamily: "Poppins",
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

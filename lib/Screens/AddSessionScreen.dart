@@ -144,7 +144,7 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
             fontSize: 18,
             color: Colors.black,
             fontFamily: "Poppins",
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

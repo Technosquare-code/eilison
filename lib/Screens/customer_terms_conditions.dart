@@ -24,7 +24,12 @@ class TermsConditions extends StatelessWidget {
         ),
         title: Text(
           "Terms And Conditions",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       body: SingleChildScrollView(

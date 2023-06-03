@@ -142,7 +142,7 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
             fontSize: 18,
             color: Colors.black,
             fontFamily: "Poppins",
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

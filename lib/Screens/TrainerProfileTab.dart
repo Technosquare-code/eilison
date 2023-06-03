@@ -41,10 +41,10 @@ class _TrainerProfileTabState extends State<TrainerProfileTab> {
         title: Text(
           "Profile",
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 18,
             color: Colors.black,
-            fontFamily: "Montserrat",
-            fontWeight: FontWeight.w400,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w700,
           ),
         ),
         // actions: [

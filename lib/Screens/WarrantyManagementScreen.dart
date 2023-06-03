@@ -29,10 +29,10 @@ class WarrantyManagementScreen extends StatelessWidget {
         title: Text(
           "Extended Warranty Management",
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 18,
             color: Colors.black,
             fontFamily: "Poppins",
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

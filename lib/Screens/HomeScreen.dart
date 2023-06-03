@@ -159,24 +159,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              IconButton(
-                                constraints: BoxConstraints(
-                                  maxWidth: 35,
-                                  minWidth: 35,
-                                  maxHeight: 35,
-                                  minHeight: 35,
-                                ),
-                                onPressed: () {
-                                  // Navigator.of(context).pushNamed(
-                                  //   NotificationScreen.routeName,
-                                  // );
-                                },
-                                icon: Icon(
-                                  CupertinoIcons.search,
-                                  color: Colors.black,
-                                  size: 25,
-                                ),
-                              ),
+                              // IconButton(
+                              //   constraints: BoxConstraints(
+                              //     maxWidth: 35,
+                              //     minWidth: 35,
+                              //     maxHeight: 35,
+                              //     minHeight: 35,
+                              //   ),
+                              //   onPressed: () {
+                              //     // Navigator.of(context).pushNamed(
+                              //     //   NotificationScreen.routeName,
+                              //     // );
+                              //   },
+                              //   icon: Icon(
+                              //     CupertinoIcons.search,
+                              //     color: Colors.black,
+                              //     size: 25,
+                              //   ),
+                              // ),
                               badges.Badge(
                                 position:
                                     badges.BadgePosition.topEnd(top: 0, end: 0),

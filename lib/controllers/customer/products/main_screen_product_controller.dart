@@ -61,12 +61,20 @@ class MainProductController extends GetxController {
       prod!.isWhishlist = true;
       bool check = await HomeScreenService().manageWishlist(context!,
           action: 'add', productId: prod.id, recordId: '');
-      check
-          ? {
-              // getcategory(),
-              Get.find<HomeScreenController>().getSpecialItem()
-            }
-          : null;
+      final homeController = Get.find<HomeScreenController>();
+      if (check) {
+        await homeController.getSpecialItem();
+
+        homeController.dynamicItemList.clear();
+        await homeController.getdynamiccategory();
+      }
+      // check
+      //     ? {
+      //         // getcategory(),
+
+      //         Get.find<HomeScreenController>().getdynamiccategory()
+      //       }
+      //     : null;
     } else {
       prod!.isWhishlist = false;
       bool check = await HomeScreenService().manageWishlist(context!,

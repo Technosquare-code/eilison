@@ -82,7 +82,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               fontSize: 18,
               color: Colors.black,
               fontFamily: "Poppins",
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

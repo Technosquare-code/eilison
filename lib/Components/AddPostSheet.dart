@@ -1,33 +1,48 @@
 import 'dart:io';
 
 import 'package:elison/Components/InputFeild.dart';
+import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/snackbar.dart';
-import 'package:elison/controllers/customer/posts/add_edit_post_controller.dart';
 import 'package:elison/urls.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
-import '../controllers/customer/posts/post_controller.dart';
+import '../controllers/customer/posts/add_edit_post_controller.dart';
+import '../controllers/customer/profile/support/add_support_controller.dart';
 
-class AddPostScreen extends StatefulWidget {
-  static const routeName = "AddPostScreen";
+class AddPostSheet extends StatefulWidget {
+  int index;
+  bool isedit;
+  Function onDeleteController; // New callback function
+  AddPostSheet(this.index, this.isedit,
+      {required this.onDeleteController}); // Pass the callback function to the constructor
 
   @override
-  State<AddPostScreen> createState() => _AddPostScreenState();
+  State<AddPostSheet> createState() => _AddPostSheetState();
 }
 
-class _AddPostScreenState extends State<AddPostScreen> {
+class _AddPostSheetState extends State<AddPostSheet> {
+  // final String? orderId;
   File? media;
+
   bool? isVideo = false;
-  final postController = Get.put(
-      AddEditPostController(index: Get.arguments[1], isEdit: Get.arguments[0]));
+
+  late AddEditPostController postController;
+
+  @override
+  void initState() {
+    super.initState();
+    postController = Get.put(
+      AddEditPostController(index: widget.index, isEdit: widget.isedit),
+    );
+  }
+
   final _formKey = GlobalKey<FormState>();
+
   // VideoPlayerController? _videoPlayerController;
-  // Future<void>? _initializeVideoPlayerFuture;
   getGalaryImage() async {
     dynamic imageData = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -47,14 +62,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   // Future<void> pickVideo() async {
-  //   final pickedVideo =
-  //       await ImagePicker().pickVideo(source: ImageSource.gallery);
-  //   if (pickedVideo != null) {
-  //     setState(() {
-  //       media = File(pickedVideo.path);
-  //     });
-  //   }
-  // }
   Future<void> pickVideo() async {
     final pickedVideo =
         await ImagePicker().pickVideo(source: ImageSource.gallery);
@@ -72,11 +79,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   // @override
-  // void dispose() {
-  //   postController.videoPlayerController.value!.dispose();
-  //   super.dispose();
-  // }
-
   void openOptions(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
@@ -148,65 +150,42 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   @override
+  void dispose() {
+    postController.dispose();
+    widget.onDeleteController(); // Invoke the callback function
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              CupertinoIcons.back,
-              color: Colors.black,
-              size: 20,
+    var size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(25, 15, 25, 25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              height: 12,
+              width: size.width / 6,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(15),
+              ),
             ),
           ),
-          title: Text(
-            "Post",
+          const SizedBox(height: 15),
+          Text(
+            "Add Post",
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               color: Colors.black,
               fontFamily: "Poppins",
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          actions: [
-            postController.isLoading.value
-                ? Text(
-                    'Loading...',
-                    style: TextStyle(color: Colors.red),
-                  )
-                : IconButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        FocusScope.of(context).unfocus();
-                        if (media != null || postController.isEdit!) {
-                          postController.addpost(
-                              media ?? null, context, !isVideo!);
-                        } else {
-                          snackbar(
-                              context: context,
-                              msg: 'Media is maandetory',
-                              title: 'Failed');
-                        }
-                      }
-                    },
-                    icon: Icon(
-                      Icons.near_me_outlined,
-                      color: Colors.black87,
-                      size: 25,
-                    ),
-                  ),
-            const SizedBox(width: 5),
-          ],
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(25),
-          child: Form(
+          const SizedBox(height: 15),
+          Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             key: _formKey,
             child: Column(
@@ -343,8 +322,30 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ],
             ),
           ),
-        ),
-      );
-    });
+          const SizedBox(height: 25),
+          MyButton(
+            fontSize: 16,
+            title: postController.isLoading.value ? 'Please Wait...' : "Submit",
+            fontWeight: FontWeight.w700,
+            textColor: Colors.white,
+            sizeHieght: 50,
+            onTap: () {
+              if (_formKey.currentState!.validate()) {
+                FocusScope.of(context).unfocus();
+                if (media != null || postController.isEdit!) {
+                  postController.addpost(media ?? null, context, !isVideo!);
+                } else {
+                  snackbar(
+                      context: context,
+                      msg: 'Media is maandetory',
+                      snackPosition: SnackPosition.TOP,
+                      title: 'Failed');
+                }
+              }
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
