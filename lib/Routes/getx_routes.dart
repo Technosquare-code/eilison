@@ -98,10 +98,10 @@ appRoutes() => [
         name: '/chat',
         page: () => ChatScreen(),
       ),
-      GetPage(
-        name: '/post-detail',
-        page: () => PostDetailScreen(),
-      ),
+      // GetPage(
+      //   name: '/post-detail',
+      //   page: () => PostDetailScreen(),
+      // ),
       GetPage(
         name: '/my-reviews',
         page: () => UserReviewScreen(),

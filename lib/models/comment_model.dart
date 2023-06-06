@@ -16,17 +16,19 @@ class CommentModel {
   String comment;
   DateTime createdDate;
   String name;
-  dynamic profilePicture;
-  List<CommentModel> replies;
+  String profilePicture;
+  List<CommentModel>? reply;
+
   CommentModel({
     required this.id,
     required this.commentId,
     required this.comment,
     required this.createdDate,
     required this.name,
-    this.profilePicture,
-    List<CommentModel>? replies,
-  }) : replies = replies ?? [];
+    required this.profilePicture,
+    this.reply,
+  });
+
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
         id: json["id"],
         commentId: json["comment_id"],
@@ -34,6 +36,10 @@ class CommentModel {
         createdDate: DateTime.parse(json["created_date"]),
         name: json["name"],
         profilePicture: json["profile_picture"],
+        reply: json["reply"] == null
+            ? []
+            : List<CommentModel>.from(
+                json["reply"]!.map((x) => CommentModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +49,8 @@ class CommentModel {
         "created_date": createdDate.toIso8601String(),
         "name": name,
         "profile_picture": profilePicture,
+        "reply": reply == null
+            ? []
+            : List<dynamic>.from(reply!.map((x) => x.toJson())),
       };
 }

@@ -12,18 +12,41 @@ class PostDetailController extends GetxController {
   // var postList = List<PostListModel>.empty(growable: true).obs;
   // var mypostList = List<PostListModel>.empty(growable: true).obs;
   var commentList = List<CommentModel>.empty(growable: true).obs;
-  var groupCommentList = List<CommentModel>.empty(growable: true).obs;
+  // var groupCommentList = List<CommentModel>.empty(growable: true).obs;
   var replyingTo = Rxn<CommentModel>();
-
+  var commentCount = 0.obs;
   final commentController = TextEditingController();
   var isLoading = false.obs;
   final postController = Get.find<PostController>();
 
-  // getPosts() async {
-  //   isLoading(true);
-  //   postList.assignAll(await ProfileTabService().postsList());
-  //   mypostList.assignAll(await ProfileTabService().mypostsList());
-  // }
+  String capitalize(String input) {
+    if (input.length > 1) {
+      return input.substring(0, 1).toUpperCase() +
+          input.substring(1).toLowerCase();
+    } else {
+      return input.toUpperCase();
+    }
+  }
+
+  String formatName(String fullName) {
+    List<String> nameParts = fullName.split(" ");
+    List<String> formattedParts =
+        nameParts.map((part) => capitalize(part)).toList();
+
+    return formattedParts.join(" ");
+  }
+
+  int calculateTotalComments(List<dynamic> comments) {
+    int totalComments = comments.length;
+
+    for (CommentModel comment in comments) {
+      if (comment.reply != null) {
+        totalComments += comment.reply!.length;
+      }
+    }
+
+    return totalComments;
+  }
 
   getComments(String post_id) async {
     isLoading(true);
@@ -31,24 +54,24 @@ class PostDetailController extends GetxController {
     print(commentList);
   }
 
-  List<CommentModel> groupComments(List<CommentModel> commentList) {
-    Map<String, CommentModel> commentMap = {};
+  // List<CommentModel> groupComments(List<CommentModel> commentList) {
+  //   Map<String, CommentModel> commentMap = {};
 
-    for (CommentModel comment in commentList) {
-      if (!commentMap.containsKey(comment.commentId)) {
-        commentMap[comment.commentId] = comment;
-      } else {
-        CommentModel existingComment = commentMap[comment.commentId]!;
-        existingComment.replies.add(comment);
-      }
-    }
+  //   for (CommentModel comment in commentList) {
+  //     if (!commentMap.containsKey(comment.commentId)) {
+  //       commentMap[comment.commentId] = comment;
+  //     } else {
+  //       CommentModel existingComment = commentMap[comment.commentId]!;
+  //       existingComment.replies.add(comment);
+  //     }
+  //   }
 
-    List<CommentModel> filteredComments = commentMap.values.toList();
+  //   List<CommentModel> filteredComments = commentMap.values.toList();
 
-    // return filteredComments;
-    print('===================${filteredComments.length}');
-    return filteredComments;
-  }
+  //   // return filteredComments;
+  //   print('===================${filteredComments.length}');
+  //   return filteredComments;
+  // }
 
   // List<CommentModel> groupComments(List<CommentModel> comments) {
   //   List<CommentModel> mainComments = [];
@@ -77,7 +100,9 @@ class PostDetailController extends GetxController {
       await getComments(post_id);
       isLoading(false);
       commentController.clear();
-      groupCommentList.value = groupComments(commentList.value);
+      commentCount.value = await calculateTotalComments(commentList.value);
+
+      // groupCommentList.value = groupComments(commentList.value);
 
       postController.getallPost();
     }
@@ -98,8 +123,10 @@ class PostDetailController extends GetxController {
     // TODO: implement onInit
     // await getPosts();
     await getComments(post_id!);
-    groupCommentList.value = groupComments(commentList.value);
+    commentCount.value = await calculateTotalComments(commentList.value);
+    // groupCommentList.value = groupComments(commentList.value);
     isLoading(false);
+    print('init pe at ------------------------------');
     super.onInit();
   }
 }

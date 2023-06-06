@@ -59,8 +59,12 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Image.asset(
+                              'assets/images/noproduct.jpeg',
+                              height: size.height * 0.2,
+                            ),
                             Center(
-                              child: Text('No Data Found'),
+                              child: Text('No Products Found'),
                             ),
                           ],
                         ),

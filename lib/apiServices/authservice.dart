@@ -49,7 +49,7 @@ class AuthService {
       if (data['status'] == 'true') {
         Get.back();
         Get.snackbar('Success', data['data'],
-            duration: Duration(seconds: 3),
+            duration: Duration(seconds: 20),
             backgroundColor: Colors.green,
             snackStyle: SnackStyle.FLOATING,
             snackPosition: SnackPosition.BOTTOM,

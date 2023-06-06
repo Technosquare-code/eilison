@@ -15,6 +15,7 @@ import 'package:elison/Screens/customer_privacy_policy.dart';
 import 'package:elison/Screens/customer_refund_policy.dart';
 import 'package:elison/Screens/customer_terms_conditions.dart';
 import 'package:elison/Utils/Colors.dart';
+import 'package:elison/try.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,13 +42,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: Text(
-          "Profile",
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.w700,
+        title: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListViewScreen(),
+                ));
+          },
+          child: Text(
+            "Profile",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontFamily: "Poppins",
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
         // actions: [
@@ -72,9 +82,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return Column(
             children: [
               mainscreenController.userdetailList.isNotEmpty
-                  ? mainscreenController
-                              .userdetailList[0].data.profilePicture !=
-                          null
+                  ? (mainscreenController
+                                  .userdetailList[0].data.profilePicture !=
+                              null &&
+                          mainscreenController
+                                  .userdetailList[0].data.profilePicture !=
+                              '')
                       ? CircleAvatar(
                           radius: 45,
                           backgroundColor: Colors.grey[200],
@@ -211,6 +224,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     Item(
+                      Icons.live_help,
+                      "Chat",
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => ChatScreen()),
+                        // );
+                        Get.toNamed('/chat');
+                      },
+                    ),
+                    Item(
                       Icons.star_outline,
                       "My Reviews",
                       onTap: () {
@@ -269,17 +293,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             MaterialPageRoute(
                               builder: (context) => TermsConditions(),
                             ));
-                      },
-                    ),
-                    Item(
-                      Icons.live_help,
-                      "Chat",
-                      onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => ChatScreen()),
-                        // );
-                        Get.toNamed('/chat');
                       },
                     ),
                   ],

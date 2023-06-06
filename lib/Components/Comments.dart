@@ -1,6 +1,9 @@
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/customer/posts/post_detail_controller.dart';
 
 class Comments extends StatefulWidget {
   final String? id;
@@ -57,6 +60,8 @@ class _CommentsState extends State<Comments> {
     return differenceString;
   }
 
+  final postDetailContrl = Get.find<PostDetailController>();
+
   bool liked = false;
   @override
   Widget build(BuildContext context) {
@@ -85,7 +90,7 @@ class _CommentsState extends State<Comments> {
               children: [
                 const SizedBox(height: 5),
                 Text(
-                  widget.name ?? "User",
+                  postDetailContrl.formatName(widget.name ?? "User"),
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.black,

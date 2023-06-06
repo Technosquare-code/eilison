@@ -2,6 +2,7 @@ import 'package:elison/Components/InputFeild.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Screens/MainScreen.dart';
 import 'package:elison/Screens/TrainerBioScreen.dart';
+import 'package:elison/Screens/customer_terms_conditions.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/controllers/register_controller.dart';
 import 'package:flutter/gestures.dart';
@@ -12,6 +13,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 
 import '../Components/snackbar.dart';
+import 'customer_privacy_policy.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "RegisterScreen";
@@ -207,15 +209,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     fontWeight: FontWeight.w500,
                                   ),
                                   children: [
-                                    TextSpan(
-                                      text: "Privacy Policy",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Colors.blueGrey,
+                                    WidgetSpan(
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PrivacyPolicy(),
+                                              ));
+                                        },
+                                        child: Text(
+                                          "Privacy Policy",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                            fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w500,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor: Colors.blueGrey,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     TextSpan(
@@ -227,17 +242,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    TextSpan(
-                                      text: "Terms of Use",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Colors.blueGrey,
+                                    WidgetSpan(
+                                        child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TermsConditions(),
+                                            ));
+                                      },
+                                      child: Text(
+                                        "Terms of Use",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w500,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.blueGrey,
+                                        ),
                                       ),
-                                    ),
+                                    ))
                                   ],
                                 ),
                               ),

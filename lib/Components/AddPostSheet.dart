@@ -214,8 +214,18 @@ class _AddPostSheetState extends State<AddPostSheet> {
                 // ),
                 const SizedBox(height: 5),
                 InkWell(
-                  onTap: () {
-                    openOptions(context);
+                  onTap: () async {
+                    // openOptions(context);
+                    await getGalaryImage();
+                    if (media != null) {
+                      print('gallery media');
+                      if (media != null) {
+                        // editprofileController.uploadProfileImage(
+                        //     image!.path, context);
+                        isVideo = false;
+                        // Navigator.pop(context);
+                      }
+                    }
                   },
                   child: media == null && postController.isEdit!
                       ? Container(
