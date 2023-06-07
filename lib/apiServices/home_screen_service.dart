@@ -140,6 +140,32 @@ class HomeScreenService {
     return blist;
   }
 
+  Future<List<SessionListModel>> trainerSessionList(String trainerId) async {
+    List<SessionListModel> blist = [];
+    Dio dio = Dio();
+    formData.FormData form;
+    // var headers = {
+    //   'Authorization': pref.read('token'),
+    // };
+    form = formData.FormData.fromMap({
+      'coach_id': trainerId,
+    });
+    var response =
+        await dio.post('$trainerbaseUrl/session-list.php', data: form);
+    print(response.data);
+
+    var data = response.data;
+    debugPrint(data['status']);
+    if (response.statusCode == 200) {
+      if (data['status'] == 'true') {
+        for (var element in data['data']) {
+          blist.add(SessionListModel.fromJson(element));
+        }
+      }
+    }
+    return blist;
+  }
+
   Future<List<UserSessionModel>> onlineSessionList(String type) async {
     List<UserSessionModel> blist = [];
     Dio dio = Dio();

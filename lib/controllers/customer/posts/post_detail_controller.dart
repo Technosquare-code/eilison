@@ -98,10 +98,10 @@ class PostDetailController extends GetxController {
         comment: comment, comment_id: comment_id, post_id: post_id);
     if (check) {
       await getComments(post_id);
-      isLoading(false);
+
       commentController.clear();
       commentCount.value = await calculateTotalComments(commentList.value);
-
+      isLoading(false);
       // groupCommentList.value = groupComments(commentList.value);
 
       postController.getallPost();

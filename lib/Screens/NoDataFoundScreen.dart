@@ -38,7 +38,7 @@ class NoDataFound extends StatelessWidget {
               sizeHieght: 55,
               onTap: () {
                 // Navigator.pop(context);
-                Get.offAllNamed('/user-home');
+                Get.offAllNamed('/user-home', arguments: [context]);
               },
             ),
           ],

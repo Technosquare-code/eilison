@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:readmore/readmore.dart';
 
@@ -206,7 +207,7 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Stack(
-                            alignment: Alignment.center,
+                            alignment: Alignment.bottomRight,
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
@@ -245,14 +246,17 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                                               ),
                               ),
                               Container(
-                                child: IconButton(
-                                  onPressed: () {
+                                child: InkWell(
+                                  onTap: () {
                                     openOptions(context, false);
                                   },
-                                  icon: Icon(
-                                    CupertinoIcons.camera_fill,
-                                    color: Colors.white,
-                                    size: 25,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      CupertinoIcons.camera_fill,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -316,26 +320,37 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Statistics(
-                                "Sessions",
-                                Text(
-                                  mainscreenController.userdetailList.isNotEmpty
-                                      ? mainscreenController
-                                          .userdetailList[0].data.total_session!
-                                      : "15",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w600,
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed('/trainer-sessions',
+                                      arguments: mainscreenController
+                                          .userdetailList[0].data.id);
+                                },
+                                child: Statistics(
+                                  "Sessions",
+                                  Text(
+                                    mainscreenController
+                                            .userdetailList.isNotEmpty
+                                        ? mainscreenController.userdetailList[0]
+                                            .data.total_session!
+                                        : "15",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    TrainerReviewScreen.routeName,
-                                  );
+                                  Get.toNamed('/review', arguments: [
+                                    GetStorage().read('user_id')
+                                  ]);
+                                  // Navigator.of(context).pushNamed(
+                                  //   TrainerReviewScreen.routeName,
+                                  // );
                                 },
                                 child: Statistics(
                                   "${mainscreenController.userdetailList.isNotEmpty ? mainscreenController.userdetailList[0].data.avg_rating : '0'} Ratings",

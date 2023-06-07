@@ -33,6 +33,7 @@ import '../Screens/SupportScreen.dart';
 import '../Screens/TrainerDetailPage.dart';
 import '../Screens/TrainerProfileScreen.dart';
 import '../Screens/TrainerReviewScreen.dart';
+import '../Screens/TrainerSession.dart';
 import '../Screens/UserReviewsScreen.dart';
 import '../Screens/WarrantyManagementScreen.dart';
 import '../Screens/WhishlistScreen.dart';
@@ -109,6 +110,10 @@ appRoutes() => [
       GetPage(
         name: '/review',
         page: () => TrainerReviewScreen(),
+      ),
+      GetPage(
+        name: '/trainer-sessions',
+        page: () => TrainerSessionScreen(),
       ),
       GetPage(
         name: '/my-sessions',

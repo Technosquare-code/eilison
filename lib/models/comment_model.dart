@@ -35,7 +35,7 @@ class CommentModel {
         comment: json["comment"],
         createdDate: DateTime.parse(json["created_date"]),
         name: json["name"],
-        profilePicture: json["profile_picture"],
+        profilePicture: json["profile_picture"] ?? '',
         reply: json["reply"] == null
             ? []
             : List<CommentModel>.from(

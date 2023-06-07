@@ -71,7 +71,7 @@ class _CommentsState extends State<Comments> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.profilePicture != null
+          (widget.profilePicture != null && widget.profilePicture != '')
               ? CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.grey.shade100,

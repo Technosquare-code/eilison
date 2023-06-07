@@ -10,7 +10,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import '../controllers/trainer/session_detail_controller.dart';
 
 class Session extends StatelessWidget {
-  final bool showDivider, isEnrolled, is_joined;
+  final bool showDivider, isEnrolled, is_joined, isTrainerSession;
   final Color color;
   final String coachId;
   final String? img,
@@ -45,6 +45,7 @@ class Session extends StatelessWidget {
       this.coach_profile_picture,
       this.coach_name,
       this.is_joined = false,
+      this.isTrainerSession = false,
       this.isEnrolled = false});
   final Random _random = Random();
   final detailController = Get.find<SessionDetailController>();
@@ -58,31 +59,33 @@ class Session extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () {
-              detailController.isUpcoming.value = false;
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SessionDetailScreen(
-                        coachId: coachId,
-                        coach_name: coach_name,
-                        coach_profile_picture: coach_profile_picture,
-                        isEnrolled: isEnrolled,
-                        agenda: agenda,
-                        category: category,
-                        description: description,
-                        duration: duration,
-                        img: img,
-                        isCoach: false,
-                        sessionId: sessionId,
-                        sessiondate: date,
-                        sessiontime: time,
-                        sessiontype: sessiontype,
-                        zoomlink: zoomlink,
-                        title: title,
-                        is_joined: is_joined),
-                  ));
-            },
+            onTap: isTrainerSession
+                ? null
+                : () {
+                    detailController.isUpcoming.value = false;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SessionDetailScreen(
+                              coachId: coachId,
+                              coach_name: coach_name,
+                              coach_profile_picture: coach_profile_picture,
+                              isEnrolled: isEnrolled,
+                              agenda: agenda,
+                              category: category,
+                              description: description,
+                              duration: duration,
+                              img: img,
+                              isCoach: false,
+                              sessionId: sessionId,
+                              sessiondate: date,
+                              sessiontime: time,
+                              sessiontype: sessiontype,
+                              zoomlink: zoomlink,
+                              title: title,
+                              is_joined: is_joined),
+                        ));
+                  },
             child: Container(
               margin: const EdgeInsets.only(right: 25),
               transform: Matrix4.translationValues(25, 0, 0),

@@ -147,17 +147,24 @@ class TrainerDetailPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Statistics(
-                                "Sessions",
-                                Text(
-                                  trainerController
-                                          .userDetails[0].data.total_session ??
-                                      "15",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w600,
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed('/trainer-sessions',
+                                      arguments: trainerController
+                                          .userDetails[0].data.id);
+                                },
+                                child: Statistics(
+                                  "Sessions",
+                                  Text(
+                                    trainerController.userDetails[0].data
+                                            .total_session ??
+                                        "15",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
