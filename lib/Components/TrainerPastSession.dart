@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,13 +62,23 @@ class TrainerPastSession extends StatelessWidget {
                   backgroundColor: Colors.grey.shade50,
                 ),
                 img != ''
-                    ? Image.network(
-                        mainUrl + sessionUrl + img!,
+                    ? CachedNetworkImage(
+                        imageUrl: mainUrl + sessionUrl + img!,
                         // 'assets/images/session2.png',
                         width: 65,
                         height: 120,
                         fit: BoxFit.fill,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       )
+                    // Image.network(
+                    //     mainUrl + sessionUrl + img!,
+                    //     // 'assets/images/session2.png',
+                    //     width: 65,
+                    //     height: 120,
+                    //     fit: BoxFit.fill,
+                    //   )
                     : Container(),
               ],
             ),

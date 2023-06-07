@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductVideos extends StatelessWidget {
@@ -22,12 +23,20 @@ class ProductVideos extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
-                    image,
+                  child: CachedNetworkImage(
+                    imageUrl: image,
                     width: size.width / 4,
                     height: size.width / 5,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
+                  // Image.network(
+                  //   image,
+                  //   width: size.width / 4,
+                  //   height: size.width / 5,
+                  //   fit: BoxFit.cover,
+                  // ),
                 ),
                 Icon(
                   Icons.play_circle_filled,

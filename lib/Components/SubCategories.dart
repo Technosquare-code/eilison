@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SubCategories extends StatelessWidget {
@@ -17,15 +18,23 @@ class SubCategories extends StatelessWidget {
         children: [
           const SizedBox(height: 15),
           CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.white,
-            child: Image.network(
-              image,
-              width: 25,
-              height: 25,
-              fit: BoxFit.fill,
-            ),
-          ),
+              radius: 20,
+              backgroundColor: Colors.white,
+              child: CachedNetworkImage(
+                imageUrl: image,
+                width: 25,
+                height: 25,
+                fit: BoxFit.fill,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              )
+              // Image.network(
+              //   image,
+              //   width: 25,
+              //   height: 25,
+              //   fit: BoxFit.fill,
+              // ),
+              ),
           const SizedBox(height: 5),
           SizedBox(
             width: 45,

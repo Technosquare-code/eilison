@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 import 'package:badges/badges.dart' as badges;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elison/Components/HomeCategory.dart';
 import 'package:elison/Components/ProductCard.dart';
@@ -238,14 +239,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(
                                             onTap: () {},
-                                            child: Image.network(
-                                              mainUrl +
+                                            child: CachedNetworkImage(
+                                              imageUrl: mainUrl +
                                                   bannerUrl +
                                                   item.bannerImage,
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
+                                              placeholder: (context, url) =>
+                                                  CircularProgressIndicator(),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
                                               height: 120,
                                             ),
+                                            // Image.network(
+                                            //   mainUrl +
+                                            //       bannerUrl +
+                                            //       item.bannerImage,
+                                            //   fit: BoxFit.cover,
+                                            //   width: double.infinity,
+                                            //   height: 120,
+                                            // ),
                                           ),
                                         ),
                                       ),

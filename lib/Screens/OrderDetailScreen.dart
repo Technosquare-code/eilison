@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/Help.dart';
 import 'package:elison/Components/MyButton2.dart';
 import 'package:elison/Components/MyButtton.dart';
@@ -116,13 +117,22 @@ class OrderDetailScreen extends StatelessWidget {
                   const SizedBox(height: 15),
                   Row(
                     children: [
-                      Image.network(
-                        // "assets/images/laptop.png",
-                        mainUrl + specialItemUrl + thumbnail!,
+                      CachedNetworkImage(
+                        imageUrl: mainUrl + specialItemUrl + thumbnail!,
                         width: size.width / 4,
                         height: 100,
                         fit: BoxFit.fill,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
+                      // Image.network(
+                      //   // "assets/images/laptop.png",
+                      //   mainUrl + specialItemUrl + thumbnail!,
+                      //   width: size.width / 4,
+                      //   height: 100,
+                      //   fit: BoxFit.fill,
+                      // ),
                       SizedBox(width: 15),
                       Expanded(
                         child: SizedBox(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/Review.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/Screens/TrainerReviewScreen.dart';
@@ -163,8 +164,8 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                                 ? Stack(
                                     alignment: Alignment.topRight,
                                     children: [
-                                      Image.network(
-                                        mainUrl +
+                                      CachedNetworkImage(
+                                        imageUrl: mainUrl +
                                             timelineUrl +
                                             mainscreenController
                                                 .userdetailList[0]
@@ -173,7 +174,22 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                                         width: size.width,
                                         height: size.height / 2.5,
                                         fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
+                                      // Image.network(
+                                      //   mainUrl +
+                                      //       timelineUrl +
+                                      //       mainscreenController
+                                      //           .userdetailList[0]
+                                      //           .data
+                                      //           .timeline_photo!,
+                                      //   width: size.width,
+                                      //   height: size.height / 2.5,
+                                      //   fit: BoxFit.cover,
+                                      // ),
                                       Container(
                                         child: IconButton(
                                           onPressed: () {

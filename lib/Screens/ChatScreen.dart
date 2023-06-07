@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/controllers/chat_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -136,12 +137,22 @@ class _ChatScreenState extends State<ChatScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (message.files != '')
-                                      Image.network(
-                                        message.message,
+                                      CachedNetworkImage(
+                                        imageUrl: message.message,
                                         width: 200,
                                         height: 200,
                                         fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
+                                    // Image.network(
+                                    //   message.message,
+                                    //   width: 200,
+                                    //   height: 200,
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                     Text(
                                       message.message,
                                       style: TextStyle(color: Colors.white),

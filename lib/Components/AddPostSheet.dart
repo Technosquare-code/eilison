@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/InputFeild.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/snackbar.dart';
@@ -262,11 +263,20 @@ class _AddPostSheetState extends State<AddPostSheet> {
                                             }
                                           },
                                         )
-                                      : Image.network(
-                                          mainUrl +
+                                      : CachedNetworkImage(
+                                          imageUrl: mainUrl +
                                               postUrl +
                                               postController.imageUploded.value,
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
                                         )
+                                  // Image.network(
+                                  //     mainUrl +
+                                  //         postUrl +
+                                  //         postController.imageUploded.value,
+                                  //   )
                                   : Container(
                                       width: 70,
                                       height: 70,

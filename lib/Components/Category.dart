@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/SubCategories.dart';
 import 'package:elison/Utils/Colors.dart';
 import 'package:elison/apiServices/home_screen_service.dart';
@@ -64,13 +65,21 @@ class _CategoryState extends State<Category> {
             ],
           ),
           child: ListTile(
-            leading: Image.network(
-              // "assets/images/category.png",
-              widget.img!,
+            leading: CachedNetworkImage(
+              imageUrl: widget.img!,
               width: 50,
               height: 40,
               fit: BoxFit.fill,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
+            // Image.network(
+            //   // "assets/images/category.png",
+            //   widget.img!,
+            //   width: 50,
+            //   height: 40,
+            //   fit: BoxFit.fill,
+            // ),
             title: Text(
               // "Resistance Band",
               widget.title ?? "",

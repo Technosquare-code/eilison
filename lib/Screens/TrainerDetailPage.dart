@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/Review.dart';
 import 'package:elison/Components/shimmer/addressShimmer.dart';
 import 'package:elison/Screens/TrainerReviewScreen.dart';
@@ -47,15 +48,28 @@ class TrainerDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     trainerController.userDetails[0].data.timeline_photo != null
-                        ? Image.network(
-                            mainUrl +
+                        ? CachedNetworkImage(
+                            imageUrl: mainUrl +
                                 timelineUrl +
                                 trainerController
                                     .userDetails[0].data.timeline_photo!,
                             width: size.width,
                             height: size.height / 2.5,
                             fit: BoxFit.fill,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           )
+                        // Image.network(
+                        //     mainUrl +
+                        //         timelineUrl +
+                        //         trainerController
+                        //             .userDetails[0].data.timeline_photo!,
+                        //     width: size.width,
+                        //     height: size.height / 2.5,
+                        //     fit: BoxFit.fill,
+                        //   )
                         : Image.asset(
                             "assets/images/post.jpg",
                             width: size.width,
@@ -76,15 +90,28 @@ class TrainerDetailPage extends StatelessWidget {
                                     trainerController.userDetails[0].data
                                             .profilePicture !=
                                         '')
-                                ? Image.network(
-                                    mainUrl +
+                                ? CachedNetworkImage(
+                                    imageUrl: mainUrl +
                                         imageUrl +
                                         trainerController.userDetails[0].data
                                             .profilePicture!,
                                     width: size.width / 5,
                                     height: size.width / 5,
                                     fit: BoxFit.fill,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   )
+                                //  Image.network(
+                                //     mainUrl +
+                                //         imageUrl +
+                                //         trainerController.userDetails[0].data
+                                //             .profilePicture!,
+                                //     width: size.width / 5,
+                                //     height: size.width / 5,
+                                //     fit: BoxFit.fill,
+                                //   )
                                 : Image.network(
                                     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                                     width: size.width / 5,

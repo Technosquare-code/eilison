@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class HomeCategory extends StatelessWidget {
@@ -30,12 +31,20 @@ class HomeCategory extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  imageAsset,
+                child: CachedNetworkImage(
+                  imageUrl: imageAsset,
                   height: 70,
                   width: 85,
                   fit: BoxFit.fill,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+                // Image.network(
+                // imageAsset,
+                // height: 70,
+                // width: 85,
+                // fit: BoxFit.fill,
+                // ),
               ),
               const SizedBox(height: 5),
               Text(

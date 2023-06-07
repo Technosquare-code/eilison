@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/RateTrainer.dart';
 import 'package:elison/Utils/Colors.dart';
@@ -61,13 +62,22 @@ class SessionDetailScreen extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Image.network(
-                    mainUrl + sessionUrl + img!,
+                  CachedNetworkImage(
+                    imageUrl: mainUrl + sessionUrl + img!,
                     // "assets/images/session.PNG",
                     width: size.width,
                     height: size.height * 0.5,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
+                  // Image.network(
+                  //   mainUrl + sessionUrl + img!,
+                  //   // "assets/images/session.PNG",
+                  //   width: size.width,
+                  //   height: size.height * 0.5,
+                  //   fit: BoxFit.cover,
+                  // ),
                   AppBar(
                     elevation: 0,
                     backgroundColor: Colors.transparent,

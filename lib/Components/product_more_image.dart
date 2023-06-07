@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/viewImage.dart';
 import 'package:flutter/material.dart';
 
@@ -24,12 +25,20 @@ class productmoreimage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Image.network(
-                imageAsset,
+              child: CachedNetworkImage(
+                imageUrl: imageAsset,
                 width: size.width / 4,
                 height: size.width / 4,
                 fit: BoxFit.fill,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
+              // Image.network(
+              //   imageAsset,
+              //   width: size.width / 4,
+              //   height: size.width / 4,
+              //   fit: BoxFit.fill,
+              // ),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Components/MyButtton.dart';
 import 'package:elison/Components/pdf_viewer.dart';
 import 'package:elison/Components/product_more_image.dart';
@@ -51,8 +52,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               Stack(
                                 alignment: Alignment.bottomCenter,
                                 children: [
-                                  Image.network(
-                                    mainUrl +
+                                  CachedNetworkImage(
+                                    imageUrl: mainUrl +
                                         specialItemUrl +
                                         prodDetailController
                                             .productdetails[0].thumbnail,
@@ -60,7 +61,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     width: size.width,
                                     height: size.height / 3.0,
                                     fit: BoxFit.fill,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
+                                  // Image.network(
+                                  //   mainUrl +
+                                  //       specialItemUrl +
+                                  //       prodDetailController
+                                  //           .productdetails[0].thumbnail,
+                                  //   // "assets/images/product1.jpeg",
+                                  //   width: size.width,
+                                  //   height: size.height / 3.0,
+                                  //   fit: BoxFit.fill,
+                                  // ),
                                   Positioned(
                                     top: 15,
                                     left: 15,

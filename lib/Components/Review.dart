@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -60,12 +61,22 @@ class Review extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: profilePicture != null && profilePicture != ''
-                      ? Image.network(
-                          mainUrl + imageUrl + profilePicture!,
+                      ? CachedNetworkImage(
+                          imageUrl: mainUrl + imageUrl + profilePicture!,
                           width: 50,
                           height: 50,
                           fit: BoxFit.fill,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         )
+                      // Image.network(
+                      //     mainUrl + imageUrl + profilePicture!,
+                      //     width: 50,
+                      //     height: 50,
+                      //     fit: BoxFit.fill,
+                      //   )
                       : Image.network(
                           // "assets/images/product1.PNG",
                           'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',

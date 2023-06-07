@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -30,13 +31,21 @@ class _CartItemState extends State<CartItem> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Image.network(
-                // "assets/images/laptop.png",
-                widget.img!,
+              CachedNetworkImage(
+                imageUrl: widget.img!,
                 width: size.width / 5,
                 height: 80,
                 fit: BoxFit.fill,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
+              // Image.network(
+              //   // "assets/images/laptop.png",
+              //   widget.img!,
+              //   width: size.width / 5,
+              //   height: 80,
+              //   fit: BoxFit.fill,
+              // ),
               SizedBox(width: 15),
               Expanded(
                 child: SizedBox(
