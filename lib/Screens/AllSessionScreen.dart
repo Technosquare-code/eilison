@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:elison/Components/SelectCategory.dart';
 import 'package:elison/Components/Sessions.dart';
+import 'package:elison/Components/shimmer/AllSessionListShimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,11 +12,15 @@ import '../controllers/customer/home_screen_controller.dart';
 import '../models/user_session_model.dart';
 
 class AllSessionScreen extends StatefulWidget {
-  bool isenrolled;
-  String? title;
+  final bool isenrolled;
+  final String? title;
   List<UserSessionModel>? sessions;
-  AllSessionScreen(
-      {this.sessions = const [], this.isenrolled = false, this.title});
+
+  AllSessionScreen({
+    this.sessions = const [],
+    this.isenrolled = false,
+    this.title,
+  });
   @override
   State<AllSessionScreen> createState() => _AllSessionScreenState();
 }
@@ -95,67 +100,71 @@ class _AllSessionScreenState extends State<AllSessionScreen> {
                 // widget.sessions!.clear();
                 widget.sessions = homescreenController.seeAllOnlinSessionList;
               }
-              return widget.sessions!.isEmpty
-                  ? Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                        ),
-                        Center(
-                          child: Text('No data found'),
-                        ),
-                      ],
-                    )
-                  : ListView.builder(
-                      itemCount: widget.sessions!.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (ctx, i) {
-                        if (i == 3) {
-                          return Session(
-                              coachId: widget.sessions![i].coachId,
-                              isEnrolled: widget.isenrolled,
-                              date: DateFormat('d MMM y')
-                                  .format(widget.sessions![i].sessionDate),
-                              duration: widget.sessions![i].duration,
-                              img: widget.sessions![i].image,
-                              time: widget.sessions![i].sessionTime,
-                              title: widget.sessions![i].sessionName,
-                              category: widget.sessions![i].sessionCategoryName,
-                              showDivider: i != widget.sessions!.length - 1,
-                              agenda: widget.sessions![i].agenda,
-                              description: widget.sessions![i].description,
-                              sessionId: widget.sessions![i].id,
-                              sessiontype: widget.sessions![i].sessionType,
-                              zoomlink: widget.sessions![i].zoomLink,
-                              color: Colors.primaries[math.Random()
-                                  .nextInt(Colors.primaries.length)],
-                              is_joined:
-                                  widget.sessions![i].is_joined ?? false);
-                        } else {
-                          return Session(
-                              coachId: widget.sessions![i].coachId,
-                              date: DateFormat('d MMM y')
-                                  .format(widget.sessions![i].sessionDate),
-                              duration: widget.sessions![i].duration,
-                              img: widget.sessions![i].image,
-                              time: widget.sessions![i].sessionTime,
-                              title: widget.sessions![i].sessionName,
-                              isEnrolled: widget.isenrolled,
-                              category: widget.sessions![i].sessionCategoryName,
-                              showDivider: i != widget.sessions!.length - 1,
-                              agenda: widget.sessions![i].agenda,
-                              description: widget.sessions![i].description,
-                              sessionId: widget.sessions![i].id,
-                              sessiontype: widget.sessions![i].sessionType,
-                              zoomlink: widget.sessions![i].zoomLink,
-                              color: Colors.primaries[math.Random()
-                                  .nextInt(Colors.primaries.length)],
-                              is_joined:
-                                  widget.sessions![i].is_joined ?? false);
-                        }
-                      },
-                    );
+              return homescreenController.isAllSessionLoading.value
+                  ? AllSessionListShimmer()
+                  : widget.sessions!.isEmpty
+                      ? Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                            ),
+                            Center(
+                              child: Text('No data found'),
+                            ),
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount: widget.sessions!.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (ctx, i) {
+                            if (i == 3) {
+                              return Session(
+                                  coachId: widget.sessions![i].coachId,
+                                  isEnrolled: widget.isenrolled,
+                                  date: DateFormat('d MMM y')
+                                      .format(widget.sessions![i].sessionDate),
+                                  duration: widget.sessions![i].duration,
+                                  img: widget.sessions![i].image,
+                                  time: widget.sessions![i].sessionTime,
+                                  title: widget.sessions![i].sessionName,
+                                  category:
+                                      widget.sessions![i].sessionCategoryName,
+                                  showDivider: i != widget.sessions!.length - 1,
+                                  agenda: widget.sessions![i].agenda,
+                                  description: widget.sessions![i].description,
+                                  sessionId: widget.sessions![i].id,
+                                  sessiontype: widget.sessions![i].sessionType,
+                                  zoomlink: widget.sessions![i].zoomLink,
+                                  color: Colors.primaries[math.Random()
+                                      .nextInt(Colors.primaries.length)],
+                                  is_joined:
+                                      widget.sessions![i].is_joined ?? false);
+                            } else {
+                              return Session(
+                                  coachId: widget.sessions![i].coachId,
+                                  date: DateFormat('d MMM y')
+                                      .format(widget.sessions![i].sessionDate),
+                                  duration: widget.sessions![i].duration,
+                                  img: widget.sessions![i].image,
+                                  time: widget.sessions![i].sessionTime,
+                                  title: widget.sessions![i].sessionName,
+                                  isEnrolled: widget.isenrolled,
+                                  category:
+                                      widget.sessions![i].sessionCategoryName,
+                                  showDivider: i != widget.sessions!.length - 1,
+                                  agenda: widget.sessions![i].agenda,
+                                  description: widget.sessions![i].description,
+                                  sessionId: widget.sessions![i].id,
+                                  sessiontype: widget.sessions![i].sessionType,
+                                  zoomlink: widget.sessions![i].zoomLink,
+                                  color: Colors.primaries[math.Random()
+                                      .nextInt(Colors.primaries.length)],
+                                  is_joined:
+                                      widget.sessions![i].is_joined ?? false);
+                            }
+                          },
+                        );
             }),
           ],
         ),

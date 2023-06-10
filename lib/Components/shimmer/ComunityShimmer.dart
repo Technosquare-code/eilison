@@ -12,26 +12,26 @@ class CommunityShimmer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                FadeShimmer(
-                  height: 40,
-                  radius: 15,
-                  width: size.width / 4.5,
-                  baseColor: Colors.grey.shade500,
-                  highlightColor: Colors.grey.shade300,
-                ),
-                const SizedBox(width: 15),
-                FadeShimmer(
-                  height: 40,
-                  radius: 15,
-                  width: size.width / 4.5,
-                  baseColor: Colors.grey.shade500,
-                  highlightColor: Colors.grey.shade300,
-                ),
-              ],
-            ),
-            const SizedBox(height: 25),
+            // Row(
+            //   children: [
+            //     FadeShimmer(
+            //       height: 40,
+            //       radius: 15,
+            //       width: size.width / 4.5,
+            //       baseColor: Colors.grey.shade500,
+            //       highlightColor: Colors.grey.shade300,
+            //     ),
+            //     const SizedBox(width: 15),
+            //     FadeShimmer(
+            //       height: 40,
+            //       radius: 15,
+            //       width: size.width / 4.5,
+            //       baseColor: Colors.grey.shade500,
+            //       highlightColor: Colors.grey.shade300,
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(height: 25),
             ListView.builder(
               itemCount: 5,
               shrinkWrap: true,

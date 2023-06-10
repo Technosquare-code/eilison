@@ -1,5 +1,5 @@
 import 'package:elison/Screens/CommunityScreen.dart';
-import 'package:elison/Screens/HomeScreen.dart';
+import 'package:elison/Screens/HomePage/HomeScreen.dart';
 import 'package:elison/Screens/ProductListScreen.dart';
 import 'package:elison/Screens/ProductVideosScreen.dart';
 import 'package:elison/Screens/ProfileScreen.dart';

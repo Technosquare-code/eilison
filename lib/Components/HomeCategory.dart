@@ -36,7 +36,16 @@ class HomeCategory extends StatelessWidget {
                   height: 70,
                   width: 85,
                   fit: BoxFit.fill,
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  placeholder: (context, url) => Container(
+                    color: Colors.grey.shade200,
+                    child: Center(
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 // Image.network(

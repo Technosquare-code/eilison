@@ -28,10 +28,20 @@ class HomeScreenController extends GetxController {
 
   final mainscreenController = Get.find<MainScreenController>();
   var bannerList = List<BannerListModel>.empty(growable: true).obs;
+  var isBannerLoading = true.obs;
+
   var categoryList = List<CategoryListModel>.empty(growable: true).obs;
+  var isCategoryListLoading = true.obs;
+
   var specialItemList = List<ProductsModel>.empty(growable: true).obs;
+  var isSpecialItemLoading = true.obs;
+
   var onlinSessionList = List<UserSessionModel>.empty(growable: true).obs;
+  var isOnlineSessionLoading = true.obs;
+
   var enrolledSessionList = List<UserSessionModel>.empty(growable: true).obs;
+  var isEnrolledSessionLoading = true.obs;
+
   var seeAllOnlinSessionList = List<UserSessionModel>.empty(growable: true).obs;
   var copySeeAllOnlinSessionList =
       List<UserSessionModel>.empty(growable: true).obs;
@@ -39,38 +49,51 @@ class HomeScreenController extends GetxController {
       List<UserSessionModel>.empty(growable: true).obs;
   var copySeeAllEnrolledSessionList =
       List<UserSessionModel>.empty(growable: true).obs;
+  var isAllSessionLoading = true.obs;
+
   var sessionTypeList = List<SessionTypeModel>.empty(growable: true).obs;
+  var isSessionTypeLoading = true.obs;
 
   var dynamicItemList = List<DynamicData>.empty(growable: true).obs;
+  var isDynamiceItemLoading = true.obs;
   // var dynamicItemList = List<List<ProductsModel>>.empty(growable: true).obs;
 
   var subcatId = '0'.obs;
 
   var lalal = false.obs;
   getbanner() async {
+    isBannerLoading(true);
     bannerList.assignAll(await HomeScreenService().bannerList());
+    isBannerLoading(false);
   }
 
   getSessionType() async {
+    isSessionTypeLoading(true);
     sessionTypeList.assignAll(await HomeScreenService().sessionTypeList());
     sessionTypeList.insert(0, SessionTypeModel(categoryName: 'All', id: "all"));
+    isSessionTypeLoading(false);
   }
 
   getOnlineSessions(String type) async {
+    isOnlineSessionLoading(true);
     onlinSessionList
         .assignAll(await HomeScreenService().onlineSessionList(type));
+    isOnlineSessionLoading(false);
   }
 
   getEnrollSessions(String type) async {
+    isEnrolledSessionLoading(true);
     enrolledSessionList
         .assignAll(await HomeScreenService().enrollSessionList(type));
+    isEnrolledSessionLoading(false);
   }
 
   getSeeAllOnlineSessions() async {
+    isAllSessionLoading(true);
     seeAllOnlinSessionList
         .assignAll(await HomeScreenService().onlineSessionList('view_all'));
-    copySeeAllOnlinSessionList
-        .assignAll(await HomeScreenService().onlineSessionList('view_all'));
+    copySeeAllOnlinSessionList.assignAll(seeAllOnlinSessionList);
+    isAllSessionLoading(false);
   }
 
   filterSessions(String cateId, bool isEnrolled) {
@@ -94,33 +117,37 @@ class HomeScreenController extends GetxController {
   }
 
   getSeeAllEnrolledSessions() async {
+    isAllSessionLoading(true);
     seeAllEnrolledSessionList
         .assignAll(await HomeScreenService().enrollSessionList('view_all'));
-    copySeeAllEnrolledSessionList
-        .assignAll(await HomeScreenService().enrollSessionList('view_all'));
+    copySeeAllEnrolledSessionList.assignAll(seeAllEnrolledSessionList);
+    isAllSessionLoading(false);
   }
 
   getSpecialItem() async {
+    isSpecialItemLoading(true);
     specialItemList.assignAll(await HomeScreenService().specialItemList());
-
-    print('specail item============');
+    isSpecialItemLoading(false);
   }
 
   getcategory() async {
+    isCategoryListLoading(true);
     categoryList.assignAll(await HomeScreenService().categoryList());
+    isCategoryListLoading(false);
   }
 
   getdynamiccategory() async {
+    isDynamiceItemLoading(true);
     dynamicItemList.clear();
     for (var element in mainscreenController.homeCategoryList) {
-      dynamicItemList.add(DynamicData(
-          category: element,
-          productList:
-              await HomeScreenService().productList('category', element.id)));
-      print('object');
+      dynamicItemList.add(
+        DynamicData(
+            category: element,
+            productList:
+                await HomeScreenService().productList('category', element.id)),
+      );
     }
-    print(
-        '------------------------${mainscreenController.homeCategoryList.length}--------------');
+    isDynamiceItemLoading(false);
     lalal.value = true;
   }
 
@@ -170,16 +197,32 @@ class HomeScreenController extends GetxController {
     }
   }
 
+  startRefresh() async {
+    isBannerLoading(true);
+    isCategoryListLoading(true);
+    isSpecialItemLoading(true);
+    isDynamiceItemLoading(true);
+    isOnlineSessionLoading(true);
+    isEnrolledSessionLoading(true);
+    await getbanner();
+    await getcategory();
+    await getSpecialItem();
+    await getdynamiccategory();
+    await getSessionType();
+    await getOnlineSessions('home');
+    await getEnrollSessions('home');
+  }
+
   @override
   void onInit() async {
     // TODO: implement onReady
     isLoading(true);
     await getbanner();
     await getcategory();
+    await getSpecialItem();
     await getdynamiccategory();
     // await getNotification();
     await getSessionType();
-    await getSpecialItem();
     await getOnlineSessions('home');
     await getEnrollSessions('home');
     isLoading(false);

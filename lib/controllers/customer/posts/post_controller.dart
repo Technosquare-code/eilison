@@ -2,11 +2,13 @@ import 'package:elison/apiServices/profile_tab_service.dart';
 import 'package:elison/models/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class PostController extends GetxController {
   var postList = List<PostListModel>.empty(growable: true).obs;
+  var isAllPostLoading = true.obs;
+
   var mypostList = List<PostListModel>.empty(growable: true).obs;
+  var isMyPostLoading = true.obs;
 
   final descriptionController = TextEditingController();
   var isLoading = false.obs;
@@ -17,15 +19,15 @@ class PostController extends GetxController {
   }
 
   getallPost() async {
-    isLoading(true);
+    isAllPostLoading(true);
     postList.assignAll(await ProfileTabService().postsList());
-    isLoading(false);
+    isAllPostLoading(false);
   }
 
   getmyPost() async {
-    isLoading(true);
+    isMyPostLoading(true);
     mypostList.assignAll(await ProfileTabService().mypostsList());
-    isLoading(false);
+    isMyPostLoading(false);
   }
 
   managelike(BuildContext context, String postid) async {
@@ -44,9 +46,7 @@ class PostController extends GetxController {
 
   @override
   void onInit() async {
-    // TODO: implement onInit
-    await getPosts();
-    isLoading(false);
+    await getallPost();
     super.onInit();
   }
 }

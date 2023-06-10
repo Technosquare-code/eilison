@@ -397,7 +397,7 @@ class ProfileTabService {
 
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('https://ourdevelopment.host/eilison/api/manage-post.php'),
+      Uri.parse('$baseUrl/manage-post.php'),
     );
 
     request.headers.addAll(headers);

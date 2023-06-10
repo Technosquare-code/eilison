@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elison/Screens/ProductDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,11 +61,19 @@ class _ProductCardState extends State<ProductCard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.network(
-                      widget.imagePath,
+                    CachedNetworkImage(
+                      imageUrl: widget.imagePath,
                       height: 90,
                       width: 120,
                       fit: BoxFit.contain,
+                      placeholder: (context, url) => Center(
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                     const SizedBox(height: 5),
                     Text(
