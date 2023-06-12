@@ -9,25 +9,31 @@ class TrainerHomeController extends GetxController {
   var isLoading = false.obs;
 
   var sessionList = List<SessionListModel>.empty(growable: true).obs;
+  var isUpcomingLoading = true.obs;
+
   var pastsessionList = List<SessionListModel>.empty(growable: true).obs;
+  var isPastLoading = true.obs;
+
   var ongoingsessionList = List<SessionListModel>.empty(growable: true).obs;
+  var isOngoingLoading = true.obs;
+
   getSessionList() async {
-    // isLoading(true);
+    isUpcomingLoading(true);
     sessionList.assignAll(await HomeScreenService().homeSessionList());
-    // isLoading(false);
+    isUpcomingLoading(false);
   }
 
   getOngoingList() async {
-    // isLoading(true);
+    isOngoingLoading(true);
     ongoingsessionList
         .assignAll(await HomeScreenService().ongoingSessionList());
-    // isLoading(false);
+    isOngoingLoading(false);
   }
 
   pastSessionList() async {
-    // isLoading(true);
+    isPastLoading(true);
     pastsessionList.assignAll(await HomeScreenService().homePastSessionList());
-    // isLoading(false);
+    isPastLoading(false);
   }
 
   deleteSession(BuildContext context, String sessionId) async {
@@ -41,14 +47,23 @@ class TrainerHomeController extends GetxController {
     isLoading(false);
   }
 
+  updateList() async {
+    isUpcomingLoading(true);
+    isOngoingLoading(true);
+    isPastLoading(true);
+    await getSessionList();
+    await getOngoingList();
+    await pastSessionList();
+  }
+
   @override
   void onInit() async {
     // TODO: implement onInit
-    isLoading(true);
+    // isLoading(true);
     await getSessionList();
-    await pastSessionList();
     await getOngoingList();
-    isLoading(false);
+    await pastSessionList();
+    // isLoading(false);
     super.onInit();
   }
 }

@@ -24,7 +24,7 @@ import 'package:elison/Screens/SessionDetailScreen.dart';
 import 'package:elison/Screens/SupportHistoryScreen.dart';
 import 'package:elison/Screens/SupportScreen.dart';
 import 'package:elison/Screens/TrainerBioScreen.dart';
-import 'package:elison/Screens/TrainerHomeScreen.dart';
+import 'package:elison/Screens/Trainer%20HomePage/TrainerHomeScreen.dart';
 import 'package:elison/Screens/TrainerProfileScreen.dart';
 import 'package:elison/Screens/TrainerReviewScreen.dart';
 import 'package:elison/Screens/UserReviewsScreen.dart';
