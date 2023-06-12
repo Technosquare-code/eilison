@@ -22,63 +22,77 @@ class _postoptionsState extends State<postoptions> {
   // final List options = ['Report', 'Edit', 'Delete'];
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 15),
-        OptionItem(
-          icon: Icons.report,
-          title: 'Report',
-          selected: selected,
-          onChanged: (s) {
-            selected = s.toString();
-            setState(() {});
-          },
-        ),
-        OptionItem(
-          title: 'Edit',
-          icon: Icons.edit,
-          selected: selected,
-          onChanged: (s) {
-            selected = s.toString();
-            setState(() {});
-            Navigator.pop(context);
-            // Get.toNamed('/add-post', arguments: [true, widget.index]);
-            Utils.showMyBottomSheet(
-                context,
-                AddPostSheet(widget.index, true, onDeleteController: () {
-                  // Delete the postController here
-                  Get.delete<AddEditPostController>();
-                }));
-          },
-        ),
-        OptionItem(
-          icon: Icons.delete,
-          title: 'Delete',
-          selected: selected,
-          onChanged: (s) {
-            selected = s.toString();
-            Navigator.pop(context);
+    return Obx(() {
+      return postController.isDeleting.value
+          ? Container(
+              height: 150,
+              child: Center(
+                child: SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            )
+          : Column(
+              children: [
+                const SizedBox(height: 15),
+                OptionItem(
+                  icon: Icons.report,
+                  title: 'Report',
+                  selected: selected,
+                  onChanged: (s) {
+                    selected = s.toString();
+                    setState(() {});
+                  },
+                ),
+                OptionItem(
+                  title: 'Edit',
+                  icon: Icons.edit,
+                  selected: selected,
+                  onChanged: (s) {
+                    selected = s.toString();
+                    setState(() {});
+                    Navigator.pop(context);
+                    // Get.toNamed('/add-post', arguments: [true, widget.index]);
+                    Utils.showMyBottomSheet(
+                        context,
+                        AddPostSheet(widget.index, true,
+                            onDeleteController: () {
+                          // Delete the postController here
+                          Get.delete<AddEditPostController>();
+                        }));
+                  },
+                ),
+                OptionItem(
+                  icon: Icons.delete,
+                  title: 'Delete',
+                  selected: selected,
+                  onChanged: (s) async {
+                    selected = s.toString();
 
-            postController.deletePost(context, widget.postId);
-            setState(() {});
-          },
-        ),
-        // ListView.builder(
-        //   shrinkWrap: true,
-        //   itemCount: options.length,
-        //   physics: const NeverScrollableScrollPhysics(),
-        //   itemBuilder: (ctx, i) =>
-        //   OptionItem(
-        //     title: options[i],
-        //     selected: selected,
-        //     onChanged: (s) {
-        //       selected = s.toString();
-        //       setState(() {});
-        //     },
-        //   ),
-        // ),
-      ],
-    );
+                    await postController.deletePost(context, widget.postId);
+                    setState(() {});
+                    Navigator.pop(context);
+                  },
+                ),
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   itemCount: options.length,
+                //   physics: const NeverScrollableScrollPhysics(),
+                //   itemBuilder: (ctx, i) =>
+                //   OptionItem(
+                //     title: options[i],
+                //     selected: selected,
+                //     onChanged: (s) {
+                //       selected = s.toString();
+                //       setState(() {});
+                //     },
+                //   ),
+                // ),
+              ],
+            );
+    });
   }
 }
 

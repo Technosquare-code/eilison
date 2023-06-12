@@ -12,6 +12,7 @@ class PostController extends GetxController {
 
   final descriptionController = TextEditingController();
   var isLoading = false.obs;
+  var isDeleting = false.obs;
   getPosts() async {
     isLoading(true);
     postList.assignAll(await ProfileTabService().postsList());
@@ -35,13 +36,16 @@ class PostController extends GetxController {
   }
 
   deletePost(BuildContext context, String postId) async {
-    isLoading(true);
+    isDeleting(true);
     bool check =
         await ProfileTabService().deletePostApi(context, postId: postId);
     if (check) {
-      getPosts();
+      mypostList.removeWhere((element) => element.id == postId);
+      postList.removeWhere((element) => element.id == postId);
+      mypostList.refresh();
+      postList.refresh();
     }
-    isLoading(false);
+    isDeleting(false);
   }
 
   @override

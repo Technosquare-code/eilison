@@ -389,7 +389,7 @@ class ProfileTabService {
     return false;
   }
 
-  Future<bool> addPostApi(BuildContext context,
+  Future<PostListModel?> addPostApi(BuildContext context,
       {File? image, bool? isImg, String? description, post_id}) async {
     Map<String, String> headers = {
       'Authorization': pref.read('token'),
@@ -453,20 +453,19 @@ class ProfileTabService {
         Get.back();
 
         snackbar(
-            context: context, msg: parsedResponse['data'], title: 'Success');
+            context: context, msg: "Post added successfuly", title: 'Success');
 
-        return true;
+        return PostListModel.fromJson(parsedResponse['data']);
       } else {
         snackbar(
             context: context, msg: parsedResponse['data'], title: 'Failed');
 
-        return false;
+        return null;
       }
-      return true;
     } else {
       // Request failed
       print('Request failed with status: ${response.statusCode}');
-      return false;
+      return null;
     }
   }
   // Future<bool> addPostApi(BuildContext context,
@@ -651,7 +650,7 @@ class ProfileTabService {
       if (data['status'] == 'true') {
         // Get.back();
 
-        // snackbar(context: context, msg: data['data'], title: 'Success');
+        snackbar(context: context, msg: data['data'], title: 'Success');
 
         return true;
       } else {

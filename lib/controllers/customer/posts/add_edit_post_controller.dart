@@ -23,15 +23,26 @@ class AddEditPostController extends GetxController {
   addpost(File? img, BuildContext context, bool isImg) async {
     isLoading(true);
     print(img);
-    bool check = await ProfileTabService().addPostApi(context,
+    PostListModel? check = await ProfileTabService().addPostApi(context,
         image: img,
         isImg: isImg,
         description: descriptionController.text,
         post_id: isEdit! ? postController.mypostList[index!].id : '');
-    if (check) {
+    if (check != null) {
+      if (isEdit!) {
+        postController.mypostList[index!] = check;
+        var i = postController.postList.indexWhere(
+            (element) => element.id == postController.mypostList[index!].id);
+        postController.postList[i] = check;
+      } else {
+        postController.mypostList.insert(0, check);
+        postController.postList.insert(0, check);
+      }
+      postController.mypostList.refresh();
+      postController.postList.refresh();
       // get posts
-      postController.isLoading(true);
-      await postController.getPosts();
+      // postController.isLoading(true);
+      // await postController.getPosts();
     }
     isLoading(false);
     postController.isLoading(false);

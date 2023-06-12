@@ -15,7 +15,6 @@ class PostListModel {
   String id;
   String uid;
   String postContent;
-
   String postMedia;
   String isVideo;
   String isImage;
@@ -44,15 +43,18 @@ class PostListModel {
   });
 
   factory PostListModel.fromJson(Map<String, dynamic> json) => PostListModel(
-        id: json["id"],
-        uid: json["uid"],
+        id: json["id"].toString(),
+        uid: json["uid"].toString(),
         postContent: json["post_content"],
         // postHashtags: json["post_hashtags"],
         postMedia: json["post_media"],
         isVideo: json["is_video"],
         isImage: json["is_image"],
-        totalLike: int.parse(json["total_like"]),
-        totalComment: int.parse(json["total_comment"]),
+        totalLike:
+            json["total_like"] != null ? int.parse(json["total_like"]) : 0,
+        totalComment: json["total_comment"] != null
+            ? int.parse(json["total_comment"])
+            : 0,
         status: json["status"],
         userName: json['userName'],
         userProfile: json['userProfile'] ?? '',
