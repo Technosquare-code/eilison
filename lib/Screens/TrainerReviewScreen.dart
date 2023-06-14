@@ -81,7 +81,7 @@ class TrainerReviewScreen extends StatelessWidget {
                               ),
                               const SizedBox(width: 10),
                               Text(
-                                "${reviewController.avg_rating.value}",
+                                "${reviewController.avg_rating.value.toStringAsFixed(2)}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,

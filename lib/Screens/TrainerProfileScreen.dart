@@ -175,7 +175,13 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                                         height: size.height / 2.5,
                                         fit: BoxFit.cover,
                                         placeholder: (context, url) =>
-                                            CircularProgressIndicator(),
+                                            Container(
+                                          width: size.width,
+                                          height: size.height / 2.5,
+                                          alignment: Alignment.center,
+                                          color: Colors.grey.shade200,
+                                          child: CircularProgressIndicator(),
+                                        ),
                                         errorWidget: (context, url, error) =>
                                             Icon(Icons.error),
                                       ),
@@ -369,15 +375,16 @@ class _TrainerProfileScreenState extends State<TrainerProfileScreen> {
                                   // );
                                 },
                                 child: Statistics(
-                                  "${mainscreenController.userdetailList.isNotEmpty ? mainscreenController.userdetailList[0].data.avg_rating : '0'} Ratings",
+                                  "${mainscreenController.userdetailList.isNotEmpty ? double.parse(mainscreenController.userdetailList[0].data.avg_rating!).toStringAsFixed(2) : '0'} Ratings",
                                   RatingBar.builder(
                                     initialRating: double.parse(
                                         mainscreenController
                                                 .userdetailList.isNotEmpty
-                                            ? mainscreenController
-                                                .userdetailList[0]
-                                                .data
-                                                .avg_rating!
+                                            ? double.parse(mainscreenController
+                                                    .userdetailList[0]
+                                                    .data
+                                                    .avg_rating!)
+                                                .toStringAsFixed(2)
                                             : '5'),
                                     minRating: 1,
                                     itemSize: 20,

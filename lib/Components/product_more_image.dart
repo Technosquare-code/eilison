@@ -30,7 +30,13 @@ class productmoreimage extends StatelessWidget {
                 width: size.width / 4,
                 height: size.width / 4,
                 fit: BoxFit.fill,
-                placeholder: (context, url) => CircularProgressIndicator(),
+                placeholder: (context, url) => Container(
+                  width: size.width / 4,
+                  height: size.width / 4,
+                  alignment: Alignment.center,
+                  color: Colors.grey.shade200,
+                  child: CircularProgressIndicator(),
+                ),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               // Image.network(

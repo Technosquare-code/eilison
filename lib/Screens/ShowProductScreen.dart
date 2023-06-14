@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:elison/Components/ProductCard.dart';
 import 'package:elison/Components/SortProduct.dart';
+import 'package:elison/Components/shimmer/ItemListLoading.dart';
 import 'package:elison/Screens/ProductFilterScreen.dart';
 import 'package:elison/Screens/WhishlistScreen.dart';
 import 'package:elison/Utils/Colors.dart';
@@ -48,7 +49,7 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
               ))),
       body: Obx(() {
         return productController.isLoading.value
-            ? WishlistShimmer()
+            ? ItemListLoading()
             : SingleChildScrollView(
                 padding:
                     const EdgeInsets.only(bottom: 60, left: 5.0, right: 5.0),

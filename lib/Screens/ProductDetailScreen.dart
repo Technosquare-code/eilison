@@ -61,8 +61,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     width: size.width,
                                     height: size.height / 3.0,
                                     fit: BoxFit.fill,
-                                    placeholder: (context, url) =>
-                                        CircularProgressIndicator(),
+                                    placeholder: (context, url) => Container(
+                                      width: size.width,
+                                      height: size.height / 3.0,
+                                      color: Colors.grey.shade200,
+                                      alignment: Alignment.center,
+                                      child: CircularProgressIndicator(),
+                                    ),
                                     errorWidget: (context, url, error) =>
                                         Icon(Icons.error),
                                   ),
@@ -581,10 +586,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => ImagePage(
-                                                  imageUrl: mainUrl +
-                                                      galleryUrl +
-                                                      prodDetailController
-                                                          .galleryList[index]),
+                                                imageUrl: mainUrl +
+                                                    galleryUrl +
+                                                    prodDetailController
+                                                        .galleryList[index],
+                                                imageList: prodDetailController
+                                                    .galleryList
+                                                    .map((e) =>
+                                                        "${mainUrl}${galleryUrl}${e}")
+                                                    .toList(),
+                                              ),
                                             ));
                                       },
                                       child: productmoreimage(

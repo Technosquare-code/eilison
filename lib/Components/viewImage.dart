@@ -1,11 +1,13 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImagePage extends StatefulWidget {
   final String imageUrl;
+  final List? imageList;
 
-  ImagePage({required this.imageUrl});
+  ImagePage({required this.imageUrl, this.imageList});
 
   @override
   _ImagePageState createState() => _ImagePageState();
@@ -35,14 +37,34 @@ class _ImagePageState extends State<ImagePage> {
         // title: Text('Image'),
       ),
       body: Container(
-        child: PhotoView(
-          imageProvider: NetworkImage(widget.imageUrl),
-          initialScale: PhotoViewComputedScale.contained,
-          minScale: PhotoViewComputedScale.contained,
-          maxScale: PhotoViewComputedScale.covered * 2,
-          heroAttributes: PhotoViewHeroAttributes(tag: widget.imageUrl),
-          controller: _controller,
-        ),
+        child: widget.imageList != null
+            ? CarouselSlider(
+                items: List.generate(
+                  widget.imageList!.length,
+                  (index) => PhotoView(
+                    imageProvider: NetworkImage(widget.imageList![index]),
+                    initialScale: PhotoViewComputedScale.contained,
+                    minScale: PhotoViewComputedScale.contained,
+                    maxScale: PhotoViewComputedScale.covered * 2,
+                    heroAttributes:
+                        PhotoViewHeroAttributes(tag: widget.imageList![index]),
+                    // controller: _controller,
+                  ),
+                ),
+                options: CarouselOptions(
+                  autoPlay: false,
+                  viewportFraction: 1,
+                  height: MediaQuery.of(context).size.height,
+                ),
+              )
+            : PhotoView(
+                imageProvider: NetworkImage(widget.imageUrl),
+                initialScale: PhotoViewComputedScale.contained,
+                minScale: PhotoViewComputedScale.contained,
+                maxScale: PhotoViewComputedScale.covered * 2,
+                heroAttributes: PhotoViewHeroAttributes(tag: widget.imageUrl),
+                controller: _controller,
+              ),
       ),
     );
   }
